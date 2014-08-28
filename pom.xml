@@ -7,29 +7,50 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>topic-parser Maven Webapp</name>
 	<url>http://maven.apache.org</url>
-	
+
+	<!-- 变量设置 -->
+	<properties>
+		<junit.version>3.8.1</junit.version>
+		<weld-servlet.version>2.2.2.Final</weld-servlet.version>
+		<mysql.version>5.1.18</mysql.version>
+	</properties>
+
+	<!-- 依赖包 -->
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- weld-servlet -->
+		<dependency>
+			<groupId>org.jboss.weld.servlet</groupId>
+			<artifactId>weld-servlet</artifactId>
+			<version>${weld-servlet.version}</version>
+		</dependency>
+
+		<!-- mysql -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.version}</version>
+		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<finalName>topic-parser</finalName>
-		
-		<plugins>  
-		    <plugin>  
-		        <groupId>org.apache.maven.plugins</groupId>  
-		        <artifactId>maven-compiler-plugin</artifactId>  
-		        <version>2.3.2</version>  
-		        <configuration>  
-		            <source>1.6</source>  
-		            <target>1.6</target>  
-		        </configuration>  
-		    </plugin>  
-		</plugins>  
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>
