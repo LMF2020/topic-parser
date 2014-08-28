@@ -1,0 +1,7 @@
+###########
+# MySQL 5 #
+###########
+jdbc.driverClassName=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://localhost:3306/angel-office?useUnicode=true&characterEncoding=GBK
+jdbc.username=root
+jdbc.password=root
