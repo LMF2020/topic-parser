@@ -13,6 +13,8 @@
 		<junit.version>3.8.1</junit.version>
 		<weld-servlet.version>2.2.2.Final</weld-servlet.version>
 		<mysql.version>5.1.18</mysql.version>
+		<nutz.version>1.b.50</nutz.version>
+		<druid.version>1.0.7</druid.version>
 	</properties>
 
 	<!-- 依赖包 -->
@@ -36,6 +38,20 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.version}</version>
+		</dependency>
+		
+		<!-- nutz -->
+		<dependency>
+			<groupId>org.nutz</groupId>
+			<artifactId>nutz</artifactId>
+			<version>${nutz.version}</version>
+		</dependency>
+		
+		<!-- druid -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>${druid.version}</version>
 		</dependency>
 	</dependencies>
 
