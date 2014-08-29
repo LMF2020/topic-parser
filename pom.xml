@@ -26,7 +26,18 @@
 		<repository>
 			<id>nexus</id>
 			<name>Team Nexus Repository</name>
-			<url>http://localhost:7070/nexus/content/groups/public</url>
+			<url>http://192.168.1.146:7070/nexus/content/groups/public</url>
+		</repository>
+		<repository>
+			<id>nexus-osc</id>
+			<name>osc nexus</name>
+			<url>http://maven.oschina.net/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
 		</repository>
 	</repositories>
 
@@ -35,7 +46,18 @@
 		<pluginRepository>
 			<id>nexus</id>
 			<name>Team Nexus Repository</name>
-			<url>http://localhost:7070/nexus/content/groups/public</url>
+			<url>http://192.168.1.146:7070/nexus/content/groups/public</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+			<pluginRepository>
+			<id>nexus-osc</id>
+			<name>osc nexus</name>
+			<url>http://maven.oschina.net/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
