@@ -2,12 +2,20 @@ package com.topic.parserAdapter.core.util;
 
 import java.io.File;
 
+import javax.servlet.ServletContext;
+
 /**
  * 文件操作
  * @author jiangzx0526@gmail.com
  *
  */
 public class MyFileUtils {
+	
+    private ServletContext sc;
+
+    public String getUploadPath(String path) {
+        return sc.getRealPath(path);
+    }
 
 	/** 
      * 根据路径名生成多级路径 

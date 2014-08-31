@@ -39,17 +39,6 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
-		<repository>
-			<id>nexus-osc</id>
-			<name>osc nexus</name>
-			<url>http://maven.oschina.net/content/groups/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
 	</repositories>
 
 	<!-- 如有Nexus私服, 取消注释并指向正确的服务器地址 -->
@@ -63,17 +52,6 @@
 			</snapshots>
 		</pluginRepository>
 			<pluginRepository>
-			<id>nexus-osc</id>
-			<name>osc nexus</name>
-			<url>http://maven.oschina.net/content/groups/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-		<pluginRepository>
 			<id>nexus-osc</id>
 			<name>osc nexus</name>
 			<url>http://maven.oschina.net/content/groups/public/</url>

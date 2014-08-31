@@ -8,11 +8,18 @@ import org.nutz.dao.entity.annotation.Table;
 
 @Table("t_topic")
 public class Topic {
+	
 	@Id
 	private Integer id;
 
+	@Column("high_num")
+	private String highNum; //大题编号
+	
+	@Column("low_num")
+	private String lowNum;  //小题编号
+	
 	@Column("catalog")
-	private Integer catalog;//题目类型
+	private String catalog;//题目类型
 	
 	@Column("content")
 	private String content;//题目内容
@@ -21,26 +28,35 @@ public class Topic {
 	private String answer; //题目正确答案
 	
 	@Column("score")
-	private Float score;//题目得分
+	private String score;//题目得分
 	
 	@Column("img_url")
 	private String imgUrl;//题目包含的图片，多张用逗号隔开
 	
 	@Column("user_id")
-	private Integer userId;//上传者id号
+	private String userId;//上传者id号
 	
 	@Column("hours")
-	private Integer hours;//课时
+	private String hours;//课时
 	
 	@Column("class")
-	private Integer className;//年级
+	private String className;//年级
 	
 	@Column("create_time")
 	private Timestamp createTime;//创建时间
 	
 	@Column("course")
-	private Integer course;//科目
+	private String subject;//科目
 	
+	public Topic(){}
+	public Topic(String catalog, String content,String answer,String score,String subject){
+		this.catalog = catalog;
+		this.content = content;
+		this.answer = answer;
+		this.score = score;
+		this.subject = subject;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -49,11 +65,27 @@ public class Topic {
 		this.id = id;
 	}
 
-	public Integer getCatalog() {
+	public String getHighNum() {
+		return highNum;
+	}
+	
+	public void setHighNum(String highNum) {
+		this.highNum = highNum;
+	}
+	
+	public String getLowNum() {
+		return lowNum;
+	}
+	
+	public void setLowNum(String lowNum) {
+		this.lowNum = lowNum;
+	}
+	
+	public String getCatalog() {
 		return catalog;
 	}
 
-	public void setCatalog(Integer catalog) {
+	public void setCatalog(String catalog) {
 		this.catalog = catalog;
 	}
 
@@ -73,11 +105,11 @@ public class Topic {
 		this.answer = answer;
 	}
 
-	public Float getScore() {
+	public String getScore() {
 		return score;
 	}
 
-	public void setScore(Float score) {
+	public void setScore(String score) {
 		this.score = score;
 	}
 
@@ -89,27 +121,27 @@ public class Topic {
 		this.imgUrl = imgUrl;
 	}
 
-	public Integer getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Integer userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
-	public Integer getHours() {
+	public String getHours() {
 		return hours;
 	}
 
-	public void setHours(Integer hours) {
+	public void setHours(String hours) {
 		this.hours = hours;
 	}
 
-	public Integer getClassName() {
+	public String getClassName() {
 		return className;
 	}
 
-	public void setClassName(Integer className) {
+	public void setClassName(String className) {
 		this.className = className;
 	}
 
@@ -121,12 +153,12 @@ public class Topic {
 		this.createTime = createTime;
 	}
 
-	public Integer getCourse() {
-		return course;
+	public String getSubject() {
+		return subject;
 	}
 
-	public void setCourse(Integer course) {
-		this.course = course;
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
-
+	
 }

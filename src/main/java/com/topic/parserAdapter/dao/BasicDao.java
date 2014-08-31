@@ -16,6 +16,7 @@ import org.nutz.dao.pager.Pager;
 import org.nutz.dao.sql.Sql;
 import org.nutz.dao.util.cri.SqlExpression;
 import org.nutz.dao.util.cri.SqlExpressionGroup;
+import org.nutz.ioc.annotation.InjectName;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 
@@ -24,8 +25,10 @@ import org.nutz.ioc.loader.annotation.IocBean;
  * @author Rayintee
  * 
  */
+@InjectName
 @IocBean
 public class BasicDao {
+	
 	@Inject
 	protected Dao dao;
 
