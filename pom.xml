@@ -7,11 +7,11 @@
 	<version>1.0.0-SNAPSHOT</version>
 
 	<!-- 变量设置 -->
-	<properties>
+	<properties> 
 		<junit.version>4.11</junit.version>
 		<mysql.version>5.1.22</mysql.version>
 		<nutz.version>1.b.51-SNAPSHOT</nutz.version>
-		<druid.version>1.0.9</druid.version>
+		<druid.version>1.0.9</druid.version> 
 		<poi.version>3.11-beta2</poi.version>
 		<java.version>1.6</java.version>
 		<jetty.version>7.6.15.v20140411</jetty.version>
