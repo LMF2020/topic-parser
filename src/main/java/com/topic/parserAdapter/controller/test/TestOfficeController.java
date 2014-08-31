@@ -89,4 +89,10 @@ public class TestOfficeController {
 	public List<Topic> getPOJOList(){
 		return basicDBJob.listAll();
 	}
+	
+	@At("/file/upload")
+	@Ok("jsp:jsp.upload.upload")
+	public void toUploadPage(){
+		//TODO 页面跳装
+	}
 }

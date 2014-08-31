@@ -23,6 +23,7 @@ import org.nutz.mvc.upload.UploadAdaptor;
 
 import com.topic.parserAdapter.core.office.parser.CoolHtmlParser;
 import com.topic.parserAdapter.dao.BasicDao;
+import com.topic.parserAdapter.model.FileProperty;
 import com.topic.parserAdapter.model.Topic;
 /**
  * 提供给第三方的接口服务
@@ -33,8 +34,8 @@ import com.topic.parserAdapter.model.Topic;
 @IocBean
 public class ParseController {
 	
-	@Inject  //需要处理html的转换逻辑,所以注入CoolHtmlParser解析类
-	private CoolHtmlParser htmlParser;
+	/*@Inject  //需要处理html的转换逻辑,所以注入CoolHtmlParser解析类
+	private CoolHtmlParser htmlParser;*/
 	
 	@Inject	 //一些业务的接口,比如根据题号获取题目等
 	private BasicDao basicDao;
@@ -46,9 +47,12 @@ public class ParseController {
 	@At("/service/convert")
 	@Fail("http:500")
 	@AdaptBy(type = UploadAdaptor.class, args = { "ioc:myUpload" })
-	public void convert(@Param("office")  TempFile tf, AdaptorErrorContext errCtx){
+	public void convert(@Param("..") FileProperty fp, @Param("office")  TempFile tf, AdaptorErrorContext errCtx){
 			if(errCtx != null){
 				System.out.println("上传错误："+errCtx.getErrors()[0]);
+			}
+			if(fp != null){
+				System.out.println(fp.getUuid()+"=="+fp.getSubject());
 			}
 			File f = tf.getFile();                       // 这个是保存的临时文件
 		    FieldMeta meta = tf.getMeta();               // 这个原本的文件信息

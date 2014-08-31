@@ -1,5 +1,6 @@
 package com.topic.parserAdapter.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import org.nutz.dao.entity.annotation.Column;
@@ -7,8 +8,10 @@ import org.nutz.dao.entity.annotation.Id;
 import org.nutz.dao.entity.annotation.Table;
 
 @Table("t_topic")
-public class Topic {
-	
+public class Topic implements Serializable{
+	//生产随机序列号
+	private static final long serialVersionUID = 4364265353467878632L;
+
 	@Id
 	private Integer id;
 

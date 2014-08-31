@@ -14,7 +14,7 @@ import com.topic.parserAdapter.core.listener.ServerSetupListener;
  *
  */
 @IocBy(type = ComboIocProvider.class, args = {
-		"*org.nutz.ioc.loader.json.JsonLoader","config/ioc/datasource.js", 
+		"*org.nutz.ioc.loader.json.JsonLoader","config/ioc/", 
 		"*org.nutz.ioc.loader.annotation.AnnotationIocLoader","com.topic.parserAdapter"})
 @Modules(scanPackage=true)
 @SetupBy(ServerSetupListener.class)
