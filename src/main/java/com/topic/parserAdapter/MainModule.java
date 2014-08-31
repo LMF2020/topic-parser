@@ -1,5 +1,6 @@
 package com.topic.parserAdapter;
 
+import org.nutz.mvc.annotation.Encoding;
 import org.nutz.mvc.annotation.IocBy;
 import org.nutz.mvc.annotation.Modules;
 import org.nutz.mvc.annotation.SetupBy;
@@ -12,12 +13,12 @@ import com.topic.parserAdapter.core.listener.ServerSetupListener;
  * @author Rayintee
  *
  */
-@IocBy(args = {
+@IocBy(type = ComboIocProvider.class, args = {
 		"*org.nutz.ioc.loader.json.JsonLoader","config/ioc/datasource.js", 
-		"*org.nutz.ioc.loader.annotation.AnnotationIocLoader","com.topic.parserAdapter"}, 
-		type = ComboIocProvider.class)
+		"*org.nutz.ioc.loader.annotation.AnnotationIocLoader","com.topic.parserAdapter"})
 @Modules(scanPackage=true)
 @SetupBy(ServerSetupListener.class)
+@Encoding(input="UTF-8",output="UTF-8")
 public class MainModule {
 	
 }
