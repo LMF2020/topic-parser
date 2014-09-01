@@ -8,20 +8,8 @@
 <title>文件上传测试页面</title>
 <%@include file="/common/jsp/common.jsp"%>
 <style>
-body,html{
-	margin: 0;
-	padding: 0;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
-}
-
-.form-content{
-	margin:10px auto;
-	width:80%;
-}
 input[type="file"]{
-	border: 1px solid #357ebd;
-	width: 300px;
+	display:none;
 }
 .oneRow{
 	width: 100%;
@@ -60,13 +48,24 @@ input[type="file"]{
 </style>
 </head>
 <body>
-	<div class="form-content">
-		<h3>文件上传页面</h3>
+	<h3 class="title">题库上传页面</h3>
+	
+	<div class="navbar">
+		<ul class="nav">
+			<li><a href="${ctx}/topic/list">题库接口</a></li>
+			<li class="active"><a href="#">上传题库</a></li>
+		</ul>
+	</div>
+	
+	<div class="content">
 		<form action="http://localhost:8015/topic-parser/officeCenter/service/convert" 
-			  target="file_upload" method="post" enctype="multipart/form-data">
+		  target="file_upload" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="docId" id="docId" />
 			<div class="oneRow">
-				<input type="file" name="office" />
+				<span>上传文件</span>
+				<input type="file" name="office" id="office">
+				<input type="text" name="path" id="path" class="ipt">
+				<input type="button" id="browser" value="浏览..."/>
 			</div>
 			<div class="oneRow">
 				<span>上传者ID</span>
@@ -100,16 +99,26 @@ input[type="file"]{
 				<button type="reset" class="restBtn">重置</button>
 			</div>
 		</form>
+		<iframe name="file_upload" style="display:none"></iframe>
 	</div>
-	<iframe name="file_upload" style="display:none"></iframe>
+	
 	<script type="text/javascript">
 		$(function(){
-			var ajax = {};
+			//模拟按钮点击事件效果
+			$("#browser").on("click", function(e){
+				e.stopImmediatePropagation();//组织冒泡事件
+				$("#office").click();//模拟点击事件
+			});
+			$("#office").on("change", function(e){
+				var path = $(this).val().replace("C:\\fakepath\\", "");
+				if(path.indexOf(".doc") != -1 || path.indexOf(".docx") != -1){
+					$("#path").val(path);//赋值
+				} else {
+					alert("目前只支持word格式文档");
+				}
+			});
 			
-			/* $(".submitBtn").on("click", function(e){
-				e.stopimmediatepropagation();//组织冒泡事件
-				
-			}); */
+			
 		});
 	</script>
 </body>

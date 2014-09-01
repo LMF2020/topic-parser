@@ -9,6 +9,6 @@
 </head>
 <body>
 	<p>这只是个开始...</p>
-	<a href="${ctx}/jsp/file/upload">上传文件</a>
+	<a href="${ctx}/topic/list">查看题库信息</a>
 </body>
 </html>

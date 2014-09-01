@@ -10,14 +10,14 @@ import org.nutz.mvc.annotation.Ok;
  * @author Rayintee
  *
  */
-@At("/jsp")
+@At("/topic")
 @IocBean
 public class TopicController {
 	
 	/**
 	 * 跳转到上传页面
 	 */
-	@At("/topic/upload")
+	@At("/upload")
 	@Ok("jsp:jsp.topic.upload")
 	@Fail("http:404")
 	public void toUploadPage(){
@@ -26,7 +26,7 @@ public class TopicController {
 	/**
 	 * 跳转到列表页面
 	 */
-	@At("topic/list")
+	@At("/list")
 	@Ok("jsp:jsp.topic.list")
 	@Fail("http:404")
 	public void listTopics(){

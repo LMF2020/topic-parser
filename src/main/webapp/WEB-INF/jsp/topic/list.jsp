@@ -9,6 +9,17 @@
 <%@include file="/common/jsp/common.jsp"%>
 </head>
 <body>
+	<h3 class="title">题库接口页面</h3>
 	
+	<div class="navbar">
+		<ul class="nav">
+			<li class="active"><a href="#">题库接口</a></li>
+			<li><a href="${ctx}/topic/upload">上传题库</a></li>
+		</ul>
+	</div>
+	
+	<div class="content">
+		
+	</div>
 </body>
 </html>
