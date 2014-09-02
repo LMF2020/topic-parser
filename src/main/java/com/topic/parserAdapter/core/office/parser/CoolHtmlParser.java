@@ -266,11 +266,11 @@ public class CoolHtmlParser {
 		return answer;
 	}
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		List<Topic> topics = new  CoolHtmlParser().parse(
-				"D:/tools/jee-eclipse-keeper/play/topic-parser/src/main/webapp/doc/transferFile/白板语文题库.htm");
+				"E:/GitHub/topic-parser/src/main/webapp/doc/transferFile/白板语文题库.htm");
 		for(Topic t:topics){ //输出所有题目
 			System.out.println(t.toString());
 		}
-	}
+	}*/
 }

@@ -18,11 +18,6 @@ import org.nutz.mvc.annotation.Param;
 import org.nutz.mvc.impl.AdaptorErrorContext;
 import org.nutz.mvc.upload.FieldMeta;
 import org.nutz.mvc.upload.TempFile;
-/**
- * 暴露给外部的服务
- * @author jiangzx0526@gmail.com
- *
- */
 import org.nutz.mvc.upload.UploadAdaptor;
 import org.nutz.trans.Molecule;
 import org.nutz.trans.Trans;
@@ -35,7 +30,7 @@ import com.topic.parserAdapter.model.Topic;
 /**
  * 提供给第三方的接口服务
  * @author jiangzx0526@gmail.com
- *
+ * @see http://localhost:8015/topic-parser/officeCenter/service/upload 上传文档并解析入库接口
  */
 @At("/officeCenter")
 @IocBean
@@ -51,19 +46,20 @@ public class ParseController {
 	 * @param tf
 	 */
 	@At("/service/upload")
-	@Fail("http:500")
 	@Ok("json")
+	@Fail("http:500")
 	@AdaptBy(type = UploadAdaptor.class, args = { "ioc:myUpload" })
-	public boolean convert(@Param("..") FileProperty docInfo, @Param("office")  TempFile tf, ServletContext sc, AdaptorErrorContext errCtx){
+	public String convert(@Param("..") FileProperty docInfo, @Param("office")  TempFile tf, ServletContext sc, AdaptorErrorContext errCtx){
+
 			if(errCtx != null){
-				System.out.println("上传错误："+errCtx.getErrors()[0]);
+				System.out.println("上传出错："+errCtx.getErrors()[0]);
 			}
 			if(docInfo != null){
 				System.out.println(docInfo.getUuid()+"=="+docInfo.getSubject());
 			}
 			File tmpFile = tf.getFile();                 // 这个是保存的临时文件
 		    FieldMeta meta = tf.getMeta();               // 这个原本的文件信息
-		    String fileName = meta.getFileLocalName();    // 这个时原本的文件名称
+		    String fileName = meta.getFileLocalName();   // 原始文件名称
 		    String projectPath = sc.getRealPath("")+File.separatorChar;
 		    try {
 		    	//临时文件写入系统配置目录
@@ -73,19 +69,23 @@ public class ParseController {
 				System.err.println("临时文件写入配置目录失败！");
 			}
 		    //处理|转换文档
-		    List<Topic> topics = ideaWordParser.getTopicList(sc, projectPath, fileName, docInfo);
-		    //打印测试
-		    printDocList(topics);
-		    //保存文档
-		    Molecule<Boolean> mc = new Molecule<Boolean>() {
-		        public void run() {
-		        	 //setObj(basicDao.save);;
-		        }
+		    final List<Topic> topics = ideaWordParser.getTopicList(sc, projectPath, fileName, docInfo);
+		    //printDocList(topics); //打印输出
+		    Molecule<Boolean> mol = new Molecule<Boolean>(){
+				@Override
+				public void run() {
+					boolean flag = basicDao.saveBatch(topics);
+					setObj(flag);
+				}
 		    };
-		    Trans.exec(mc);
-		    //这里判断是否成功
-		    return mc.getObj();
-		    
+		    Trans.exec(mol);
+		    int code = 1; //失败码：1--失败、0表示成功
+		    String msg = "上传题库失败";
+		    if(mol.getObj()){
+		    	code = 0;
+		    	msg = "上传题库成功";
+		    }
+		    return "{CODE:" + code + ",MSG:" + msg +"}";
 	}
 	
 	/**
