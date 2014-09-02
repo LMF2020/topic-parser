@@ -29,7 +29,7 @@ th{
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
-	text-indent: 10px;
+	/* text-indent: 10px; */
 	font-weight: 100;
 }
 .wrap-content{
@@ -73,18 +73,18 @@ td{
 					<th style="width: 15%;border-right:none;">提交时间</th>
 				</tr>
 			</table>
-			<%-- <c:forEach var="list" items="${}">
-			</c:forEach> --%>
 			<table class="wrap-content">
-				<tr class="wrap-item">
-					<td style="width: 10%;">1</td>
-					<td style="width: 10%;">语文</td>
-					<td style="width: 10%;">填空题</td>
-					<td style="width: 25%;">本文作者是 $squart $br</td>
-					<td style="width: 20%;">朱自清</td>
-					<td style="width: 10%;">1分</td>
-					<td style="width: 15%;">2014-09-01 22:04:11</td>
-				</tr>
+				<c:forEach var="list" items="${topicList}">
+					<tr class="wrap-item">
+						<td style="width: 10%;">${list.id}</td>
+						<td style="width: 10%;">${list.catalog}</td>
+						<td style="width: 10%;">${list.}</td>
+						<td style="width: 25%;">本文作者是 $squart $br</td>
+						<td style="width: 20%;">朱自清</td>
+						<td style="width: 10%;">1分</td>
+						<td style="width: 15%;">2014-09-01 22:04:11</td>
+					</tr>
+				</c:forEach>
 			</table>
 		</div>
 	</div>

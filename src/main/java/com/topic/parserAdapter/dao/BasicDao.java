@@ -205,6 +205,16 @@ public class BasicDao {
 		return dao.query(c, Cnd.wrap(sql), null);
 
 	}
+	
+	/**
+	 * 根据sql语句查询查询
+	 * @param c
+	 * @param sql
+	 * @return
+	 */
+	public <T> List<T> searchBySql(Class<T> c, String sql){
+		return dao.query(c, Cnd.wrap(sql), null);
+	}
 
 	/**
 	 * 根据多个id 查询数据

@@ -3,56 +3,76 @@ package com.topic.parserAdapter.model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import org.nutz.dao.entity.annotation.ColDefine;
+import org.nutz.dao.entity.annotation.ColType;
 import org.nutz.dao.entity.annotation.Column;
+import org.nutz.dao.entity.annotation.Comment;
 import org.nutz.dao.entity.annotation.Id;
 import org.nutz.dao.entity.annotation.Table;
 
 @Table("t_topic")
-public class Topic implements Serializable{
-	//生产随机序列号
+public class Topic implements Serializable {
+	// 生产随机序列号
 	private static final long serialVersionUID = 4364265353467878632L;
 
 	@Id
+	@Comment("主键id编号")
 	private Integer id;
 
-	@Column("high_num")
-	private String highNum; //大题编号
-	
 	@Column("low_num")
-	private String lowNum;  //小题编号
+	@Comment("小题编号")
+	private String lowNum; // 小题编号
 	
 	@Column("catalog")
-	private String catalog;//题目类型
-	
+	@ColDefine(type=ColType.VARCHAR, width=3)
+	@Comment("题型(枚举型):1--填空题、2--选择题、3--判断题、4--改错题、5--选词组词题、6--选此组句题、7--作文题、8--临摹题、9--临帖题、10--闪现默写题、11--听写题、12--词语接龙、13--成语接龙、14--解答题")
+	private String catalog;// 题目类型
+
 	@Column("content")
-	private String content;//题目内容
-	
+	@ColDefine(type=ColType.TEXT)
+	@Comment("题目内容")
+	private String content;// 题目内容
+
 	@Column("answer")
-	private String answer; //题目正确答案
-	
+	@ColDefine(type=ColType.TEXT)
+	@Comment("题目正确答案")
+	private String answer; // 题目正确答案
+
 	@Column("score")
-	private String score;//题目得分
-	
+	@Comment("分值")
+	private String score;// 题目得分
+
 	@Column("img_url")
-	private String imgUrl;//题目包含的图片，多张用逗号隔开
-	
+	@ColDefine(type=ColType.TEXT)
+	@Comment("图片存放路径，多个用逗号分隔")
+	private String imgUrl;// 题目包含的图片，多张用逗号隔开
+
 	@Column("user_id")
-	private String userId;//上传者id号
-	
+	@Comment("上传者id")
+	private String userId;// 上传者id号
+
 	@Column("hours")
-	private String hours;//课时
-	
+	@Comment("课时")
+	private String hours;// 课时
+
 	@Column("class")
-	private String className;//年级
-	
+	@Comment("年级")
+	private String className;// 年级
+
 	@Column("create_time")
-	private Timestamp createTime;//创建时间
-	
+	@Comment("提交时间")
+	private Timestamp createTime;// 创建时间
+
 	@Column("course")
-	private String subject;//科目
-	
-	public Topic(){}
-	public Topic(String catalog, String content,String answer,String score,String subject){
+	@ColDefine(type=ColType.VARCHAR, width=3)
+	@Comment("科目(数字型)：1--语文、2--数学、3--英语")
+	private String subject;// 科目
+
+	public Topic() {
+	}
+
+	public Topic(String catalog, String content, String answer, String score,
+			String subject) {
 		this.catalog = catalog;
 		this.content = content;
 		this.answer = answer;
@@ -68,22 +88,14 @@ public class Topic implements Serializable{
 		this.id = id;
 	}
 
-	public String getHighNum() {
-		return highNum;
-	}
-	
-	public void setHighNum(String highNum) {
-		this.highNum = highNum;
-	}
-	
 	public String getLowNum() {
 		return lowNum;
 	}
-	
+
 	public void setLowNum(String lowNum) {
 		this.lowNum = lowNum;
 	}
-	
+
 	public String getCatalog() {
 		return catalog;
 	}
@@ -163,5 +175,5 @@ public class Topic implements Serializable{
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
-	
+
 }
