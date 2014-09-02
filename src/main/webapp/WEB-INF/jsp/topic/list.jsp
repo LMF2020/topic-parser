@@ -77,7 +77,7 @@ td{
 				<c:choose>
 					<c:when test="${topicList eq null}">
 						<tr>
-							<td colspan="5">暂时没有题库信息，请上传</td>
+							<td colspan="7" style="width:100%;text-align:center;">暂时没有题库信息，请上传</td>
 						</tr>
 					</c:when>
 					<c:otherwise>

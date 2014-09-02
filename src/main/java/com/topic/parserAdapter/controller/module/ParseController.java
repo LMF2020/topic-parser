@@ -49,14 +49,15 @@ public class ParseController {
 	@Ok("json")
 	@Fail("http:500")
 	@AdaptBy(type = UploadAdaptor.class, args = { "ioc:myUpload" })
-	public String convert(@Param("..") FileProperty docInfo, @Param("office")  TempFile tf, ServletContext sc, AdaptorErrorContext errCtx){
+	public String convert(@Param("..") FileProperty docInfo, @Param("office")  TempFile tf, 
+			ServletContext sc, AdaptorErrorContext errCtx){
 
 			if(errCtx != null){
 				System.out.println("上传出错："+errCtx.getErrors()[0]);
 			}
-			if(docInfo != null){
+			/*if(docInfo != null){
 				System.out.println(docInfo.getUuid()+"=="+docInfo.getSubject());
-			}
+			}*/
 			File tmpFile = tf.getFile();                 // 这个是保存的临时文件
 		    FieldMeta meta = tf.getMeta();               // 这个原本的文件信息
 		    String fileName = meta.getFileLocalName();   // 原始文件名称
