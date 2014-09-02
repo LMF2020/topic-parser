@@ -87,8 +87,8 @@ tbody,tr,thead {
 						<c:forEach var="topic" items="${topicList}">
 							<tr class="wrap-item">
 								<td style="width: 10%;">${topic.id}</td>
-								<td style="width: 10%;">${topic.subjectName}</td>
-								<td style="width: 10%;">${topic.catalogName}</td>
+								<td style="width: 10%;">${topic.subject}</td>
+								<td style="width: 10%;">${topic.catalog}</td>
 								<td style="width: 25%;">${topic.content}</td>
 								<td style="width: 20%;">${topic.answer}</td>
 								<td style="width: 10%;">${topic.score}</td>
