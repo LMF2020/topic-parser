@@ -79,7 +79,7 @@ public class ParseController {
 		    //保存文档
 		    Molecule<Boolean> mc = new Molecule<Boolean>() {
 		        public void run() {
-		        	 //setObj(basicDao);;
+		        	 //setObj(basicDao.save);;
 		        }
 		    };
 		    Trans.exec(mc);
