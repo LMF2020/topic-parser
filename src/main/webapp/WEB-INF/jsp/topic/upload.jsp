@@ -62,6 +62,28 @@ input[type="button"]{
 	border: 1px solid #E1E1E1;
 	cursor: pointer;
 }
+.show{
+	display: block !important;
+}
+.loading{
+	position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.7);
+    display: none;
+}
+.loading-logo{
+	z-index:1001;
+	position: relative;
+	height: 150px;
+	width: 150px;
+	margin: 200px auto;
+	background: url("${ctx}/common/images/loading.gif") no-repeat;
+	background-size: 100% 100%; 
+}
 </style>
 </head>
 <body>
@@ -75,8 +97,7 @@ input[type="button"]{
 	</div>
 	
 	<div class="content">
-		<form action="http://localhost:8015/topic-parser/officeCenter/service/upload" 
-		  target="file_upload" method="post" enctype="multipart/form-data" id="fileUpload">
+		<form method="post" enctype="multipart/form-data" id="fileUpload">
 			<input type="hidden" name="docId" id="docId" />
 			<div class="oneRow">
 				<span>上传文件</span>
@@ -90,7 +111,7 @@ input[type="button"]{
 			</div>
 			<div class="oneRow">
 				<span>课 时</span>
-				<input type="text" name="hours" id="hours" />
+				<input type="text" name="hours" id="hours" value="1" />
 			</div>
 			<div class="oneRow">
 				<span>年 级</span>
@@ -116,8 +137,9 @@ input[type="button"]{
 				<button type="reset" class="restBtn">重置</button>
 			</div>
 		</form>
-		<iframe name="file_upload" style="display:none"></iframe>
 	</div>
+	
+	<div class="loading" id="loading"><div class="loading-logo"></div></div>
 	
 	<script type="text/javascript">
 		$(function(){
@@ -138,20 +160,41 @@ input[type="button"]{
 			//表单提交前验证
 			$(".submitBtn").on("click", function(e){
 				e.stopImmediatePropagation();//组织冒泡事件
-				var obj = new Object();
-				obj["path"] = $("#path").val();
-				console.log(obj["path"]);
-				/* params = $("#fileUpload").serializeArray();
-				$.each(params, function(i, v){
-					obj[v.name] = v.value;//放在参数对象里
-				}); */
-				if(obj["path"] == "" || obj["path"] == null || 
-					obj["path"] == undefined){
+				var path = $("#path").val();
+				if(path== "" || path == null || path == undefined){
 					alert("上传文件路径为空");
 					return false;
 				}
 				
-				$("#fileUpload").submit();//提交表单
+				//定义FormData对象
+				var data = new FormData();
+				data.append('office',document.getElementById('office').files[0]);
+				data.append('fileProperty', $('#fileUpload').serializeArray());
+				//ajax上传
+				$.ajax({
+				    url: "http://localhost:8015/topic-parser/officeCenter/service/upload",
+				    type: 'post',
+				    data: data,
+				    cache: false,
+    				contentType:false,
+				    timeout: 10*1000,//超时/ms
+				    dataType: 'json',
+				    processData: false,
+				    beforeSend: function () {
+				    	$("#loading").addClass("show");
+                	}
+                }).done(function(data){
+                	alert(data.msg);
+                	return false;
+                }).fail(function () {
+                    alert("ajax请求失败");
+                    return false;
+                }).always(function( data, textStatus,jqXHR ){
+                	setTimeout(function(){//做一下延迟，为了演示
+                		$("#loading").removeClass("show");
+                	},300);
+                });
+				return false;
 			});
 		});
 	</script>

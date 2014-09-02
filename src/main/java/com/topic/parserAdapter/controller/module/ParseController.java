@@ -50,7 +50,8 @@ public class ParseController {
 	@Ok("json")
 	@Fail("http:500")
 	@AdaptBy(type = UploadAdaptor.class, args = { "ioc:myUpload" })
-	public String convert(@Param("..") FileProperty docInfo, @Param("office")  TempFile tf, ServletContext sc, AdaptorErrorContext errCtx){
+	public String convert(@Param("fileProperty") FileProperty docInfo, @Param("office")  TempFile tf, 
+			ServletContext sc, AdaptorErrorContext errCtx){
 
 			if(errCtx != null){
 				System.out.println("上传出错："+errCtx.getErrors()[0]);
