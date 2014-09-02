@@ -33,6 +33,7 @@ th{
 }
 .wrap-content{
 	width: 100%;
+	display: flex;
 }
 td{
 	height: 38px;
@@ -40,13 +41,15 @@ td{
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
-	text-align: left;
+	text-align: center;
 	line-height: 38px;
-	/* display: inline-flex; */
 }
 .wrap-item{
 	border-bottom: 1px solid #D2D2D2;
 	zoom:1;
+}
+tbody,tr,thead {
+	width: 100%;
 }
 </style>
 </head>
