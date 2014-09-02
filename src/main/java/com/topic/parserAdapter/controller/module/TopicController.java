@@ -48,11 +48,11 @@ public class TopicController {
 		if(topicList.size()>0){
 			list = new ArrayList<Topic>();
 			for(Topic topic : topicList){
-				String subject = topic.getCourse().trim();
-				String catalog = topic.getCatalog().trim();
-				if(subject=="1") topic.setSubjectName("语文");
+				int subject = Integer.parseInt(topic.getCourse());
+				int catalog = Integer.parseInt(topic.getCatalog().trim());
+				if(subject==1) topic.setSubjectName("语文");
 				else topic.setSubjectName("其他");
-				switch (Integer.parseInt(catalog)) {
+				switch (catalog) {
 				case 1:
 					topic.setCatalogName("填空题");
 					break;
