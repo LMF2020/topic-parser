@@ -3,12 +3,15 @@ package com.topic.parserAdapter.controller.module;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.json.Json;
 import org.nutz.lang.Files;
 import org.nutz.mvc.annotation.AdaptBy;
 import org.nutz.mvc.annotation.At;
@@ -17,7 +20,6 @@ import org.nutz.mvc.annotation.GET;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
 import org.nutz.mvc.impl.AdaptorErrorContext;
-import org.nutz.mvc.ioc.provider.ComboIocProvider;
 import org.nutz.mvc.upload.FieldMeta;
 import org.nutz.mvc.upload.TempFile;
 import org.nutz.mvc.upload.UploadAdaptor;
@@ -96,7 +98,10 @@ public class ParseController {
 		    if(code == 1 && docInfo.getDocId()!=null){
 		    	basicDao.delById(docInfo.getDocId().intValue(), FileProperty.class);
 		    }
-		    return "{CODE:" + code + ",MSG:" + msg +"}";
+		    Map m = new HashMap();
+		    m.put("CODE", code);
+		    m.put("MSG", msg);
+		    return Json.toJson(m);
 	}
 	
 	/**
