@@ -22,6 +22,9 @@ import org.nutz.mvc.upload.TempFile;
  *
  */
 import org.nutz.mvc.upload.UploadAdaptor;
+import org.nutz.trans.Atom;
+import org.nutz.trans.Molecule;
+import org.nutz.trans.Trans;
 
 import com.topic.parserAdapter.core.office.parser.IdeaWordParser;
 import com.topic.parserAdapter.dao.BasicDao;
@@ -46,9 +49,11 @@ public class ParseController {
 	 * @param tf
 	 */
 	@At("/service/upload")
+	@Ok("json")
 	@Fail("http:500")
 	@AdaptBy(type = UploadAdaptor.class, args = { "ioc:myUpload" })
-	public void convert(@Param("..") FileProperty docInfo, @Param("office")  TempFile tf, ServletContext sc, AdaptorErrorContext errCtx){
+	public String convert(@Param("..") FileProperty docInfo, @Param("office")  TempFile tf, 
+			ServletContext sc, AdaptorErrorContext errCtx){
 			if(errCtx != null){
 				System.out.println("上传错误："+errCtx.getErrors()[0]);
 			}
@@ -60,10 +65,26 @@ public class ParseController {
 		    String oldName = meta.getFileLocalName();    // 这个时原本的文件名称
 		    String projectPath = sc.getRealPath("")+File.separatorChar;
 		    //处理|转换文档
-		    List<Topic> topics = ideaWordParser.getTopicList(sc, projectPath, docFile, docInfo);
+		    final List<Topic> topics = ideaWordParser.getTopicList(sc, projectPath, docFile, docInfo);
+		    Molecule<Boolean> mol = new Molecule<Boolean>(){
+				@Override
+				public void run() {
+					boolean flag = basicDao.saveBatch(topics);
+					setObj(flag);
+				}
+		    };
+		    Trans.exec(mol);
+		    int code = 1; //失败码：1--失败、0表示成功
+		    String msg = "上传题库失败";
+		    if(mol.getObj()){
+		    	code = 0;
+		    	msg = "上传题库成功";
+		    }
 		    //打印测试
 		    printDocList(topics);
 		    //保存文档
+		    
+		    return "{CODE:" + code + ",MSG:" + msg +"}";
 	}
 	
 	/**

@@ -19,6 +19,8 @@ import org.nutz.dao.util.cri.SqlExpressionGroup;
 import org.nutz.ioc.annotation.InjectName;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.trans.Atom;
+import org.nutz.trans.Trans;
 
 /**
  * 基本数据库操作类
@@ -58,9 +60,13 @@ public class BasicDao {
 	 * @param <T>
 	 * @param c 查询的表
 	 * @param orderby desc 排序的条件
+	 * @param order asc/desc 默认的是降序排列
 	 * @return List
 	 */
-	public <T> List<T> search(Class<T> c, String orderby) {
+	public <T> List<T> search(Class<T> c, String orderby, String order) {
+		if(order.equalsIgnoreCase("asc")){
+			return dao.query(c, Cnd.orderBy().asc(orderby), null);
+		}
 		return dao.query(c, Cnd.orderBy().desc(orderby), null);
 
 	}
@@ -146,6 +152,17 @@ public class BasicDao {
 	public void save(String table, Chain chain) {
 		dao.insert(table, chain);
 	}
+	
+	/**
+	 * 批量插入
+	 * @param t 集合或数组
+	 * @return boolean true/false成功或失败
+	 */
+	public <T> boolean saveBatch(final List<T> t){
+		return dao.fastInsert(t) != null;
+	}
+	
+	
 
 	/**
 	 * 查询数据库中的数据条数

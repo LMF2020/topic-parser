@@ -22,26 +22,26 @@ public class Topic implements Serializable {
 	@Column("low_num")
 	@Comment("小题编号")
 	private String lowNum; // 小题编号
-	
-	@ColDefine(type=ColType.VARCHAR, width=3)
+
+	@ColDefine(type = ColType.VARCHAR, width = 3)
 	@Comment("题型(枚举型):1--填空题、2--选择题、3--判断题、4--改错题、5--选词组词题、6--选此组句题、7--作文题、8--临摹题、9--临帖题、10--闪现默写题、11--听写题、12--词语接龙、13--成语接龙、14--解答题")
 	private String catalog;// 题目类型
 
 	@Comment("题目内容")
-	@ColDefine(type=ColType.TEXT)
+	@ColDefine(type = ColType.TEXT)
 	private String content;// 题目内容
 
-	@ColDefine(type=ColType.TEXT)
+	@ColDefine(type = ColType.TEXT)
 	@Comment("题目正确答案")
 	private String answer; // 题目正确答案
 
-	private String fullscore;//题目总分
-	
+	private String fullscore;// 题目总分
+
 	@Comment("分值")
 	private String score;// 题目得分
 
 	@Column("img_url")
-	@ColDefine(type=ColType.TEXT)
+	@ColDefine(type = ColType.TEXT)
 	@Comment("图片存放路径，多个用逗号分隔")
 	private String imgUrl;// 题目包含的图片，多张用逗号隔开
 
@@ -60,14 +60,18 @@ public class Topic implements Serializable {
 	@Comment("提交时间")
 	private Timestamp createTime;// 创建时间
 
-	public Topic(){}
+	private String subjectName;
+	private String catalogName;
 
-	@ColDefine(type=ColType.VARCHAR, width=3)
+	public Topic() {
+	}
+
+	@ColDefine(type = ColType.VARCHAR, width = 3)
 	@Comment("科目(数字型)：1--语文、2--数学、3--英语")
 	private String course;// 科目
 
 	public Topic(String catalog, String content, String answer, String score,
-			String course,String lowNum,String fullscore,String imgUrl) {
+			String course, String lowNum, String fullscore, String imgUrl) {
 		this.catalog = catalog;
 		this.content = content;
 		this.answer = answer;
@@ -173,23 +177,39 @@ public class Topic implements Serializable {
 	public void setCreateTime(Timestamp createTime) {
 		this.createTime = createTime;
 	}
-	
+
 	public String getFullscore() {
 		return fullscore;
 	}
-	
+
 	public void setFullscore(String fullscore) {
 		this.fullscore = fullscore;
 	}
-	
+
+	public String getSubjectName() {
+		return subjectName;
+	}
+
+	public void setSubjectName(String subjectName) {
+		this.subjectName = subjectName;
+	}
+
+	public String getCatalogName() {
+		return catalogName;
+	}
+
+	public void setCatalogName(String catalogName) {
+		this.catalogName = catalogName;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("==================小题========================\n").
-		append(" 题号:").append(lowNum).append("\n 题型:")
-				.append(catalog).append("\n 内容:").append(content)
-				.append("\n 答案:").append(answer).append("\n 分数:")
-				.append(score).append(", 图片:").append(imgUrl).append("\n");
+		builder.append("==================小题========================\n")
+				.append(" 题号:").append(lowNum).append("\n 题型:").append(catalog)
+				.append("\n 内容:").append(content).append("\n 答案:")
+				.append(answer).append("\n 分数:").append(score).append(", 图片:")
+				.append(imgUrl).append("\n");
 		return builder.toString();
 	}
 

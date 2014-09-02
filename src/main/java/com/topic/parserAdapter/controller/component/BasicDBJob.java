@@ -26,7 +26,7 @@ public class BasicDBJob {
 	}
 	
 	public List<Topic> listAll(){
-		return basicDao.search(Topic.class, "id");
+		return basicDao.search(Topic.class, "id", "asc");
 	}
 	
 }

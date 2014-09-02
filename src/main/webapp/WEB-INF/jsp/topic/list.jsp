@@ -29,7 +29,6 @@ th{
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
-	/* text-indent: 10px; */
 	font-weight: 100;
 }
 .wrap-content{
@@ -41,8 +40,9 @@ td{
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
-	text-align: center;
+	text-align: left;
 	line-height: 38px;
+	/* display: inline-flex; */
 }
 .wrap-item{
 	border-bottom: 1px solid #D2D2D2;
@@ -64,7 +64,7 @@ td{
 		<div class="wrap">
 			<table class="wrap-header">
 				<tr>
-					<th style="width: 10%;">ID</th>
+					<th style="width: 10%;border-left:none;">ID</th>
 					<th style="width: 10%;">科目</th>
 					<th style="width: 10%;">题型</th>
 					<th style="width: 25%;">题目内容</th>
@@ -74,17 +74,26 @@ td{
 				</tr>
 			</table>
 			<table class="wrap-content">
-				<c:forEach var="list" items="${topicList}">
-					<tr class="wrap-item">
-						<td style="width: 10%;">${list.id}</td>
-						<td style="width: 10%;">${list.catalog}</td>
-						<td style="width: 10%;">${list.}</td>
-						<td style="width: 25%;">本文作者是 $squart $br</td>
-						<td style="width: 20%;">朱自清</td>
-						<td style="width: 10%;">1分</td>
-						<td style="width: 15%;">2014-09-01 22:04:11</td>
-					</tr>
-				</c:forEach>
+				<c:choose>
+					<c:when test="${topicList eq null}">
+						<tr>
+							<td colspan="5">暂时没有题库信息，请上传</td>
+						</tr>
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="topic" items="${topicList}">
+							<tr class="wrap-item">
+								<td style="width: 10%;">${topic.id}</td>
+								<td style="width: 10%;">${topic.subjectName}</td>
+								<td style="width: 10%;">${topic.catalogName}</td>
+								<td style="width: 25%;">${topic.content}</td>
+								<td style="width: 20%;">${topic.answer}</td>
+								<td style="width: 10%;">${topic.score}</td>
+								<td style="width: 15%;">${topic.createTime}</td>
+							</tr>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
 			</table>
 		</div>
 	</div>
