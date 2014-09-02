@@ -44,15 +44,14 @@ public class TopicController {
 	public void listTopics(HttpServletRequest req){
 		List<Topic> topicList = basicDao.search(Topic.class, "id", "asc");
 		System.out.println("==获取题库列表成功,size==="+topicList.size());
-
 		List<Topic> list = null;
 		if(topicList.size()>0){
 			list = new ArrayList<Topic>();
 			for(Topic topic : topicList){
 				int subject = Integer.parseInt(topic.getSubject());
 				int catalog = Integer.parseInt(topic.getCatalog().trim());
-				if(subject==1) topic.setSubject("语文");
-				else topic.setSubject("其他");
+				if(subject==1) topic.setSubjectName("语文");
+				else topic.setSubjectName("其他");
 				switch (catalog) {
 				case 1:
 					topic.setCatalogName("填空题");
@@ -105,6 +104,5 @@ public class TopicController {
 		}
 		
 		req.setAttribute("topicList", list);
-		System.out.println(list==null);
 	}
 }
