@@ -78,7 +78,7 @@ public class TestOfficeController {
 	@At("/db/insertOne")
 	@Ok("json")
 	public Topic instertPOJO(){
-		Topic E = new Topic("1", "题目内容是此处省略一万字....", "题目答案是C","12.5" , "2");
+		Topic E = new Topic("1", "题目内容是此处省略一万字....", "题目答案是C","2","1","2","10","");
 		Topic r =  basicDBJob.insertOne(E);
 		return r;
 	}

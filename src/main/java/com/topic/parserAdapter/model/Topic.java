@@ -2,6 +2,8 @@ package com.topic.parserAdapter.model;
 
 import java.sql.Timestamp;
 
+import org.nutz.dao.entity.annotation.ColDefine;
+import org.nutz.dao.entity.annotation.ColType;
 import org.nutz.dao.entity.annotation.Column;
 import org.nutz.dao.entity.annotation.Id;
 import org.nutz.dao.entity.annotation.Table;
@@ -22,6 +24,7 @@ public class Topic {
 	private String catalog;//题目类型
 	
 	@Column("content")
+	@ColDefine(type=ColType.TEXT)
 	private String content;//题目内容
 	
 	@Column("answer")
@@ -29,6 +32,9 @@ public class Topic {
 	
 	@Column("score")
 	private String score;//题目得分
+	
+	@Column("fullscore")
+	private String fullscore;//题目总分
 	
 	@Column("img_url")
 	private String imgUrl;//题目包含的图片，多张用逗号隔开
@@ -49,12 +55,16 @@ public class Topic {
 	private String subject;//科目
 	
 	public Topic(){}
-	public Topic(String catalog, String content,String answer,String score,String subject){
+	public Topic(String catalog, String content,String answer,String score,
+			String subject,String lowNum,String fullscore,String imgUrl){
 		this.catalog = catalog;
 		this.content = content;
 		this.answer = answer;
 		this.score = score;
 		this.subject = subject;
+		this.lowNum = lowNum;
+		this.fullscore = fullscore;
+		this.imgUrl = imgUrl;
 	}
 
 	public Integer getId() {
@@ -160,5 +170,25 @@ public class Topic {
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
+	
+	public String getFullscore() {
+		return fullscore;
+	}
+	
+	public void setFullscore(String fullscore) {
+		this.fullscore = fullscore;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("==================小题========================\n").
+		append(" 题号:").append(lowNum).append("\n 题型:")
+				.append(catalog).append("\n 内容:").append(content)
+				.append("\n 答案:").append(answer).append("\n 分数:")
+				.append(score).append(", 图片:").append(imgUrl).append("\n");
+		return builder.toString();
+	}
+	
 	
 }
