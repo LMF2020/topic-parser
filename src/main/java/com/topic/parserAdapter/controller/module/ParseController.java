@@ -50,7 +50,7 @@ public class ParseController {
 	 * @param tf
 	 */
 	@At("/service/upload")
-	@Ok("json")
+	@Ok("json:{quoteName:true, ignoreNull:true}")
 	@Fail("http:500")
 	@AdaptBy(type = UploadAdaptor.class, args = { "ioc:myUpload" })
 	public String convert(@Param("fileProperty") FileProperty docInfo, @Param("office")  TempFile tf, 
@@ -59,9 +59,9 @@ public class ParseController {
 			if(errCtx != null){
 				System.out.println("上传出错："+errCtx.getErrors()[0]);
 			}
-			if(docInfo != null){
+			/*if(docInfo != null){
 				System.out.println(docInfo.getUuid()+"=="+docInfo.getSubject());
-			}
+			}*/
 			File tmpFile = tf.getFile();                 // 这个是保存的临时文件
 		    FieldMeta meta = tf.getMeta();               // 这个原本的文件信息
 		    String fileName = meta.getFileLocalName();   // 原始文件名称
@@ -98,10 +98,14 @@ public class ParseController {
 		    if(code == 1 && docInfo.getDocId()!=null){
 		    	basicDao.delById(docInfo.getDocId().intValue(), FileProperty.class);
 		    }
-		    Map m = new HashMap();
-		    m.put("CODE", code);
-		    m.put("MSG", msg);
-		    return Json.toJson(m);
+		   /* 
+		    *   =》 another portable usage
+		    * 	Map m = new HashMap();
+		    	m.put("CODE", code);
+		    	m.put("MSG", msg);
+		    	return Json.toJson(m);
+		    */
+		    return "{\"CODE\":\"" + code + "\",\"MSG\":\"" + msg +"\"}";
 	}
 	
 	/**
