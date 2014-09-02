@@ -46,11 +46,11 @@ public class TopicController {
 		System.out.println("==获取题库列表成功,size==="+topicList.size());
 		List<Topic> list = new ArrayList<Topic>();
 		for(Topic topic : topicList){
-			String subject = topic.getCourse().trim();
+			String subject = topic.getSubject().trim();
 			String catalog = topic.getCatalog().trim();
 			System.out.println(subject+"++");
-			if(subject=="1") topic.setSubjectName("语文");
-			else topic.setSubjectName("其他");
+			if(subject=="1") topic.setSubject("语文");
+			else topic.setSubject("其他");
 			switch (Integer.parseInt(catalog)) {
 			case 1:
 				topic.setCatalogName("填空题");

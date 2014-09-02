@@ -2,6 +2,7 @@ package com.topic.parserAdapter.controller.module;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -38,9 +39,9 @@ public class ParseController {
 	
 	@Inject	
 	private BasicDao basicDao;
-	
 	@Inject	
 	private IdeaWordParser ideaWordParser;
+	
 	/**
 	 * 本地开发的上传服务，文件保存到/doc目录下等待处理
 	 * @param tf
@@ -68,6 +69,11 @@ public class ParseController {
 			} catch (IOException e) {
 				System.err.println("临时文件写入配置目录失败！");
 			}
+		    
+		    //保存文档数据
+		    docInfo.setFileName(fileName);
+		    docInfo.setCreateTime(new Date());
+		    docInfo = basicDao.save(docInfo);
 		    //处理|转换文档
 		    final List<Topic> topics = ideaWordParser.getTopicList(sc, projectPath, fileName, docInfo);
 		    //printDocList(topics); //打印输出
@@ -79,11 +85,14 @@ public class ParseController {
 				}
 		    };
 		    Trans.exec(mol);
-		    int code = 1; //失败码：1--失败、0表示成功
+		    int code = 1; //状态码：1失败、0成功
 		    String msg = "上传题库失败";
 		    if(mol.getObj()){
 		    	code = 0;
 		    	msg = "上传题库成功";
+		    }
+		    if(code == 1 && docInfo.getDocId()!=null){
+		    	basicDao.delById(docInfo.getDocId().intValue(), FileProperty.class);
 		    }
 		    return "{CODE:" + code + ",MSG:" + msg +"}";
 	}
@@ -110,7 +119,6 @@ public class ParseController {
 		for(Topic t: topics){
 			System.out.println(t.toString());
 		}
-		
 	}
 	
 	

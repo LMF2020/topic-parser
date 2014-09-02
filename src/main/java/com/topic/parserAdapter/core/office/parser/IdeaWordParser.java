@@ -55,7 +55,7 @@ public class IdeaWordParser {
 		
 		String htmlPath = parseWordToHtml(sc,projectPath,fileName);
 		if(htmlPath !=null){
-			return	coolHtmlParser.parse(projectPath + htmlPath);
+			return	coolHtmlParser.parse(projectPath + htmlPath , docInfo);
 		}
 		return Collections.emptyList();
 	}

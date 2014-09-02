@@ -19,8 +19,6 @@ import org.nutz.dao.util.cri.SqlExpressionGroup;
 import org.nutz.ioc.annotation.InjectName;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
-import org.nutz.trans.Atom;
-import org.nutz.trans.Trans;
 
 /**
  * 基本数据库操作类

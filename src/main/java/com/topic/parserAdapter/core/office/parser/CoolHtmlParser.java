@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,6 +17,7 @@ import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Streams;
 import org.nutz.lang.Strings;
 
+import com.topic.parserAdapter.model.FileProperty;
 import com.topic.parserAdapter.model.Topic;
 
 /**
@@ -42,7 +44,6 @@ public class CoolHtmlParser {
 	private static final Pattern typePattern;
 	private static final Pattern numberPattern;
 	private static final Pattern replacePattern;
-	private List<Topic> topics = new ArrayList<Topic>(50); //初始化一篇文档50道题
 	
 	//定义一些表达式参数
 	static {
@@ -56,10 +57,12 @@ public class CoolHtmlParser {
 	
 	/**
 	 * 返回文档集合对象交由dao处理
-	 * @param htmlPath
+	 * @param htmlPath	htm相对路径
+	 * @param docInfo	文档信息
 	 * @return
 	 */
-	public List<Topic> parse(String htmlPath){
+	public List<Topic> parse(String htmlPath,FileProperty docInfo){
+		List<Topic> topics = new ArrayList<Topic>(50); //初始化一篇文档50道题
 		File f = getFile(htmlPath);
 		if(f == null){
 			try {
@@ -75,6 +78,15 @@ public class CoolHtmlParser {
 		BufferedReader br = new BufferedReader(reader);
 		int count = 0;						//计数
 		try {
+			//文档参数
+			String Dclass = docInfo.getClassName();	//年级
+			Long   DdocId  = docInfo.getDocId();		//文档流水号
+			String Dhours = docInfo.getHours();			//课时
+			String Dsubject = docInfo.getSubject();		//课程
+			String Duuid = docInfo.getUuid(); 			//员工号
+			Date   DcreateTime = docInfo.getCreateTime();	//上传时间
+			
+			//题目参数
 			String str = "";				//文本行
 		    String $score = "0";  			//小题分数
 		    String $fullscore = "0";  		//小题总分
@@ -138,7 +150,12 @@ public class CoolHtmlParser {
 			    	//编译
 			    	$content = compile($content,$placeholder);
 			    	//链表
-					Topic topic = new Topic($catalog,$content,$answer,$score,"1",$lowNum,$fullscore,$imgsrc);
+					Topic topic = new Topic($catalog,$content,$answer,$score,Dsubject,$lowNum,$fullscore,$imgsrc);
+					topic.setDocId(DdocId);
+					topic.setHours(Dhours);
+					topic.setCreateTime(DcreateTime);
+					topic.setUserId(Duuid);
+					topic.setClassName(Dclass);
 					topics.add(topic);
 			    	//重置buffer
 			    	sb.setLength(0);
