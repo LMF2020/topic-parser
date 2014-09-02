@@ -23,20 +23,22 @@ public class Topic implements Serializable {
 	@Comment("小题编号")
 	private String lowNum; // 小题编号
 
+	@Column("catalog")
 	@ColDefine(type = ColType.VARCHAR, width = 3)
 	@Comment("题型(枚举型):1--填空题、2--选择题、3--判断题、4--改错题、5--选词组词题、6--选此组句题、7--作文题、8--临摹题、9--临帖题、10--闪现默写题、11--听写题、12--词语接龙、13--成语接龙、14--解答题")
 	private String catalog;// 题目类型
 
+	@Column("content")
 	@Comment("题目内容")
 	@ColDefine(type = ColType.TEXT)
 	private String content;// 题目内容
 
+	@Column("answer")
 	@ColDefine(type = ColType.TEXT)
 	@Comment("题目正确答案")
 	private String answer; // 题目正确答案
 
-	private String fullscore;// 题目总分
-
+	@Column("score")
 	@Comment("分值")
 	private String score;// 题目得分
 
@@ -49,6 +51,7 @@ public class Topic implements Serializable {
 	@Comment("上传者id")
 	private String userId;// 上传者id号
 
+	@Column("hours")
 	@Comment("课时")
 	private String hours;// 课时
 
@@ -60,15 +63,19 @@ public class Topic implements Serializable {
 	@Comment("提交时间")
 	private Timestamp createTime;// 创建时间
 
-	private String subjectName;
-	private String catalogName;
-
-	public Topic() {
-	}
-
+	@Column("course")
 	@ColDefine(type = ColType.VARCHAR, width = 3)
 	@Comment("科目(数字型)：1--语文、2--数学、3--英语")
 	private String course;// 科目
+	
+	private String fullscore;// 题目总分
+	private String subjectName;//科目名称
+	private String catalogName;//题型名称
+
+	
+	public Topic() {
+	}
+
 
 	public Topic(String catalog, String content, String answer, String score,
 			String course, String lowNum, String fullscore, String imgUrl) {

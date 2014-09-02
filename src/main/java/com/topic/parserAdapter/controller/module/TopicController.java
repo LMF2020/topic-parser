@@ -46,25 +46,58 @@ public class TopicController {
 		System.out.println("==获取题库列表成功,size==="+topicList.size());
 		List<Topic> list = new ArrayList<Topic>();
 		for(Topic topic : topicList){
-			String subject = topic.getCourse();
-			String catalog = topic.getCatalog();
+			String subject = topic.getCourse().trim();
+			String catalog = topic.getCatalog().trim();
 			System.out.println(subject+"++");
-			if(subject.equals("1")) topic.setSubjectName("语文");
+			if(subject=="1") topic.setSubjectName("语文");
 			else topic.setSubjectName("其他");
-			if(catalog.equals("1"))topic.setCatalogName("填空题");
-			else if(catalog.equals("2"))topic.setCatalogName("选择题");
-			else if(catalog.equals("3"))topic.setCatalogName("判断题");
-			else if(catalog.equals("4"))topic.setCatalogName("改错题");
-			else if(catalog.equals("5"))topic.setCatalogName("选词组词题");
-			else if(catalog.equals("6"))topic.setCatalogName("选此组句题");
-			else if(catalog.equals("7"))topic.setCatalogName("作文题");
-			else if(catalog.equals("8"))topic.setCatalogName("临摹题");
-			else if(catalog.equals("9"))topic.setCatalogName("临帖题");
-			else if(catalog.equals("10"))topic.setCatalogName("闪现默写题");
-			else if(catalog.equals("11"))topic.setCatalogName("听写题");
-			else if(catalog.equals("12"))topic.setCatalogName("词语接龙");
-			else if(catalog.equals("13"))topic.setCatalogName("成语接龙");
-			else if(catalog.equals("14"))topic.setCatalogName("解答题");
+			switch (Integer.parseInt(catalog)) {
+			case 1:
+				topic.setCatalogName("填空题");
+				break;
+			case 2:
+				topic.setCatalogName("选择题");
+				break;
+			case 3:
+				topic.setCatalogName("判断题");
+				break;
+			case 4:
+				topic.setCatalogName("改错题");
+				break;
+			case 5:
+				topic.setCatalogName("选词组词题");
+				break;
+			case 6:
+				topic.setCatalogName("选此组句题");
+				break;
+			case 7:
+				topic.setCatalogName("作文题");
+				break;
+			case 8:
+				topic.setCatalogName("临摹题");
+				break;
+			case 9:
+				topic.setCatalogName("临帖题");
+				break;
+			case 10:
+				topic.setCatalogName("闪现默写题");
+				break;
+			case 11:
+				topic.setCatalogName("听写题");
+				break;
+			case 12:
+				topic.setCatalogName("词语接龙");
+				break;
+			case 13:
+				topic.setCatalogName("成语接龙");
+				break;
+			case 14:
+				topic.setCatalogName("解答题");
+				break;
+			default:
+				topic.setCatalogName("未知题型");
+				break;
+			}
 			list.add(topic);
 		}
 		req.setAttribute("topicList", list);
