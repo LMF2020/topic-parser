@@ -191,7 +191,8 @@ input[type="button"]{
 				    	$("#loading").addClass("show");
                 	}
                 }).done(function(data){
-                	alert(data.MSG);
+                	var obj = $.parseJSON(data);
+                	alert(obj.MSG);
                 	return false;
                 }).fail(function () {
                     alert("ajax请求失败");
