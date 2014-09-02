@@ -33,7 +33,7 @@ import com.topic.parserAdapter.model.Topic;
 /**
  * 提供给第三方的接口服务
  * @author jiangzx0526@gmail.com
- *
+ * @see http://localhost:8015/topic-parser/officeCenter/service/upload 上传文档并解析入库接口
  */
 @At("/officeCenter")
 @IocBean
@@ -64,6 +64,7 @@ public class ParseController {
 		    FieldMeta meta = tf.getMeta();               // 这个原本的文件信息
 		    String oldName = meta.getFileLocalName();    // 这个时原本的文件名称
 		    String projectPath = sc.getRealPath("")+File.separatorChar;
+		    System.out.println(projectPath);
 		    //处理|转换文档
 		    final List<Topic> topics = ideaWordParser.getTopicList(sc, projectPath, docFile, docInfo);
 		    Molecule<Boolean> mol = new Molecule<Boolean>(){

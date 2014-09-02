@@ -75,7 +75,7 @@ input[type="button"]{
 	</div>
 	
 	<div class="content">
-		<form action="http://localhost:8015/topic-parser/officeCenter/service/convert" 
+		<form action="http://localhost:8015/topic-parser/officeCenter/service/upload" 
 		  target="file_upload" method="post" enctype="multipart/form-data" id="fileUpload">
 			<input type="hidden" name="docId" id="docId" />
 			<div class="oneRow">
