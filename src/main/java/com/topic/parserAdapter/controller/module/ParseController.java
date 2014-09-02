@@ -17,6 +17,7 @@ import org.nutz.mvc.annotation.GET;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
 import org.nutz.mvc.impl.AdaptorErrorContext;
+import org.nutz.mvc.ioc.provider.ComboIocProvider;
 import org.nutz.mvc.upload.FieldMeta;
 import org.nutz.mvc.upload.TempFile;
 import org.nutz.mvc.upload.UploadAdaptor;

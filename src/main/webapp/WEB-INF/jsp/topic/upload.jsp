@@ -167,9 +167,16 @@ input[type="button"]{
 				}
 				
 				//定义FormData对象
-				var data = new FormData();
+				var data = new FormData(), 
+					params = $('#fileUpload').serializeArray(), 
+					obj=new Object();
+				$.each(params, function(i,v){
+					if(!(v.name in obj)){
+						obj[v.name]= v.value;
+                    }
+				});
 				data.append('office',document.getElementById('office').files[0]);
-				data.append('fileProperty', $('#fileUpload').serializeArray());
+				data.append('fileProperty', JSON.stringify(obj));
 				//ajax上传
 				$.ajax({
 				    url: "http://localhost:8015/topic-parser/officeCenter/service/upload",
@@ -184,7 +191,7 @@ input[type="button"]{
 				    	$("#loading").addClass("show");
                 	}
                 }).done(function(data){
-                	alert(data.msg);
+                	alert(data.MSG);
                 	return false;
                 }).fail(function () {
                     alert("ajax请求失败");
