@@ -11,6 +11,23 @@
 input[type="file"]{
 	display:none;
 }
+input[type="text"]{
+	margin: 0;
+	height: 30px;
+	width: 246px;
+	padding: 0 5px;
+	line-height: 30px;
+}
+input[type="button"]{
+	height: 34px;
+	width: 100px;
+	background: #008BF5;
+	border-color: #008BF5;
+	box-shadow: none;
+	color: white;
+	border-style: none;
+	cursor: pointer;
+}
 .oneRow{
 	width: 100%;
 	height: 40px;
@@ -18,31 +35,31 @@ input[type="file"]{
 }
 .oneRow span{
 	float:left;
-	padding: 5px 0;
+	padding: 10px 0;
 	width:60px;
 	text-align: right;
 	padding-right: 15px;
 }
 .oneRow select {
-	width: 80px;
+	height: 34px;
+	width: 260px;
+	padding: 0 5px;
 }
 .oneRow button{
-	margin: 5px 10px;
+	margin: 10px;
+	height: 35px;
+	width: 120px;
 }
 .submitBtn{
 	color: #fff;
 	background-color: #428bca;
 	border: 1px solid #357ebd;
-	border-radius:5px;
-	width:50px;
 	cursor: pointer;
+	margin-left: 70px !important;
 }
 .restBtn{
-	
 	background-color: #EBEBEB;
 	border: 1px solid #E1E1E1;
-	border-radius:5px;
-	width:50px;
 	cursor: pointer;
 }
 </style>
@@ -59,12 +76,12 @@ input[type="file"]{
 	
 	<div class="content">
 		<form action="http://localhost:8015/topic-parser/officeCenter/service/convert" 
-		  target="file_upload" method="post" enctype="multipart/form-data">
+		  target="file_upload" method="post" enctype="multipart/form-data" id="fileUpload">
 			<input type="hidden" name="docId" id="docId" />
 			<div class="oneRow">
 				<span>上传文件</span>
 				<input type="file" name="office" id="office">
-				<input type="text" name="path" id="path" class="ipt">
+				<input type="text" name="path" id="path" readonly>
 				<input type="button" id="browser" value="浏览..."/>
 			</div>
 			<div class="oneRow">
@@ -72,11 +89,11 @@ input[type="file"]{
 				<input type="text" name="uuid" id="uuid" value="teacher_01"/>
 			</div>
 			<div class="oneRow">
-				<span>课时</span>
+				<span>课 时</span>
 				<input type="text" name="hours" id="hours" />
 			</div>
 			<div class="oneRow">
-				<span>年级</span>
+				<span>年 级</span>
 				<select name="className" id="className">
 					<option value="1">一年级</option>
 					<option value="2">二年级</option>
@@ -88,14 +105,14 @@ input[type="file"]{
 				</select>
 			</div>
 			<div class="oneRow">
-				<span>科目</span>
+				<span>科 目</span>
 				<select name="subject" id="subject">
 					<option value="0">语文</option>
 					<option value="1">其他</option>
 				</select>
 			</div>
 			<div class="oneRow">
-				<button type="submit" class="submitBtn">提交</button>
+				<button type="button" class="submitBtn">提交</button>
 				<button type="reset" class="restBtn">重置</button>
 			</div>
 		</form>
@@ -118,7 +135,24 @@ input[type="file"]{
 				}
 			});
 			
-			
+			//表单提交前验证
+			$(".submitBtn").on("click", function(e){
+				e.stopImmediatePropagation();//组织冒泡事件
+				var obj = new Object();
+				obj["path"] = $("#path").val();
+				console.log(obj["path"]);
+				/* params = $("#fileUpload").serializeArray();
+				$.each(params, function(i, v){
+					obj[v.name] = v.value;//放在参数对象里
+				}); */
+				if(obj["path"] == "" || obj["path"] == null || 
+					obj["path"] == undefined){
+					alert("上传文件路径为空");
+					return false;
+				}
+				
+				$("#fileUpload").submit();//提交表单
+			});
 		});
 	</script>
 </body>
