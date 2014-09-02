@@ -1,6 +1,5 @@
 package com.topic.parserAdapter.core.office.parser;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -33,10 +32,9 @@ public class IdeaWordParser {
 	 * @return
 	 * @throws IOException
 	 */
-	public static String parseWordToHtml(ServletContext sc, String projectPath, File docFile){
+	public static String parseWordToHtml(ServletContext sc, String projectPath, String fileName){
 		
 		String htmlPath;
-		String fileName = docFile.getName();
 		if(fileName.indexOf(".docx")>0){ //处理Word2007+档案格式
 			htmlPath = Word2007ToHtmlConverter.parseWord2007ToHtml(sc,projectPath, fileName);
 		}else{ //处理Word2003-档案格式
@@ -53,11 +51,11 @@ public class IdeaWordParser {
 	 * @param docInfo		文档信息
 	 * @return
 	 */
-	public List<Topic> getTopicList(ServletContext sc, String projectPath, File docFile ,FileProperty docInfo){
+	public List<Topic> getTopicList(ServletContext sc, String projectPath, String fileName ,FileProperty docInfo){
 		
-		String htmlPath = parseWordToHtml(sc,projectPath,docFile);
+		String htmlPath = parseWordToHtml(sc,projectPath,fileName);
 		if(htmlPath !=null){
-			coolHtmlParser.parse(htmlPath);
+			return	coolHtmlParser.parse(projectPath + htmlPath);
 		}
 		return Collections.emptyList();
 	}

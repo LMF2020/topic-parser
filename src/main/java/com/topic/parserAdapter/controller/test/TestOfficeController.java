@@ -71,7 +71,7 @@ public class TestOfficeController {
 		
 		String fullDocPath = projectPath + relativeFilePath + docFileName;
 		File docFile = new File(fullDocPath);
-		IdeaWordParser.parseWordToHtml(sc, projectPath, docFile);
+		//IdeaWordParser.parseWordToHtml(sc, projectPath, docFile);
 	}
 	
 	//测试保存一个POJO对象
