@@ -62,8 +62,10 @@ tbody,tr,thead {
 	
 	<div class="navbar">
 		<ul class="nav">
+			<li><a href="${ctx}/topic/index.htm">首页</a></li>
 			<li class="active"><a href="#">题库列表</a></li>
 			<li><a href="${ctx}/topic/upload.htm">上传题库</a></li>
+			<li><a href="${ctx}/topic/query.htm">题目查询</a></li>
 		</ul>
 	</div>
 	

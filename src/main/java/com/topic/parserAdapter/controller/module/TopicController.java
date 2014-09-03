@@ -32,6 +32,15 @@ public class TopicController {
 	private BasicDao basicDao;
 	
 	/**
+	 * 首页面
+	 */
+	@At("/index")
+	@Ok("jsp:/index")
+	@Fail("http:404")
+	public void toIndex(){
+	}
+	
+	/**
 	 * 跳转到上传页面
 	 */
 	@At("/upload")
@@ -125,5 +134,27 @@ public class TopicController {
 		System.out.println(str.substring(0, str.indexOf(".")));
 		topic.setCreateTimeStr(str.substring(0, str.indexOf(".")));
 		req.setAttribute("topic", topic);
+	}
+	
+	@At("/detailOpen/?")
+	@Ok("jsp:jsp.topic.detailOpen")
+	@Fail("http:500")
+	public void toDetailOpenPage(@Param("id") int id, HttpServletRequest req, AdaptorErrorContext errCtx){
+		if(errCtx != null){
+			System.out.println("跳转页面出错："+errCtx.getErrors()[0]);
+		}
+		System.out.println("id-->"+id);
+		Topic topic = basicDao.find(id, Topic.class);//根据id查询
+		Timestamp ts = new Timestamp(topic.getCreateTime().getTime());
+		String str = ts.toString();
+		System.out.println(str.substring(0, str.indexOf(".")));
+		topic.setCreateTimeStr(str.substring(0, str.indexOf(".")));
+		req.setAttribute("topic", topic);
+	}
+	
+	@At("/query")
+	@Ok("jsp:jsp.topic.query")
+	@Fail("http:404")
+	public void toQueryPage(){
 	}
 }

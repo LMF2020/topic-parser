@@ -121,7 +121,6 @@
 	
 	<div class="navbar">
 		<ul class="nav">
-			<li><a href="${ctx}/topic/list.htm">题库列表</a></li>
 			<li class="active"><a href="#">题目详情</a></li>
 		</ul>
 	</div>

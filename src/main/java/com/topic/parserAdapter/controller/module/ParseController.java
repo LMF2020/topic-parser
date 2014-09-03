@@ -2,14 +2,21 @@ package com.topic.parserAdapter.controller.module;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 
+import org.eclipse.jetty.util.ajax.JSON;
+import org.nutz.dao.Cnd;
+import org.nutz.dao.sql.Criteria;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Files;
+import org.nutz.mvc.adaptor.JsonAdaptor;
 import org.nutz.mvc.annotation.AdaptBy;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Fail;
@@ -129,6 +136,61 @@ public class ParseController {
 		for(Topic t: topics){
 			System.out.println(t.toString());
 		}
+	}
+	
+	@At("/service/queryTopics")
+	@Ok("json:{quoteName:true, ignoreNull:true}")
+	@Fail("http:500")
+	@AdaptBy(type = JsonAdaptor.class)
+	public String getTopicList(@Param("topic") Topic topic){
+		Map<String, Object> m = new HashMap<String, Object>();
+		List<Topic> tList = new ArrayList<Topic>();
+		List<Map<String, Object>> lm = null;
+		if(topic == null){
+			tList = basicDao.search(Topic.class, "id", "asc");
+		} else {
+			Criteria cri = Cnd.cri();//复杂组合查询
+			if(topic.getUserId() != null){
+				cri.where().andEquals("user_id", topic.getUserId());
+			}
+			if(topic.getHours() != null){
+				cri.where().andEquals("hours", topic.getHours());
+			}
+			if(topic.getSubject()!=null){
+				cri.where().andEquals("subject", topic.getSubject());
+			}
+			if(topic.getCatalog() != null){
+				cri.where().andEquals("catalog", topic.getCatalog());
+			}
+			if(topic.getClassName() != null){
+				cri.where().andEquals("className", topic.getClassName());
+			}
+			tList = basicDao.search(Topic.class, cri);
+		}
+		m.put("CODE", 0);
+		m.put("MSG", "查询题目成功");
+		if(!tList.isEmpty()){
+			lm = new ArrayList<Map<String, Object>>();
+			for(Topic t:tList){
+				Map<String, Object> mt = new HashMap<String, Object>();
+				mt.put("id", t.getId());
+				mt.put("lowNum", t.getLowNum());
+				mt.put("catalog", t.getCatalog());
+				mt.put("content", t.getContent());
+				mt.put("answer", t.getAnswer());
+				mt.put("score", t.getScore());
+				mt.put("imgUrl", t.getImgUrl());
+				mt.put("userId", t.getUserId());
+				mt.put("hours", t.getHours());
+				mt.put("className", t.getClassName());
+				mt.put("createTime", t.getCreateTime());
+				mt.put("subject", t.getSubject());
+				mt.put("docId", t.getDocId());
+				lm.add(mt);
+			}
+			m.put("LIST", lm);
+		}
+		return JSON.toString(m);
 	}
 	
 	
