@@ -48,6 +48,10 @@ td{
 	border-bottom: 1px solid #D2D2D2;
 	zoom:1;
 }
+.wrap-item:hover{
+	background: #E6E6E6;
+	cursor: pointer;
+}
 tbody,tr,thead {
 	width: 100%;
 }
@@ -100,5 +104,17 @@ tbody,tr,thead {
 			</table>
 		</div>
 	</div>
+	<script type="text/javascript">
+		$(function(){
+			$("tr.wrap-item").on("click", function(e){
+				e.stopImmediatePropagation();//组织冒泡事件
+				var $td = $(this).find("td:first-child"),
+					url = "${ctx}/topic/detail/";
+				var id = parseInt($td.text());
+				alert(id);
+				window.location.href = url + id;//跳转
+			});
+		});
+	</script>
 </body>
 </html>
