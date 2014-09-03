@@ -9,6 +9,6 @@
 </head>
 <body>
 	<p>这只是个开始...</p>
-	<a href="${ctx}/topic/list">查看题库信息</a>
+	<a href="${ctx}/topic/list.htm">查看题库信息</a>
 </body>
 </html>

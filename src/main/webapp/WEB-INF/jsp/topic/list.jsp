@@ -58,12 +58,12 @@ tbody,tr,thead {
 </style>
 </head>
 <body>
-	<h3 class="title">题库接口页面</h3>
+	<h3 class="title">题库列表页面</h3>
 	
 	<div class="navbar">
 		<ul class="nav">
-			<li class="active"><a href="#">题库接口</a></li>
-			<li><a href="${ctx}/topic/upload">上传题库</a></li>
+			<li class="active"><a href="#">题库列表</a></li>
+			<li><a href="${ctx}/topic/upload.htm">上传题库</a></li>
 		</ul>
 	</div>
 	
@@ -111,8 +111,8 @@ tbody,tr,thead {
 				var $td = $(this).find("td:first-child"),
 					url = "${ctx}/topic/detail/";
 				var id = parseInt($td.text());
-				alert(id);
-				window.location.href = url + id;//跳转
+				console.log(url+id+".htm");
+				window.location.href = url + id + ".htm";//跳转
 			});
 		});
 	</script>
