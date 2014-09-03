@@ -62,22 +62,24 @@ public class Topic implements Serializable {
 	@Column("create_time")
 	@Comment("提交时间")
 	private Date createTime;
-	
+
 	@Column("subject")
 	@ColDefine(type = ColType.VARCHAR, width = 3)
 	@Comment("科目(数字型)：1--语文、2--数学、3--英语")
 	private String subject;
-	
+
 	@Column("fullscore")
 	@Comment("题型分值")
 	private String fullscore;
-	
-	private String catalogName;
+
 	@Column("doc_id")
 	@Comment("关联文档Id")
 	private Long docId;
 
-	
+	private String catalogName;// 题型名称
+	private String subjectName;// 科目名称
+	private String createTimeStr;//创建时间
+
 	public Topic() {
 	}
 
@@ -93,156 +95,141 @@ public class Topic implements Serializable {
 		this.imgUrl = imgUrl;
 	}
 
-
 	public Integer getId() {
 		return id;
 	}
-
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-
 	public String getLowNum() {
 		return lowNum;
 	}
-
 
 	public void setLowNum(String lowNum) {
 		this.lowNum = lowNum;
 	}
 
-
 	public String getCatalog() {
 		return catalog;
 	}
-
 
 	public void setCatalog(String catalog) {
 		this.catalog = catalog;
 	}
 
-
 	public String getContent() {
 		return content;
 	}
-
 
 	public void setContent(String content) {
 		this.content = content;
 	}
 
-
 	public String getAnswer() {
 		return answer;
 	}
-
 
 	public void setAnswer(String answer) {
 		this.answer = answer;
 	}
 
-
 	public String getScore() {
 		return score;
 	}
-
 
 	public void setScore(String score) {
 		this.score = score;
 	}
 
-
 	public String getImgUrl() {
 		return imgUrl;
 	}
-
 
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
 	}
 
-
 	public String getUserId() {
 		return userId;
 	}
-
 
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
-
 	public String getHours() {
 		return hours;
 	}
-
 
 	public void setHours(String hours) {
 		this.hours = hours;
 	}
 
-
 	public String getClassName() {
 		return className;
 	}
-
 
 	public void setClassName(String className) {
 		this.className = className;
 	}
 
-
 	public Date getCreateTime() {
 		return createTime;
 	}
-
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 
-
 	public String getSubject() {
 		return subject;
 	}
-
 
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
 
-
 	public String getFullscore() {
 		return fullscore;
 	}
-
 
 	public void setFullscore(String fullscore) {
 		this.fullscore = fullscore;
 	}
 
-
 	public String getCatalogName() {
 		return catalogName;
 	}
-
 
 	public void setCatalogName(String catalogName) {
 		this.catalogName = catalogName;
 	}
 
-
 	public Long getDocId() {
 		return docId;
 	}
-
 
 	public void setDocId(Long docId) {
 		this.docId = docId;
 	}
 
+	public String getSubjectName() {
+		return subjectName;
+	}
+
+	public void setSubjectName(String subjectName) {
+		this.subjectName = subjectName;
+	}
+
+	public String getCreateTimeStr() {
+		return createTimeStr;
+	}
+
+	public void setCreateTimeStr(String createTimeStr) {
+		this.createTimeStr = createTimeStr;
+	}
 
 	@Override
 	public String toString() {

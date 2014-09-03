@@ -128,8 +128,8 @@ input[type="button"]{
 			<div class="oneRow">
 				<span>科 目</span>
 				<select name="subject" id="subject">
-					<option value="0">语文</option>
-					<option value="1">其他</option>
+					<option value="1">语文</option>
+					<option value="0">其他</option>
 				</select>
 			</div>
 			<div class="oneRow">
