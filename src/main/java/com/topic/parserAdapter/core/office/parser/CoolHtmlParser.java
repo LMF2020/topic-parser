@@ -39,7 +39,7 @@ import com.topic.parserAdapter.model.Topic;
 @IocBean
 public class CoolHtmlParser {
 	
-	private static final String orderLine = "<填空题>_1_<判断题>_3_<选择题>_2_<选词组词题>_5_<连词成句题>_6_<作文题>_7_<临摹题>_8_<临帖题>_9_<闪现默写题>_10_<听写题>_11_<词语接龙>_12_成语接龙>_13_<解答题>_14_<改错题>_4";
+	private static final String orderLine = "<填空题>_1_<判断题>_3_<选择题>_2_<选词组词题>_5_<连词成句题>_6_<作文题>_7_<临摹题>_8_<临帖题>_9_<闪现默写题>_10_<听写题>_11_<词语接龙>_12_<成语接龙>_13_<解答题>_14_<改错题>_4_";
 	private static final String chineseChars = "，。？、.";
 	private static final Pattern typePattern;
 	private static final Pattern numberPattern;
@@ -210,11 +210,14 @@ public class CoolHtmlParser {
 		return null;
 	}
 	
-	//题型代码<如,填空题 =1,选择题 =2...>
+	//题型代码<如,填空题 =1,选择题 =2...>,题型不能多于99种,如果多于99种需要修改此处代码//TODO:
 	private String ofCatNum(String str){
 		int pos = orderLine.indexOf(str);
 		int start = pos + str.length() + 1;
-		return orderLine.substring(start , start + 1 );
+		if(orderLine.charAt(start+1) == '_'){
+			return orderLine.substring(start , start + 1);
+		}
+		return orderLine.substring(start , start + 2);
 	}
 	
 	/**
@@ -229,17 +232,18 @@ public class CoolHtmlParser {
 		String pattern = "";
 		int ch = Integer.parseInt(str);
 		switch (ch) {
-		case 2:
-			pattern = "${space}";
-			break;
-		case 8:case 9:case 10:case 11:case 12:case 13:
-			pattern = "${matts}";
-			break;
-		case 1:case 3:case 4:case 5:case 6:
-			pattern = "${square}";
-			break;
-		default:
-			break;
+			case 2:
+				pattern = "${space}";
+				break;
+			case 8:case 9:case 10:case 11:case 12:case 13:
+				pattern = "${matts}";
+				break;
+			case 1:case 3:case 4:case 5:case 6:
+				pattern = "${square}";
+				break;
+			default:
+				pattern = "";
+				break;
 		}
 		return pattern;
 	}
@@ -283,11 +287,11 @@ public class CoolHtmlParser {
 		return answer;
 	}
 	
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		List<Topic> topics = new  CoolHtmlParser().parse(
-				"E:/GitHub/topic-parser/src/main/webapp/doc/transferFile/白板语文题库.htm");
+				"D:/tools/jee-eclipse-keeper/play/topic-parser/src/main/webapp/doc/transferFile/白板语文题库.htm",new FileProperty());
 		for(Topic t:topics){ //输出所有题目
 			System.out.println(t.toString());
 		}
-	}*/
+	}
 }

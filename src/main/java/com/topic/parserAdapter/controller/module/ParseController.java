@@ -3,15 +3,12 @@ package com.topic.parserAdapter.controller.module;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletContext;
 
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
-import org.nutz.json.Json;
 import org.nutz.lang.Files;
 import org.nutz.mvc.annotation.AdaptBy;
 import org.nutz.mvc.annotation.At;
@@ -69,7 +66,9 @@ public class ParseController {
 		    try {
 		    	//临时文件写入系统配置目录
 		    	String filePath = projectPath+Word2003ToHtmlConverter.relativeFilePath+fileName;
-				Files.move(tmpFile, new File(filePath));
+		    	File tmp = new File(filePath);
+		    	if(tmp.exists()) tmp.delete();
+				Files.move(tmpFile, tmp);
 			} catch (IOException e) {
 				System.err.println("临时文件写入配置目录失败！");
 			}

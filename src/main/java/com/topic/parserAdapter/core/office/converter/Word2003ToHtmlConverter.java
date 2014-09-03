@@ -245,8 +245,8 @@ public class Word2003ToHtmlConverter {
         try {  
         	MyFileUtils.makeDir(projectRealPath, htmPath);// 创建文件夹  
             File file = new File(filePath);  
-            if (file.exists()) {  
-                return false;  
+            if (file.exists()) {  //删除历史编译的htm
+                file.delete();
             }  
             fos = new FileOutputStream(file);  
             bw = new BufferedWriter(new OutputStreamWriter(fos, "utf-8"));  
@@ -296,11 +296,8 @@ public class Word2003ToHtmlConverter {
   
                     htmFilePath = projectRealPath +  htmPath + wordName + ".htm";  
                     synchronized (docFilePath) {// 处理线程同步问题  
-                        File ff = new File(htmFilePath);  
-                        if (!ff.exists()) {// 如果不存在则进行转换  
-                            getWordAndStyle(docFilePath);  //doc文档的位置
-                            writeFile(htmlText, htmFilePath);  
-                        }  
+                        getWordAndStyle(docFilePath);  //doc文档的位置
+                        writeFile(htmlText, htmFilePath);  
                     }  
                     resultPath = htmPath + wordName + ".htm";  
                 }  
