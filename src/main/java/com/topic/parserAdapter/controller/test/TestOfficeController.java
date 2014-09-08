@@ -42,7 +42,8 @@ public class TestOfficeController {
 	@At("/office/word2003ToHtml")
 	public void word2003ToHtml(ServletContext sc){
 		String projectPath = sc.getRealPath("")+File.separatorChar;
-		String docFileName = "白板语文题库.doc";
+		String docFileName = "课文.doc"; 
+		//String docFileName = "白板语文题库.doc";
 		Word2003ToHtmlConverter.parseWord2003ToHtml(projectPath, docFileName);
 	}
 	
@@ -78,7 +79,7 @@ public class TestOfficeController {
 	@At("/db/insertOne")
 	@Ok("json")
 	public Topic instertPOJO(){
-		Topic E = new Topic("1", "题目内容是此处省略一万字....", "题目答案是C","2","1","2","10","");
+		Topic E = new Topic("1", "题目内容是此处省略一万字....", "题目答案是C","2","2","10","");
 		Topic r =  basicDBJob.insertOne(E);
 		return r;
 	}

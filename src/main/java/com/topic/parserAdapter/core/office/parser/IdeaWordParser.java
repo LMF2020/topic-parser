@@ -12,7 +12,7 @@ import org.nutz.ioc.loader.annotation.IocBean;
 
 import com.topic.parserAdapter.core.office.converter.Word2003ToHtmlConverter;
 import com.topic.parserAdapter.core.office.converter.Word2007ToHtmlConverter;
-import com.topic.parserAdapter.model.FileProperty;
+import com.topic.parserAdapter.model.Document;
 import com.topic.parserAdapter.model.Topic;
 /**
  * 支持Word所有格式的智能转换
@@ -51,11 +51,12 @@ public class IdeaWordParser {
 	 * @param docInfo		文档信息
 	 * @return
 	 */
-	public List<Topic> getTopicList(ServletContext sc, String projectPath, String fileName ,FileProperty docInfo){
+	public List<Topic> getTopicList(ServletContext sc, String projectPath, String fileName ,Document docInfo){
 		
 		String htmlPath = parseWordToHtml(sc,projectPath,fileName);
+		String contextPath = sc.getContextPath();
 		if(htmlPath !=null){
-			return	coolHtmlParser.parse(projectPath + htmlPath , docInfo);
+			return	coolHtmlParser.parse(contextPath,projectPath + htmlPath , docInfo);
 		}
 		return Collections.emptyList();
 	}

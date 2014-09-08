@@ -10,11 +10,11 @@ import java.util.Map;
 
 import javax.servlet.ServletContext;
 
-import org.eclipse.jetty.util.ajax.JSON;
 import org.nutz.dao.Cnd;
 import org.nutz.dao.sql.Criteria;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.json.Json;
 import org.nutz.lang.Files;
 import org.nutz.mvc.adaptor.JsonAdaptor;
 import org.nutz.mvc.annotation.AdaptBy;
@@ -33,7 +33,7 @@ import org.nutz.trans.Trans;
 import com.topic.parserAdapter.core.office.converter.Word2003ToHtmlConverter;
 import com.topic.parserAdapter.core.office.parser.IdeaWordParser;
 import com.topic.parserAdapter.dao.BasicDao;
-import com.topic.parserAdapter.model.FileProperty;
+import com.topic.parserAdapter.model.Document;
 import com.topic.parserAdapter.model.Topic;
 /**
  * 提供给第三方的接口服务
@@ -57,7 +57,7 @@ public class ParseController {
 	@Ok("json:{quoteName:true, ignoreNull:true}")
 	@Fail("http:500")
 	@AdaptBy(type = UploadAdaptor.class, args = { "ioc:myUpload" })
-	public String convert(@Param("fileProperty") FileProperty docInfo, @Param("office")  TempFile tf, 
+	public String convert(@Param("fileProperty") Document docInfo, @Param("office")  TempFile tf, 
 			ServletContext sc, AdaptorErrorContext errCtx){
 
 			if(errCtx != null){
@@ -102,7 +102,7 @@ public class ParseController {
 		    	msg = "上传题库成功";
 		    }
 		    if(code == 1 && docInfo.getDocId()!=null){
-		    	basicDao.delById(docInfo.getDocId().intValue(), FileProperty.class);
+		    	basicDao.delById(docInfo.getDocId().intValue(), Document.class);
 		    }
 		   /* 
 		    *   =》 another portable usage
@@ -190,7 +190,7 @@ public class ParseController {
 			}
 			m.put("LIST", lm);
 		}
-		return JSON.toString(m);
+		return Json.toJson(m);
 	}
 	
 	

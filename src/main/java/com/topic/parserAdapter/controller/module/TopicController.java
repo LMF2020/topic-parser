@@ -2,7 +2,6 @@ package com.topic.parserAdapter.controller.module;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +15,8 @@ import org.nutz.mvc.annotation.Param;
 import org.nutz.mvc.impl.AdaptorErrorContext;
 
 import com.topic.parserAdapter.dao.BasicDao;
-import com.topic.parserAdapter.model.FileProperty;
 import com.topic.parserAdapter.model.Topic;
+
 
 /**
  * 内部测试页面用到controller

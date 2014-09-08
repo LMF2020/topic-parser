@@ -163,7 +163,7 @@ public class Word2003ToHtmlConverter {
   
         htmlText = "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /><title>"  
                 + doc.getSummaryInformation().getTitle()  
-                + "</title></head><body><div style='margin:60px;text-align:center;'><div style='width:620px;text-align:left;line-height:24px;'>";  
+                + "</title></head><body><div style='margin:60px;text-align:center;'><div style='width:620px;text-align:left;line-height:24px;'>\n";  
         // 创建临时字符串,好加以判断一串字符是否存在相同格式  
         String tempString = "";  
         for (int i = 0; i < length - 1; i++) {  
@@ -222,7 +222,7 @@ public class Word2003ToHtmlConverter {
                         rgb[2] = (fontcolor >> 16) & 0xff; // blue  
                     }  
                     fontStyle += "color: rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ");";  
-                    htmlText += fontStyle + "\">" + tempString + cr.text() + "</span>";  
+                    htmlText += fontStyle + "\">\n" + tempString + cr.text() + "</span>";  
                     tempString = "";  
                 }  
             }  

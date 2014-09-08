@@ -8,8 +8,8 @@ import org.nutz.dao.entity.annotation.Comment;
 import org.nutz.dao.entity.annotation.Id;
 import org.nutz.dao.entity.annotation.Table;
 
-@Table("document")
-public class FileProperty implements Serializable {
+@Table("t_doc")
+public class Document implements Serializable {
 
 	private static final long serialVersionUID = -3657087473988616304L;
 
@@ -19,19 +19,23 @@ public class FileProperty implements Serializable {
 
 	@Column("user_id")
 	@Comment("用户流水号")
-	private String uuid;
+	private String userId;
+	
+	@Column("school")
+	@Comment("学校")
+	private String school;
 	
 	@Column("class")
 	@Comment("年级")
 	private String className;
 	
-	@Column("hours")
-	@Comment("课时")
-	private String hours;
-	
 	@Column("subject")
 	@Comment("科目")
 	private String subject;
+	
+	@Column("hours")
+	@Comment("课时")
+	private String hours;
 	
 	@Column("create_time")
 	@Comment("创建时间")
@@ -40,6 +44,10 @@ public class FileProperty implements Serializable {
 	@Column("file_name")
 	@Comment("文件名称")
 	private String fileName;
+	
+	@Column("file_size")
+	@Comment("文件大小")
+	private String fileSize;
 
 	public Long getDocId() {
 		return docId;
@@ -49,12 +57,12 @@ public class FileProperty implements Serializable {
 		this.docId = docId;
 	}
 
-	public String getUuid() {
-		return uuid;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public String getClassName() {
@@ -95,6 +103,22 @@ public class FileProperty implements Serializable {
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+
+	public String getSchool() {
+		return school;
+	}
+
+	public void setSchool(String school) {
+		this.school = school;
+	}
+
+	public String getFileSize() {
+		return fileSize;
+	}
+
+	public void setFileSize(String fileSize) {
+		this.fileSize = fileSize;
 	}
 
 }

@@ -28,6 +28,11 @@ public class Topic implements Serializable {
 	@Comment("题型(枚举型):1--填空题、2--选择题、3--判断题、4--改错题、5--选词组词题、6--选此组句题、7--作文题、8--临摹题、9--临帖题、10--闪现默写题、11--听写题、12--词语接龙、13--成语接龙、14--解答题")
 	private String catalog;
 
+	@Column("title")
+	@Comment("题目标题")
+	@ColDefine(type = ColType.TEXT)
+	private String title;
+	
 	@Column("content")
 	@Comment("题目内容")
 	@ColDefine(type = ColType.TEXT)
@@ -35,12 +40,16 @@ public class Topic implements Serializable {
 
 	@Column("answer")
 	@ColDefine(type = ColType.TEXT)
-	@Comment("题目正确答案")
+	@Comment("题目答案")
 	private String answer;
 
 	@Column("score")
 	@Comment("题目分值")
 	private String score;
+
+	@Column("fullscore")
+	@Comment("题目总分")
+	private String fullscore;
 
 	@Column("img_url")
 	@ColDefine(type = ColType.TEXT)
@@ -48,29 +57,29 @@ public class Topic implements Serializable {
 	private String imgUrl;
 
 	@Column("user_id")
-	@Comment("上传者id")
+	@Comment("用户流水号")
 	private String userId;
 
-	@Column("hours")
-	@Comment("课时")
-	private String hours;
-
+	@Column("school")
+	@Comment("学校")
+	private String school;
+	
 	@Column("class")
 	@Comment("年级")
 	private String className;
-
-	@Column("create_time")
-	@Comment("提交时间")
-	private Date createTime;
 
 	@Column("subject")
 	@ColDefine(type = ColType.VARCHAR, width = 3)
 	@Comment("科目(数字型)：1--语文、2--数学、3--英语")
 	private String subject;
 
-	@Column("fullscore")
-	@Comment("题型分值")
-	private String fullscore;
+	@Column("hours")
+	@Comment("课时")
+	private String hours;
+	
+	@Column("create_time")
+	@Comment("上传时间")
+	private Date createTime;
 
 	@Column("doc_id")
 	@Comment("关联文档Id")
@@ -80,16 +89,14 @@ public class Topic implements Serializable {
 	private String subjectName;// 科目名称
 	private String createTimeStr;//创建时间
 
-	public Topic() {
-	}
+	public Topic() {}
 
 	public Topic(String catalog, String content, String answer, String score,
-			String subject, String lowNum, String fullscore, String imgUrl) {
+			String lowNum, String fullscore, String imgUrl) {
 		this.catalog = catalog;
 		this.content = content;
 		this.answer = answer;
 		this.score = score;
-		this.subject = subject;
 		this.lowNum = lowNum;
 		this.fullscore = fullscore;
 		this.imgUrl = imgUrl;
@@ -131,6 +138,14 @@ public class Topic implements Serializable {
 		return answer;
 	}
 
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	public void setAnswer(String answer) {
 		this.answer = answer;
 	}
@@ -141,6 +156,14 @@ public class Topic implements Serializable {
 
 	public void setScore(String score) {
 		this.score = score;
+	}
+
+	public String getFullscore() {
+		return fullscore;
+	}
+
+	public void setFullscore(String fullscore) {
+		this.fullscore = fullscore;
 	}
 
 	public String getImgUrl() {
@@ -159,12 +182,12 @@ public class Topic implements Serializable {
 		this.userId = userId;
 	}
 
-	public String getHours() {
-		return hours;
+	public String getSchool() {
+		return school;
 	}
 
-	public void setHours(String hours) {
-		this.hours = hours;
+	public void setSchool(String school) {
+		this.school = school;
 	}
 
 	public String getClassName() {
@@ -175,14 +198,6 @@ public class Topic implements Serializable {
 		this.className = className;
 	}
 
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
 	public String getSubject() {
 		return subject;
 	}
@@ -191,20 +206,20 @@ public class Topic implements Serializable {
 		this.subject = subject;
 	}
 
-	public String getFullscore() {
-		return fullscore;
+	public String getHours() {
+		return hours;
 	}
 
-	public void setFullscore(String fullscore) {
-		this.fullscore = fullscore;
+	public void setHours(String hours) {
+		this.hours = hours;
 	}
 
-	public String getCatalogName() {
-		return catalogName;
+	public Date getCreateTime() {
+		return createTime;
 	}
 
-	public void setCatalogName(String catalogName) {
-		this.catalogName = catalogName;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 
 	public Long getDocId() {
@@ -213,6 +228,14 @@ public class Topic implements Serializable {
 
 	public void setDocId(Long docId) {
 		this.docId = docId;
+	}
+
+	public String getCatalogName() {
+		return catalogName;
+	}
+
+	public void setCatalogName(String catalogName) {
+		this.catalogName = catalogName;
 	}
 
 	public String getSubjectName() {
