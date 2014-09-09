@@ -48,6 +48,12 @@ public class TopicController {
 	public void toUploadPage(){
 	}
 	
+	@At("/home")
+	@Ok("jsp:jsp.topic.home")
+	@Fail("http:404")
+	public void toHome(HttpServletRequest req){
+	}
+	
 	/**
 	 * 跳转到列表页面
 	 */
