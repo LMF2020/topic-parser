@@ -141,7 +141,7 @@ label {
 					<a rel="nofollow" href="#">立即注册</a>
 				</li>
 				<li>
-					&gt;&nbsp;<a href="#">查看接口规范</a>
+					&gt;&nbsp;<a href="${ctx}/sys/interface.htm" target="_blank">查看接口规范</a>
 				</li>
 			</ul>
 		</div>

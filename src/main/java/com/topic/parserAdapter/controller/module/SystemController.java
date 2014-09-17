@@ -27,6 +27,13 @@ import com.topic.parserAdapter.model.User;
 @IocBean
 public class SystemController extends BaseController {
 
+	@At("/interface")
+	@Ok("jsp:/index")
+	@Fail("http:404")
+	public void getInterface(HttpServletRequest req){
+		System.out.println("查看接口规范...");
+	}
+	
 	@At("/login")
 	@Ok("jsp:jsp.system.login")
 	@Fail("http:404")
