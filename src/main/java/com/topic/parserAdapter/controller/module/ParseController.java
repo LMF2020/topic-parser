@@ -101,13 +101,6 @@ public class ParseController extends BaseController {
 		    if(code == 1 && docInfo.getDocId()!=null){
 		    	basicDao.delById(docInfo.getDocId().intValue(), Document.class);
 		    }
-		   /* 
-		    *   =》 another portable usage
-		    * 	Map m = new HashMap();
-		    	m.put("CODE", code);
-		    	m.put("MSG", msg);
-		    	return Json.toJson(m);
-		    */
 		    return "{\"CODE\":\"" + code + "\",\"MSG\":\"" + msg +"\"}";
 	}
 	

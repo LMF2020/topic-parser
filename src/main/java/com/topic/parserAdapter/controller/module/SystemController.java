@@ -34,11 +34,20 @@ public class SystemController extends BaseController {
 		System.out.println("查看接口规范...");
 	}
 	
+	@At("/register")
+	@Ok("jsp:jsp.system.register")
+	@Fail("http:404")
+	public void register(){
+		System.out.println("page forward to register html");
+	}
+	
 	@At("/login")
 	@Ok("jsp:jsp.system.login")
 	@Fail("http:404")
 	public void login(HttpServletRequest req) {
 		System.out.println("msg-->"+(String)req.getAttribute("msg"));
+		String succ_msg = (String) req.getSession().getAttribute("succ_msg");
+		System.out.println("succ_msg-->"+succ_msg);
 	}
 	
 	@At("/loginout")
@@ -55,6 +64,7 @@ public class SystemController extends BaseController {
 	@Fail("http:404")
 	public void toHome(@Param("userId") String userId, HttpServletRequest req) {
 		System.out.println("userId-->" + userId);
+		req.getSession().removeAttribute("succ_msg");
 		List<User> u = basicDao.search(User.class, Cnd.where("user_id", "=", userId));
 		if(u.size()>0) {
 			int count = basicDao.searchCount(Document.class, Cnd.where("user_id", "=", userId));
@@ -84,6 +94,29 @@ public class SystemController extends BaseController {
 				url = user.getUserId()+ "/home.htm";
 			} else req.setAttribute("msg", "密码不正确");
 		} else req.setAttribute("msg", "用户不存在");
+		return url;
+	}
+	
+	@At("/doRegister")
+	@Ok("forward:/sys/${obj}")
+	@Fail("http:404")
+	public String doRegister(@Param("..") User user, HttpServletRequest req){
+		System.out.println(user.getUserId()+"||"+user.getSchool()+"||"+user.getUserPwd());
+		int code = -1; String msg = "注册失败";
+		String url = "register.htm";
+		List<User> ul = basicDao.search(User.class, Cnd.where("user_id", "=", user.getUserId()));
+		if(ul.size()>0){
+			msg = "用户名已经存在";
+			req.setAttribute("msg", msg);
+			return url;
+		}
+		User u = basicDao.save(user);
+		if(u!=null) {
+			code = 0;
+			msg = "注册成功,请登录";
+			url = "login";
+			req.getSession().setAttribute("succ_msg", msg);
+		} else req.setAttribute("msg", msg);
 		return url;
 	}
 
