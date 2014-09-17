@@ -8,42 +8,6 @@
 <title>演示系统-登录界面</title>
 <%@include file="/common/jsp/common.jsp"%>
 <style>
-.wrapper{
-	width: 950px;
-	margin: 0 auto;
-}
-.header, .content, .footer {
-	width: 100%;
-	overflow: hidden;
-}
-.header, .content {
-	margin-bottom: 40px;
-}
-.header {
-	padding-top: 30px;
-}
-.content {
-	min-height: 400px;
-}
-.header a.logo:link, .header a.logo:visited, 
-.header a.logo:hover, .header a.logo:active {
-	background: transparent url("${ctx}/common/images/logo.png") no-repeat;
-}
-a:visited {
-	color: #669;
-	text-decoration: none;
-}
-a:link {
-	color: #369;
-	text-decoration: none;
-}
-.logo {
-	float: left;
-	height: 55px;
-	width: 295px;
-	overflow: hidden;
-	line-height: 10em;
-}
 h1 {
 	color: #494949;
 	display: block;
@@ -126,14 +90,6 @@ label {
 	border-radius: 3px;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
-}
-.footer {
-	color: #999;
-	padding-top: 6px;
-	border-top: 1px dashed #ddd;
-}
-.fright {
-	float: right;
 }
 .err{
 	padding-left: 70px;

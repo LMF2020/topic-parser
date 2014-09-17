@@ -5,113 +5,66 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>题库列表</title>
+<title>演示系统-文档列表</title>
 <%@include file="/common/jsp/common.jsp"%>
 <style>
-.wrap{
-	width: 100%;
-}
-.wrap-header{
-	background: #F7F7F7;
-	border-radius: 2px;
-	border: 1px solid #D2D2D2;
-	color: #888;
-	height: 41px;
-	width: 100%;
-}
-tr{display: flex;}
-th{
-	height: 41px;
-	line-height: 41px;
-	border-left: 1px solid #fff;
-	border-right: 1px solid #e5e5e5;
-	float: left;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	font-weight: 100;
-}
-.wrap-content{
-	width: 100%;
-	display: flex;
-}
-td{
-	height: 38px;
-	float: left;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	text-align: center;
-	line-height: 38px;
-}
-.wrap-item{
-	border-bottom: 1px solid #D2D2D2;
-	zoom:1;
-}
-.wrap-item:hover{
-	background: #E6E6E6;
-	cursor: pointer;
-}
-tbody,tr,thead {
-	width: 100%;
-}
 </style>
 </head>
 <body>
-	<h3 class="title">题库列表页面</h3>
-	
-	<div class="navbar">
-		<ul class="nav">
-			<li><a href="${ctx}/topic/index.htm">首页</a></li>
-			<li class="active"><a href="#">题库列表</a></li>
-			<li><a href="${ctx}/topic/upload.htm">上传题库</a></li>
-			<li><a href="${ctx}/topic/query.htm">题目查询</a></li>
-		</ul>
-	</div>
-	
-	<div class="content">
-		<div class="wrap">
-			<table class="wrap-header">
-				<tr>
-					<th style="width: 10%;border-left:none;">ID</th>
-					<th style="width: 10%;">科目</th>
-					<th style="width: 10%;">题型</th>
-					<th style="width: 25%;">题目内容</th>
-					<th style="width: 20%;">答案</th>
-					<th style="width: 10%;">得分</th>
-					<th style="width: 15%;border-right:none;">提交时间</th>
-				</tr>
-			</table>
-			<table class="wrap-content">
-				<c:choose>
-					<c:when test="${topicList eq null}">
-						<tr>
-							<td colspan="7" style="width:100%;text-align:center;">暂时没有题库信息，请上传</td>
-						</tr>
-					</c:when>
-					<c:otherwise>
-						<c:forEach var="topic" items="${topicList}">
-							<tr class="wrap-item">
-								<td style="width: 10%;">${topic.id}</td>
-								<td style="width: 10%;">${topic.subjectName}</td>
-								<td style="width: 10%;">${topic.catalogName}</td>
-								<td style="width: 25%;">${topic.content}</td>
-								<td style="width: 20%;">${topic.answer}</td>
-								<td style="width: 10%;">${topic.score}分</td>
-								<td style="width: 15%;">${topic.createTime}</td>
+	<div class="wrapper">
+		<%@include file="/common/jsp/header.jsp" %>
+		<div class="content">
+			<div class="navbar">
+				<ul class="nav">
+					<li><a href="${ctx}/sys/${user.userId}/home.htm">首页</a></li>
+					<li class="active"><a href="#">我的文档</a></li>
+					<li><a href="${ctx}/topic/${user.userId}/upload.htm">上传文档</a></li>
+				</ul>
+			</div>
+			<div class="page-content">
+				<table class="tab-header">
+					<tr>
+						<th style="width: 10%;border-left:none;">编号ID</th>
+						<th style="width: 30%;">文档名称</th>
+						<th style="width: 15%;">科目</th>
+						<th style="width: 10%;">课时</th>
+						<th style="width: 15%;">文档大小</th>
+						<th style="width: 20%;border-right:none;">上传时间</th>
+					</tr>
+				</table>
+				<table class="tab-content">
+					<c:choose>
+						<c:when test="${docList eq null}">
+							<tr>
+								<td colspan="6" style="width:100%;text-align:center;">
+									<a href="${ctx}/topic/${user.userId}/upload.htm">您还未上传任何文档</a>
+								</td>
 							</tr>
-						</c:forEach>
-					</c:otherwise>
-				</c:choose>
-			</table>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="doc" items="${docList}">
+								<tr class="tab-item">
+									<td style="width: 10%;border-left:none;">${doc.docId}</td>
+									<td style="width: 30%;">${doc.fileName}</td>
+									<td style="width: 15%;">${doc.subject}</td>
+									<td style="width: 10%;">${doc.hours}</td>
+									<td style="width: 15%;">${doc.fileSize}</td>
+									<td style="width: 20%;border-right:none;">${doc.createTimeStr}</td>
+								</tr>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
+				</table>
+			</div>
 		</div>
+		<%@include file="/common/jsp/footer.jsp" %>
 	</div>
 	<script type="text/javascript">
 		$(function(){
-			$("tr.wrap-item").on("click", function(e){
+			$("tr.tab-item").on("click", function(e){
 				e.stopImmediatePropagation();//组织冒泡事件
 				var $td = $(this).find("td:first-child"),
-					url = "${ctx}/topic/detail/";
+					url = "${ctx}/topic/topicTypeList/";
 				var id = parseInt($td.text());
 				console.log(url+id+".htm");
 				window.location.href = url + id + ".htm";//跳转

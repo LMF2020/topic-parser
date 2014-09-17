@@ -20,34 +20,44 @@ public class Document implements Serializable {
 	@Column("user_id")
 	@Comment("用户流水号")
 	private String userId;
-	
+
 	@Column("school")
 	@Comment("学校")
 	private String school;
-	
+
 	@Column("class")
 	@Comment("年级")
 	private String className;
-	
+
 	@Column("subject")
 	@Comment("科目")
 	private String subject;
-	
+
 	@Column("hours")
 	@Comment("课时")
 	private String hours;
-	
+
 	@Column("create_time")
 	@Comment("创建时间")
 	private Date createTime;
-	
+
 	@Column("file_name")
 	@Comment("文件名称")
 	private String fileName;
-	
+
 	@Column("file_size")
 	@Comment("文件大小")
 	private String fileSize;
+
+	private String createTimeStr;
+
+	public String getCreateTimeStr() {
+		return createTimeStr;
+	}
+
+	public void setCreateTimeStr(String createTimeStr) {
+		this.createTimeStr = createTimeStr;
+	}
 
 	public Long getDocId() {
 		return docId;

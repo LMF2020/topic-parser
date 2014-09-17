@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>文件上传测试页面</title>
+<title>演示系统-文件上传</title>
 <%@include file="/common/jsp/common.jsp"%>
 <style>
 input[type="file"]{
@@ -87,60 +87,60 @@ input[type="button"]{
 </style>
 </head>
 <body>
-	<h3 class="title">题库上传页面</h3>
-	
-	<div class="navbar">
-		<ul class="nav">
-			<li><a href="${ctx}/topic/index.htm">首页</a></li>
-			<li><a href="${ctx}/topic/list.htm">题库列表</a></li>
-			<li class="active"><a href="#">上传题库</a></li>
-			<li><a href="${ctx}/topic/query.htm">题目查询</a></li>
-		</ul>
+	<div class="wrapper">
+		<%@include file="/common/jsp/header.jsp" %>
+		<div class="content">
+			<div class="navbar">
+				<ul class="nav">
+					<li><a href="${ctx}/sys/${user.userId}/home.htm">首页</a></li>
+					<li><a href="${ctx}/topic/${user.userId}/docList.htm">我的文档</a></li>
+					<li class="active"><a href="#">上传文档</a></li>
+				</ul>
+			</div>
+			<div class="page-content">
+				<form method="post" enctype="multipart/form-data" id="fileUpload">
+					<!-- <input type="hidden" name="docId" id="docId" /> -->
+					<input type="hidden" name="userId" id="userId" value="${user.userId}"/>
+					<input type="hidden" name="school" id="school" value="${user.school}"/>
+					<div class="oneRow">
+						<span>上传文件</span>
+						<input type="file" name="office" id="office">
+						<input type="text" name="path" id="path" readonly>
+						<input type="button" id="browser" value="浏览..."/>
+					</div>
+					<div class="oneRow">
+						<span>课 时</span>
+						<input type="text" name="hours" id="hours" value="1" />
+					</div>
+					<div class="oneRow">
+						<span>年 级</span>
+						<select name="className" id="className">
+							<option value="1">一年级</option>
+							<option value="2">二年级</option>
+							<option value="3">三年级</option>
+							<option value="3">三年级</option>
+							<option value="4">四年级</option>
+							<option value="5">五年级</option>
+							<option value="6">六年级</option>
+						</select>
+					</div>
+					<div class="oneRow">
+						<span>科 目</span>
+						<select name="subject" id="subject">
+							<option value="1">语文</option>
+							<option value="0">其他</option>
+						</select>
+					</div>
+					<div class="oneRow">
+						<button type="button" class="submitBtn">提交</button>
+						<button type="reset" class="restBtn">重置</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<%@include file="/common/jsp/footer.jsp" %>
 	</div>
-	
-	<div class="content">
-		<form method="post" enctype="multipart/form-data" id="fileUpload">
-			<input type="hidden" name="docId" id="docId" />
-			<div class="oneRow">
-				<span>上传文件</span>
-				<input type="file" name="office" id="office">
-				<input type="text" name="path" id="path" readonly>
-				<input type="button" id="browser" value="浏览..."/>
-			</div>
-			<div class="oneRow">
-				<span>上传者ID</span>
-				<input type="text" name="uuid" id="uuid" value="teacher_01"/>
-			</div>
-			<div class="oneRow">
-				<span>课 时</span>
-				<input type="text" name="hours" id="hours" value="1" />
-			</div>
-			<div class="oneRow">
-				<span>年 级</span>
-				<select name="className" id="className">
-					<option value="1">一年级</option>
-					<option value="2">二年级</option>
-					<option value="3">三年级</option>
-					<option value="3">三年级</option>
-					<option value="4">四年级</option>
-					<option value="5">五年级</option>
-					<option value="6">六年级</option>
-				</select>
-			</div>
-			<div class="oneRow">
-				<span>科 目</span>
-				<select name="subject" id="subject">
-					<option value="1">语文</option>
-					<option value="0">其他</option>
-				</select>
-			</div>
-			<div class="oneRow">
-				<button type="button" class="submitBtn">提交</button>
-				<button type="reset" class="restBtn">重置</button>
-			</div>
-		</form>
-	</div>
-	
+
 	<div class="loading" id="loading"><div class="loading-logo"></div></div>
 	
 	<script type="text/javascript">

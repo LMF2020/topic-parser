@@ -16,16 +16,15 @@ import org.nutz.dao.pager.Pager;
 import org.nutz.dao.sql.Sql;
 import org.nutz.dao.util.cri.SqlExpression;
 import org.nutz.dao.util.cri.SqlExpressionGroup;
-import org.nutz.ioc.annotation.InjectName;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+
 
 /**
  * 基本数据库操作类
  * @author Rayintee
  * 
  */
-@InjectName
 @IocBean
 public class BasicDao {
 	
@@ -578,5 +577,22 @@ public class BasicDao {
 	 */
 	public void delete(String table, Condition condition) {
 		dao.clear(table, condition);
+	}
+	
+	
+	/**
+	 * 根据native sql 查询list
+	 * @param c
+	 * @param s
+	 * @param condition
+	 * @return
+	 */
+	public <T> List<T> queryByNativeSql(Class<T> c, String s, String condition){
+		Sql sql = Sqls.create(s);
+	    sql.setCallback(Sqls.callback.entities());
+	    Entity<T> entity = dao.getEntity(c);
+	    sql.setEntity(entity).setCondition(Cnd.wrap(condition));
+	    dao.execute(sql);
+	    return sql.getList(c);
 	}
 }

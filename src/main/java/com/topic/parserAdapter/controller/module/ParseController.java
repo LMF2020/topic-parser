@@ -32,7 +32,6 @@ import org.nutz.trans.Trans;
 
 import com.topic.parserAdapter.core.office.converter.Word2003ToHtmlConverter;
 import com.topic.parserAdapter.core.office.parser.IdeaWordParser;
-import com.topic.parserAdapter.dao.BasicDao;
 import com.topic.parserAdapter.model.Document;
 import com.topic.parserAdapter.model.Topic;
 /**
@@ -42,10 +41,8 @@ import com.topic.parserAdapter.model.Topic;
  */
 @At("/officeCenter")
 @IocBean
-public class ParseController {
-	
-	@Inject	
-	private BasicDao basicDao;
+public class ParseController extends BaseController {
+
 	@Inject	
 	private IdeaWordParser ideaWordParser;
 	
