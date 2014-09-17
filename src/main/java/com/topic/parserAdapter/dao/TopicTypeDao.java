@@ -19,6 +19,9 @@ public class TopicTypeDao extends BasicDao {
 	
 	/**
 	 * 复杂查询，model无表对应
+	 * c 对应model
+	 * s 对应sql，where前面的部分
+	 * c 对应where后面的条件:condition = "where id=1"...
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -34,6 +37,7 @@ public class TopicTypeDao extends BasicDao {
 					TopicType tt = new TopicType();
 					tt.setTypeId(id++);
 					tt.setTopicType(rs.getInt("topicType"));
+					tt.setTopicTypeNum(rs.getInt("topicType"));
 					tt.setTypeCount(rs.getInt("typeCount"));
 					tt.setFullScore(rs.getFloat("fullScore"));
 					tt.setDocId(rs.getLong("docId"));

@@ -64,10 +64,10 @@
 			$("tr.tab-item").on("click", function(e){
 				e.stopImmediatePropagation();//组织冒泡事件
 				var $td = $(this).find("td:first-child"),
-					url = "${ctx}/topic/topicTypeList/";
+					url = "${ctx}/topic/";
 				var id = parseInt($td.text());
 				console.log(url+id+".htm");
-				window.location.href = url + id + ".htm";//跳转
+				window.location.href = url + id + "/topicTypeList.htm";//跳转
 			});
 		});
 	</script>

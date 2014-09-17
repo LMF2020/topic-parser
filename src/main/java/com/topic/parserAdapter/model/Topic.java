@@ -234,8 +234,54 @@ public class Topic implements Serializable {
 		return catalogName;
 	}
 
-	public void setCatalogName(String catalogName) {
-		this.catalogName = catalogName;
+	public void setCatalogName(int catalog) {
+		switch (catalog) {
+		case 1:
+			this.catalogName = "填空题";
+			break;
+		case 2:
+			this.catalogName = "选择题";
+			break;
+		case 3:
+			this.catalogName = "判断题";
+			break;
+		case 4:
+			this.catalogName = "改错题";
+			break;
+		case 5:
+			this.catalogName = "选词组词题";
+			break;
+		case 6:
+			this.catalogName = "选此组句题";
+			break;
+		case 7:
+			this.catalogName = "作文题";
+			break;
+		case 8:
+			this.catalogName = "临摹题";
+			break;
+		case 9:
+			this.catalogName = "临帖题";
+			break;
+		case 10:
+			this.catalogName = "闪现默写题";
+			break;
+		case 11:
+			this.catalogName = "听写题";
+			break;
+		case 12:
+			this.catalogName = "词语接龙";
+			break;
+		case 13:
+			this.catalogName = "成语接龙";
+			break;
+		case 14:
+			this.catalogName = "解答题";
+			break;
+		default:
+			this.catalogName = "课文";
+			break;
+		}
 	}
 
 	public String getSubjectName() {

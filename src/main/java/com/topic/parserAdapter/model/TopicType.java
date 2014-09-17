@@ -8,6 +8,7 @@ public class TopicType implements Serializable {
 
 	private int typeId;// 题型编号
 	private String topicType;// 题型
+	private int topicTypeNum;//题型编号
 	private int typeCount;// 题目总数
 	private float fullScore;// 总分
 	private Long docId;// 所属文档ID
@@ -96,5 +97,13 @@ public class TopicType implements Serializable {
 
 	public void setDocId(Long docId) {
 		this.docId = docId;
+	}
+
+	public int getTopicTypeNum() {
+		return topicTypeNum;
+	}
+
+	public void setTopicTypeNum(int topicTypeNum) {
+		this.topicTypeNum = topicTypeNum;
 	}
 }

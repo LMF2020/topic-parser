@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>演示系统-题目列表</title>
+<title>演示系统-题型列表</title>
 <%@include file="/common/jsp/common.jsp"%>
 </head>
 <body>
@@ -40,6 +40,7 @@
 							<c:otherwise>
 								<c:forEach var="topicType" items="${topicTypeList}">
 									<tr class="tab-item">
+										<td style="display:none;">${topicType.docId}=${topicType.topicTypeNum}</td>
 										<td style="width: 20%;border-left:none;">${topicType.typeId}</td>
 										<td style="width: 40%;">${topicType.topicType}</td>
 										<td style="width: 20%;">共 ${topicType.typeCount} 题</td>
@@ -50,10 +51,26 @@
 						</c:choose>
 					</table>
 				</div>
-				<div class="right-side w3"></div>
+				<div class="right-side w3">
+				</div>
 			</div>
 		</div>
 		<%@include file="/common/jsp/footer.jsp" %>
 	</div>
+	<script type="text/javascript">
+		$(function(){
+			$("tr.tab-item").on("click", function(e){
+				e.stopImmediatePropagation();//组织冒泡事件//tmp = $td.split("="),
+				var $td = $(this).find("td:first-child").text(),
+					type = parseInt($td.split("=")[1]),
+					id = $td.replace("=", "/"),
+					url = "${ctx}/topic/";
+				if(type==0){
+					alert('课文直接显示');
+				} else 
+				window.location.href = url + id + "/topicList.htm";//跳转
+			});
+		});
+	</script>
 </body>
 </html>

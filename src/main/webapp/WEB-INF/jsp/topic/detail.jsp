@@ -111,100 +111,114 @@
 </style>
 </head>
 <body>
-	<c:if test="${!(topic eq null)}">
-		<c:set var="cnt" value="${fn:replace(topic.content, '<br>', '&lt;br/&gt;')}" />
-		<c:set var="content" value="${fn:replace(cnt, '<br/>', '&lt;br/&gt;')}" />
-	</c:if>
-	
-	
-	<h3 class="title">题目详情页面</h3>
-	
-	<div class="navbar">
-		<ul class="nav">
-			<li><a href="${ctx}/topic/list.htm">题库列表</a></li>
-			<li class="active"><a href="#">题目详情</a></li>
-		</ul>
-	</div>
-	
-	<div class="content">
-		<div class="detail-wrap">
-			<div class="wrap-header">
-				<span>题目属性信息</span>
+	<div class="wrapper">
+		<%@include file="/common/jsp/header.jsp" %>
+		<div class="content">
+			<div class="navbar">
+				<ul class="nav">
+					<li><a href="${ctx}/topic/${user.userId}/docList.htm">我的文档</a></li>
+					<li><a href="${ctx}/topic/${docId}/topicTypeList.htm">题型列表</a></li>
+					<li><a href="${ctx}/topic/${docId}/${catalog}/topicList.htm">题目列表</a></li>
+					<li class="active"><a href="#">题目详情</a></li>
+				</ul>
 			</div>
-			<div class="wrap-content">
-				<div class="row">
-					<c:choose>
-						<c:when test="${topic eq null}">
-							<div class="empty">题库中没有查询到该题目的详情信息，请刷新题库列表</div>
-						</c:when>
-						<c:otherwise>
-							<div class="row-lef">
-								<div class="code">
-									<div>&nbsp;&nbsp;题目内容</div>
-									<p>${content}</p>
-								</div>
-								
-								<div class="col-content">
-									<div class="code">
-										<div>&nbsp;&nbsp;题目答案</div>
-										<p>${topic.answer}</p>
+			<div class="page-content">
+				<c:choose>
+					<c:when test="${topicList eq null}">
+						<div>没有题目信息</div>
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="topic" items="${topicList}">
+							<div class="df">
+								<c:if test="${!(topic eq null)}">
+									<c:set var="cnt" value="${fn:replace(topic.content, '<br>', '&lt;br/&gt;')}" />
+									<c:set var="content" value="${fn:replace(cnt, '<br/>', '&lt;br/&gt;')}" />
+								</c:if>
+								<div class="detail-wrap">
+									<div class="wrap-header">
+										<span>题目属性信息</span>
 									</div>
-									
-									<div class="code">
-										<div>&nbsp;&nbsp;图片路径</div>
-										<p>${topic.imgUrl}</p>
+									<div class="wrap-content">
+										<div class="row">
+											<c:choose>
+												<c:when test="${topic eq null}">
+													<div class="empty">题库中没有查询到该题目的详情信息，请刷新题库列表</div>
+												</c:when>
+												<c:otherwise>
+													<div class="row-lef">
+														<div class="code">
+															<div>&nbsp;&nbsp;题目内容</div>
+															<p>${content}</p>
+														</div>
+														
+														<div class="col-content">
+															<div class="code">
+																<div>&nbsp;&nbsp;题目答案</div>
+																<p>${topic.answer}</p>
+															</div>
+															
+															<div class="code">
+																<div>&nbsp;&nbsp;图片路径</div>
+																<p>${topic.imgUrl}</p>
+															</div>
+														</div>
+													</div>
+													<div class="row-right">
+														<div class="col-content">
+															<div class="oneRow">
+																<span>题目ID:</span>
+																<div>${topic.id}</div>
+															</div>
+															<div class="oneRow">
+																<span>小题编号:</span>
+																<div>${topic.lowNum}</div>
+															</div>
+															<div class="oneRow">
+																<span>题 型:</span>
+																<div>题型${topic.catalog}</div>
+															</div>
+															<div class="oneRow">
+																<span>分 值:</span>
+																<div>${topic.score} 分</div>
+															</div>
+															<div class="oneRow">
+																<span>所属文档ID:</span>
+																<div>${topic.docId}</div>
+															</div>
+															<div class="oneRow">
+																<span>上传用户ID:</span>
+																<div>${topic.userId}</div>
+															</div>
+															<div class="oneRow">
+																<span>所属年级:</span>
+																<div>${topic.className}(年级)</div>
+															</div>
+															<div class="oneRow">
+																<span>课时:</span>
+																<div>第 ${topic.hours} 课时</div>
+															</div>
+															<div class="oneRow">
+																<span>科目名称:</span>
+																<div>科目${topic.subject}</div>
+															</div>
+															<div class="oneRow">
+																<span>上传时间:</span>
+																<div>${topic.createTimeStr}</div>
+															</div>
+														</div>
+													</div>
+												</c:otherwise>
+											</c:choose>
+										</div>
 									</div>
 								</div>
 							</div>
-							<div class="row-right">
-								<div class="col-content">
-									<div class="oneRow">
-										<span>题目ID:</span>
-										<div>${topic.id}</div>
-									</div>
-									<div class="oneRow">
-										<span>小题编号:</span>
-										<div>${topic.lowNum}</div>
-									</div>
-									<div class="oneRow">
-										<span>题 型:</span>
-										<div>题型${topic.catalog}</div>
-									</div>
-									<div class="oneRow">
-										<span>分 值:</span>
-										<div>${topic.score} 分</div>
-									</div>
-									<div class="oneRow">
-										<span>所属文档ID:</span>
-										<div>${topic.docId}</div>
-									</div>
-									<div class="oneRow">
-										<span>上传用户ID:</span>
-										<div>${topic.userId}</div>
-									</div>
-									<div class="oneRow">
-										<span>所属年级:</span>
-										<div>${topic.className}(年级)</div>
-									</div>
-									<div class="oneRow">
-										<span>课时:</span>
-										<div>第 ${topic.hours} 课时</div>
-									</div>
-									<div class="oneRow">
-										<span>科目名称:</span>
-										<div>科目${topic.subject}</div>
-									</div>
-									<div class="oneRow">
-										<span>上传时间:</span>
-										<div>${topic.createTimeStr}</div>
-									</div>
-								</div>
-							</div>
-						</c:otherwise>
-					</c:choose>
-				</div>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
+		<%@include file="/common/jsp/footer.jsp" %>
 	</div>
 </body>
 </html>

@@ -7,9 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.nutz.dao.Cnd;
+import org.nutz.dao.Condition;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
-import org.nutz.json.Json;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Fail;
 import org.nutz.mvc.annotation.Ok;
@@ -81,7 +81,7 @@ public class TopicController {
 	 * @param req
 	 * @param errCtx
 	 */
-	@At("/topicTypeList/?")
+	@At("/?/topicTypeList")
 	@Ok("jsp:jsp.topic.topicTypeList")
 	@Fail("http:500")
 	public void toDetailPage(@Param("id") Long docId, HttpServletRequest req, AdaptorErrorContext errCtx){
@@ -97,20 +97,69 @@ public class TopicController {
 		}
 	}
 	
-	@At("/detailOpen/?")
-	@Ok("jsp:jsp.topic.detailOpen")
+	/**
+	 * 跳转到页面题库列表
+	 * @param docId
+	 * @param topicTypeNum
+	 * @param req
+	 * @param errCtx
+	 */
+	@At("/?/?/topicList")
+	@Ok("jsp:jsp.topic.topicList")
 	@Fail("http:500")
-	public void toDetailOpenPage(@Param("id") int id, HttpServletRequest req, AdaptorErrorContext errCtx){
+	public void toDetailOpenPage(@Param("docId") Long docId, @Param("topicTypeNum") int topicTypeNum, HttpServletRequest req, AdaptorErrorContext errCtx){
 		if(errCtx != null){
 			System.out.println("跳转页面出错："+errCtx.getErrors()[0]);
 		}
-		System.out.println("id-->"+id);
-		Topic topic = topicTypeDao.find(id, Topic.class);//根据id查询
-		Timestamp ts = new Timestamp(topic.getCreateTime().getTime());
-		String str = ts.toString();
-		System.out.println(str.substring(0, str.indexOf(".")));
-		topic.setCreateTimeStr(str.substring(0, str.indexOf(".")));
-		req.setAttribute("topic", topic);
+		System.out.println("id-->" + docId + "=======topicTypeNum--->" + topicTypeNum);
+		List<Topic> topics = topicTypeDao.search(Topic.class, Cnd.where("doc_id", "=", docId).and("catalog", "=", topicTypeNum));
+		System.out.println("该文档题型【" + topicTypeNum + "】共有【" + topics.size() + "】道题");
+		if(topics.size()>0){
+			for(Topic t: topics){
+				Timestamp ts = new Timestamp(t.getCreateTime().getTime());
+				String str = ts.toString();
+				System.out.println(str.substring(0, str.indexOf(".")));
+				t.setCreateTimeStr(str.substring(0, str.indexOf(".")));
+				int catalog = Integer.parseInt(t.getCatalog());
+				t.setCatalogName(catalog);
+			}
+			
+			req.setAttribute("topicList", topics);
+		}
+		req.setAttribute("docId", docId);
+	}
+	
+	@At("/?/?/?/detail")
+	@Ok("jsp:jsp.topic.detail")
+	@Fail("http:500")
+	public void toDetails(@Param("docId") Long docId, @Param("cataLog") int cataLog, @Param("id") int id, HttpServletRequest req, AdaptorErrorContext errCtx){
+		if(errCtx != null){
+			System.out.println("跳转页面出错："+errCtx.getErrors()[0]);
+		}
+		System.out.println("docId-->" + docId + "catalog-->" + cataLog +"id-->" + id);
+		Condition cnd = null;
+		if(id ==0){
+			System.out.println("根据题型和文档id查询-->");
+			cnd = Cnd.where("doc_id", "=", docId).and("catalog", "=", cataLog);;
+		} else {
+			System.out.println("直接根据题目id查询-->");
+			cnd = Cnd.where("id", "=", id);
+		}
+		System.out.println("查询题型【"+ cataLog +"】下所有题目详细信息");
+		List<Topic> topics = topicTypeDao.search(Topic.class, cnd);
+		if(topics.size()>0){
+			for(Topic topic:topics){
+				Timestamp ts = new Timestamp(topic.getCreateTime().getTime());
+				String str = ts.toString();
+				System.out.println(str.substring(0, str.indexOf(".")));
+				topic.setCreateTimeStr(str.substring(0, str.indexOf(".")));
+				int catalog = Integer.parseInt(topic.getCatalog());
+				topic.setCatalogName(catalog);
+			}
+			req.setAttribute("topicList", topics);
+		}
+		req.setAttribute("docId", docId);
+		req.setAttribute("catalog", cataLog);
 	}
 	
 	@At("/query")
