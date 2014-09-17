@@ -1,4 +1,3 @@
-<%@page import="com.sun.xml.internal.rngom.ast.builder.Include"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="/common/jsp/taglibs.jsp" %>

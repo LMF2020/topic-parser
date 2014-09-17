@@ -25,7 +25,7 @@ public class BaseController {
 	/**
 	 * 首页面
 	 */
-	@At({ "/index", "/" })
+	@At({"/", "/index"})
 	@Ok("jsp:jsp.system.login")
 	@Fail("http:404")
 	public void toIndex() {

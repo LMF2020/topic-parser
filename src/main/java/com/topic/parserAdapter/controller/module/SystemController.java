@@ -3,7 +3,6 @@ package com.topic.parserAdapter.controller.module;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.nutz.dao.Cnd;
 import org.nutz.ioc.loader.annotation.IocBean;
@@ -54,9 +53,8 @@ public class SystemController extends BaseController {
 	@Ok("jsp:jsp.system.login")
 	@Fail("http:404")
 	public void loginout(HttpServletRequest req){
-		HttpSession session = req.getSession();
 		System.out.println("用户"+req.getSession().getAttribute("userId")+"退出");
-		session.removeAttribute("userId");
+		req.getSession().removeAttribute("userId");
 	}
 
 	@At("/?/home")
