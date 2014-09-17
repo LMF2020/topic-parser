@@ -3,7 +3,7 @@
 	<a href="" class="logo">登录演示系统</a>
 	<div class="rightBlock">
 		<label>欢迎您，</label><a href="#"><c:if test="${user != null}">${user.userId}</c:if></a>
-		<a href="#" class="logout">
+		<a href="${ctx}/sys/loginout" class="logout">
 			<img alt="退出" src="${ctx}/common/images/logout.png">
 		</a>
 	</div>
