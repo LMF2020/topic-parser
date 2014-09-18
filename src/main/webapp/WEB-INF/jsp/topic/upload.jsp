@@ -181,7 +181,7 @@ input[type="button"]{
 				data.append('fileProperty', JSON.stringify(obj));
 				//ajax上传
 				$.ajax({
-				    url: "http://localhost:8015/topic-parser/officeCenter/service/upload",
+				    url: "${ctx}/topic-parser/officeCenter/service/upload",
 				    type: 'post',
 				    data: data,
 				    cache: false,

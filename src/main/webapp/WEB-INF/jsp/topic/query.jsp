@@ -244,7 +244,7 @@ tbody,tr,thead {
 				//alert(JSON.stringify(obj));
 				//ajax上传
 				$.ajax({
-				    url: "http://localhost:8015/topic-parser/officeCenter/service/queryTopics",
+				    url: "${ctx}/officeCenter/service/queryTopics",
 				    type: 'post',
 				    data: JSON.stringify(topic),
 				    cache: false,
