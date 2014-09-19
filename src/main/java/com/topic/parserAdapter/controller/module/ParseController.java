@@ -11,19 +11,16 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 
 import org.nutz.dao.Cnd;
-import org.nutz.dao.Condition;
 import org.nutz.dao.sql.Criteria;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.json.Json;
 import org.nutz.lang.Files;
-import org.nutz.mvc.adaptor.JsonAdaptor;
 import org.nutz.mvc.annotation.AdaptBy;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Fail;
 import org.nutz.mvc.annotation.GET;
 import org.nutz.mvc.annotation.Ok;
-import org.nutz.mvc.annotation.POST;
 import org.nutz.mvc.annotation.Param;
 import org.nutz.mvc.impl.AdaptorErrorContext;
 import org.nutz.mvc.upload.FieldMeta;
@@ -165,6 +162,13 @@ public class ParseController {
 		return ret;
 	}
 	
+	/**
+	 * 获取文档内容的查询接口
+	 * 
+	 * @param topic
+	 * @param errCtx
+	 * @return
+	 */
 	@At("/service/getTopicList")
 	@Ok("json:{quoteName:true, ignoreNull:true}")
 	@Fail("http:500")
