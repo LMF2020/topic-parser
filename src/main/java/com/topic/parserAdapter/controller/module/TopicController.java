@@ -89,7 +89,7 @@ public class TopicController {
 			System.out.println("跳转页面出错："+errCtx.getErrors()[0]);
 		}
 		System.out.println("id-->"+docId);
-		String sql = "SELECT catalog as topicType,COUNT(catalog) as typeCount, fullScore,doc_id as docId from t_topic $condition GROUP BY catalog ORDER BY id ASC";
+		String sql = "SELECT catalog as topicType,title,COUNT(catalog) as typeCount, fullScore,doc_id as docId from t_topic $condition GROUP BY catalog ORDER BY id ASC";
 		String condition = "where doc_id=" + docId;
 		List<TopicType> tl = topicTypeDao.queryByNativeSql(TopicType.class, sql, condition);
 		if(tl.size()>0){

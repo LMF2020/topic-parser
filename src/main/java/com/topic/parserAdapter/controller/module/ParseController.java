@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 
 import org.nutz.dao.Cnd;
+import org.nutz.dao.Condition;
 import org.nutz.dao.sql.Criteria;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
@@ -22,6 +23,7 @@ import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Fail;
 import org.nutz.mvc.annotation.GET;
 import org.nutz.mvc.annotation.Ok;
+import org.nutz.mvc.annotation.POST;
 import org.nutz.mvc.annotation.Param;
 import org.nutz.mvc.impl.AdaptorErrorContext;
 import org.nutz.mvc.upload.FieldMeta;
@@ -105,6 +107,109 @@ public class ParseController extends BaseController {
 	}
 	
 	/**
+	 * 根据用户id查询文档信息
+	 * @param doc
+	 * @param sc
+	 * @param errCtx
+	 * @return
+	 */
+	@At("/service/getDocList")
+	@Ok("json")
+	@Fail("http:500")
+	public String getDocList(@Param("..") Document doc, AdaptorErrorContext errCtx){
+		if(errCtx != null){
+			System.out.println("查询文档信息出错："+errCtx.getErrors()[0]);
+		}
+		int code = 1; //状态码：1失败、0成功
+	    String msg = "获取文档信息失败";
+	    Map<String, Object> mm = new HashMap<String, Object>();
+	    List<Document> docList = null;//文档列表
+		if(doc != null && doc.getUserId() != null){
+			System.out.println("查询用户【" + doc.getUserId() + "】所拥有的文档");
+			Criteria cri = Cnd.cri();//复杂组合查询
+			cri.where().andEquals("user_id", doc.getUserId());
+			if(doc.getHours() != null){
+				cri.where().andEquals("hours", doc.getHours());
+			}
+			if(doc.getSubject()!=null){
+				cri.where().andEquals("subject", doc.getSubject());
+			}
+			if(doc.getClassName() != null){
+				cri.where().andEquals("className", doc.getClassName());
+			}
+			docList = basicDao.search(Document.class, cri);
+		}
+		if(docList !=null && docList.size()>0){
+			code = 0; msg = "获取文档信息成功";
+			List<Map<String, Object>> ml = new ArrayList<Map<String, Object>>();
+			for(Document d : docList){
+				Map<String, Object> m = new HashMap<String, Object>();
+				m.put("docId", d.getDocId());
+				m.put("fileName", d.getFileName());
+				m.put("userId", d.getUserId());
+				m.put("school", d.getSchool());
+				m.put("className", d.getClassName());
+				ml.add(m);//添加list对象
+			}
+			mm.put("list", ml);
+		}
+		mm.put("code", code);
+		mm.put("msg", msg);
+		String ret = Json.toJson(mm);//转换成json
+		System.out.println("返回报文-->\n"+ret);
+		return ret;
+	}
+	
+	@At("/service/getTopicList")
+	@Ok("json:{quoteName:true, ignoreNull:true}")
+	@Fail("http:500")
+	public String getTopicList(@Param("..") Topic topic, AdaptorErrorContext errCtx){
+		if(errCtx != null){
+			System.out.println("查询文档内容出错："+errCtx.getErrors()[0]);
+		}
+		int code = 1; //状态码：1失败、0成功
+	    String msg = "获取文档内容失败";
+		Map<String, Object> m = new HashMap<String, Object>();
+		List<Topic> tList = null;
+		if(topic != null && topic.getDocId() != null){
+			System.out.println("用户查询ID=【" + topic.getDocId() + "】的文档内容信息");
+			Criteria cri = Cnd.cri();//复杂组合查询
+			cri.where().andEquals("doc_id", topic.getDocId());
+			if(topic.getCatalog() != null){
+				cri.where().andEquals("catalog", topic.getCatalog());
+			}
+			tList = basicDao.search(Topic.class, cri);
+		}
+		if(tList != null & tList.size()>0){
+			code = 0; msg = "获取文档内容成功";
+			List<Map<String, Object>> ml = new ArrayList<Map<String, Object>>();
+			for(Topic t : tList){
+				Map<String, Object> mt = new HashMap<String, Object>();
+				mt.put("id", t.getId());
+				mt.put("lowNum", t.getLowNum());
+				mt.put("catalog", t.getCatalog());
+				mt.put("content", t.getContent());
+				mt.put("answer", t.getAnswer());
+				mt.put("score", t.getScore());
+				mt.put("imgUrl", t.getImgUrl());
+				mt.put("userId", t.getUserId());
+				mt.put("hours", t.getHours());
+				mt.put("className", t.getClassName());
+				mt.put("createTime", t.getCreateTime());
+				mt.put("subject", t.getSubject());
+				mt.put("docId", t.getDocId());
+				ml.add(mt);
+			}
+			m.put("list", ml);
+		}
+		m.put("code", code);
+		m.put("msg", msg);
+		String ret = Json.toJson(m);
+		System.out.println("返回报文-->\n"+ret);
+		return ret;
+	}
+	
+	/**
 	 * 获取课文里的某一个大题目下的所有小题目(比如:选择题)
 	 * @param docId		文档Id
 	 * @param highNum   大题编号
@@ -127,62 +232,6 @@ public class ParseController extends BaseController {
 			System.out.println(t.toString());
 		}
 	}
-	
-	@At("/service/queryTopics")
-	@Ok("json:{quoteName:true, ignoreNull:true}")
-	@Fail("http:500")
-	@AdaptBy(type = JsonAdaptor.class)
-	public String getTopicList(@Param("topic") Topic topic){
-		Map<String, Object> m = new HashMap<String, Object>();
-		List<Topic> tList = new ArrayList<Topic>();
-		List<Map<String, Object>> lm = null;
-		if(topic == null){
-			tList = basicDao.search(Topic.class, "id", "asc");
-		} else {
-			Criteria cri = Cnd.cri();//复杂组合查询
-			if(topic.getUserId() != null){
-				cri.where().andEquals("user_id", topic.getUserId());
-			}
-			if(topic.getHours() != null){
-				cri.where().andEquals("hours", topic.getHours());
-			}
-			if(topic.getSubject()!=null){
-				cri.where().andEquals("subject", topic.getSubject());
-			}
-			if(topic.getCatalog() != null){
-				cri.where().andEquals("catalog", topic.getCatalog());
-			}
-			if(topic.getClassName() != null){
-				cri.where().andEquals("className", topic.getClassName());
-			}
-			tList = basicDao.search(Topic.class, cri);
-		}
-		m.put("CODE", 0);
-		m.put("MSG", "查询题目成功");
-		if(!tList.isEmpty()){
-			lm = new ArrayList<Map<String, Object>>();
-			for(Topic t:tList){
-				Map<String, Object> mt = new HashMap<String, Object>();
-				mt.put("id", t.getId());
-				mt.put("lowNum", t.getLowNum());
-				mt.put("catalog", t.getCatalog());
-				mt.put("content", t.getContent());
-				mt.put("answer", t.getAnswer());
-				mt.put("score", t.getScore());
-				mt.put("imgUrl", t.getImgUrl());
-				mt.put("userId", t.getUserId());
-				mt.put("hours", t.getHours());
-				mt.put("className", t.getClassName());
-				mt.put("createTime", t.getCreateTime());
-				mt.put("subject", t.getSubject());
-				mt.put("docId", t.getDocId());
-				lm.add(mt);
-			}
-			m.put("LIST", lm);
-		}
-		return Json.toJson(m);
-	}
-	
 	
 	public static void main(String[] args) {
 		try {
