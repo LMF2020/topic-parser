@@ -41,6 +41,7 @@ public class TopicTypeDao extends BasicDao {
 					tt.setTypeCount(rs.getInt("typeCount"));
 					tt.setFullScore(rs.getFloat("fullScore"));
 					tt.setDocId(rs.getLong("docId"));
+					tt.setTitle(rs.getString("title"));
 					ttl.add(tt);
 				}
 				System.out.println("查询题型成功，共查询【" + ttl.size() + "】道题目");

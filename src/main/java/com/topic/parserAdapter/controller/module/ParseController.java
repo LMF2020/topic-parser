@@ -34,8 +34,10 @@ import org.nutz.trans.Trans;
 
 import com.topic.parserAdapter.core.office.converter.Word2003ToHtmlConverter;
 import com.topic.parserAdapter.core.office.parser.IdeaWordParser;
+import com.topic.parserAdapter.dao.TopicTypeDao;
 import com.topic.parserAdapter.model.Document;
 import com.topic.parserAdapter.model.Topic;
+import com.topic.parserAdapter.model.TopicType;
 /**
  * 提供给第三方的接口服务
  * @author jiangzx0526@gmail.com
@@ -43,8 +45,11 @@ import com.topic.parserAdapter.model.Topic;
  */
 @At("/officeCenter")
 @IocBean
-public class ParseController extends BaseController {
+public class ParseController {
 
+	@Inject
+	private TopicTypeDao topicTypeDao;
+	
 	@Inject	
 	private IdeaWordParser ideaWordParser;
 	
@@ -82,14 +87,14 @@ public class ParseController extends BaseController {
 		    //保存文档数据
 		    docInfo.setFileName(fileName);
 		    docInfo.setCreateTime(new Date());
-		    docInfo = basicDao.save(docInfo);
+		    docInfo = topicTypeDao.save(docInfo);
 		    //处理|转换文档
 		    final List<Topic> topics = ideaWordParser.getTopicList(sc, projectPath, fileName, docInfo);
 		    //printDocList(topics); //打印输出
 		    Molecule<Boolean> mol = new Molecule<Boolean>(){
 				@Override
 				public void run() {
-					boolean flag = basicDao.saveBatch(topics);
+					boolean flag = topicTypeDao.saveBatch(topics);
 					setObj(flag);
 				}
 		    };
@@ -101,7 +106,7 @@ public class ParseController extends BaseController {
 		    	msg = "上传题库成功";
 		    }
 		    if(code == 1 && docInfo.getDocId()!=null){
-		    	basicDao.delById(docInfo.getDocId().intValue(), Document.class);
+		    	topicTypeDao.delById(docInfo.getDocId().intValue(), Document.class);
 		    }
 		    return "{\"CODE\":\"" + code + "\",\"MSG\":\"" + msg +"\"}";
 	}
@@ -137,7 +142,7 @@ public class ParseController extends BaseController {
 			if(doc.getClassName() != null){
 				cri.where().andEquals("className", doc.getClassName());
 			}
-			docList = basicDao.search(Document.class, cri);
+			docList = topicTypeDao.search(Document.class, cri);
 		}
 		if(docList !=null && docList.size()>0){
 			code = 0; msg = "获取文档信息成功";
@@ -169,38 +174,50 @@ public class ParseController extends BaseController {
 		}
 		int code = 1; //状态码：1失败、0成功
 	    String msg = "获取文档内容失败";
+	    List<TopicType> ttList = null;
 		Map<String, Object> m = new HashMap<String, Object>();
 		List<Topic> tList = null;
 		if(topic != null && topic.getDocId() != null){
+			m.put("docId", topic.getDocId());
 			System.out.println("用户查询ID=【" + topic.getDocId() + "】的文档内容信息");
+			ttList = getTopicTypeList(topic.getDocId(), topic.getCatalog());
+			System.out.println("查询题型结束，共计【" + ttList.size() + "】种题型");
+			System.out.println("开始查询具体的题目列表--->");
 			Criteria cri = Cnd.cri();//复杂组合查询
 			cri.where().andEquals("doc_id", topic.getDocId());
 			if(topic.getCatalog() != null){
 				cri.where().andEquals("catalog", topic.getCatalog());
 			}
-			tList = basicDao.search(Topic.class, cri);
+			tList = topicTypeDao.search(Topic.class, cri);
+			System.out.println("查询具体题目结束，共计【" + tList.size() + "】道题");
 		}
 		if(tList != null & tList.size()>0){
 			code = 0; msg = "获取文档内容成功";
-			List<Map<String, Object>> ml = new ArrayList<Map<String, Object>>();
-			for(Topic t : tList){
-				Map<String, Object> mt = new HashMap<String, Object>();
-				mt.put("id", t.getId());
-				mt.put("lowNum", t.getLowNum());
-				mt.put("catalog", t.getCatalog());
-				mt.put("content", t.getContent());
-				mt.put("answer", t.getAnswer());
-				mt.put("score", t.getScore());
-				mt.put("imgUrl", t.getImgUrl());
-				mt.put("userId", t.getUserId());
-				mt.put("hours", t.getHours());
-				mt.put("className", t.getClassName());
-				mt.put("createTime", t.getCreateTime());
-				mt.put("subject", t.getSubject());
-				mt.put("docId", t.getDocId());
-				ml.add(mt);
+			List<Map<String, Object>> mml = new ArrayList<Map<String, Object>>();
+			for(TopicType tt: ttList){
+				Map<String, Object> mmt = new HashMap<String, Object>();
+				List<Map<String, Object>> ml = new ArrayList<Map<String, Object>>();
+				for(Topic t: tList){
+					if(tt.getTopicTypeNum() == Integer.parseInt(t.getCatalog())){
+						Map<String, Object> mt = new HashMap<String, Object>();
+						mt.put("topicId", t.getId());
+						mt.put("lowNum", t.getLowNum());
+						mt.put("content", t.getContent());
+						mt.put("answer", t.getAnswer());
+						mt.put("score", t.getScore());
+						mt.put("imgUrl", t.getImgUrl());
+						ml.add(mt);
+					}
+				}
+				mmt.put("topics", ml);
+				mmt.put("catalog", tt.getTopicTypeNum());
+				mmt.put("cataName", tt.getTopicType());
+				mmt.put("title", tt.getTitle());
+				mmt.put("topicsCount", tt.getTypeCount());
+				mmt.put("fullScore", tt.getFullScore());
+				mml.add(mmt);
 			}
-			m.put("list", ml);
+			m.put("list", mml);
 		}
 		m.put("code", code);
 		m.put("msg", msg);
@@ -221,6 +238,21 @@ public class ParseController extends BaseController {
 	public List<Topic> getTopicByNumber(String docId , String highNum){
 		//TODO:...
 		return null;
+	}
+	
+	/**
+	 * 获取题型list，根据文档id和题型id
+	 * @param docId
+	 * @param catalog
+	 * @return
+	 */
+	public List<TopicType> getTopicTypeList(Long docId, String catalog){
+		String sql = "SELECT catalog as topicType,title,COUNT(catalog) as typeCount, fullScore,doc_id as docId from t_topic $condition GROUP BY catalog ORDER BY id ASC";
+		String condition = "where doc_id=" + docId;
+		if(catalog != null && catalog != "") condition += " and catalog='" + catalog + "'";
+		System.out.println("sql-->"+sql+"\n condition-->"+condition);
+		List<TopicType> tl = topicTypeDao.queryByNativeSql(TopicType.class, sql, condition);
+		return tl;
 	}
 	
 	/**

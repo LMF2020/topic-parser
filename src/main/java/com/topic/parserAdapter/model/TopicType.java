@@ -1,6 +1,7 @@
 package com.topic.parserAdapter.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class TopicType implements Serializable {
 
@@ -12,6 +13,9 @@ public class TopicType implements Serializable {
 	private int typeCount;// 题目总数
 	private float fullScore;// 总分
 	private Long docId;// 所属文档ID
+	private String title;//大题内容
+	
+	private List<Topic> topicList;
 
 	public int getTypeId() {
 		return typeId;
@@ -105,5 +109,21 @@ public class TopicType implements Serializable {
 
 	public void setTopicTypeNum(int topicTypeNum) {
 		this.topicTypeNum = topicTypeNum;
+	}
+
+	public List<Topic> getTopicList() {
+		return topicList;
+	}
+
+	public void setTopicList(List<Topic> topicList) {
+		this.topicList = topicList;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 }
