@@ -51,7 +51,7 @@ public class ParseController {
 	private IdeaWordParser ideaWordParser;
 	
 //	@Inject("java:$uploadFileContext.getMaxFileSize()")
-//	private int maxFileSize;
+//	private int maxFileSize;   //文件大小限制
 	
 	/**
 	 * 本地开发的上传服务，文件保存到/doc目录下等待处理
@@ -61,7 +61,7 @@ public class ParseController {
 	@Ok("json:{quoteName:true, ignoreNull:true}")
 	@Fail("http:500")
 	@AdaptBy(type = UploadAdaptor.class, args = { "ioc:myUpload" })
-	public String convert(@Param("fileProperty") Document docInfo, @Param("office")  TempFile tf, 
+	public String convert(@Param("fileProperty") Document docInfo, @Param("office") TempFile tf, 
 			ServletContext sc, AdaptorErrorContext errCtx){
 			
 			if(errCtx != null){
@@ -69,9 +69,7 @@ public class ParseController {
 			    //文件大小限制
 			    //System.out.println(maxFileSize);
 			}
-			/*if(docInfo != null){
-				System.out.println(docInfo.getUuid()+"=="+docInfo.getSubject());
-			}*/
+			
 			File tmpFile = tf.getFile();                 // 这个是保存的临时文件
 		    FieldMeta meta = tf.getMeta();               // 这个原本的文件信息
 		    String fileName = meta.getFileLocalName();   // 原始文件名称
@@ -168,6 +166,13 @@ public class ParseController {
 		return ret;
 	}
 	
+	/**
+	 * 获取文档内容的查询接口
+	 * 
+	 * @param topic
+	 * @param errCtx
+	 * @return
+	 */
 	@At("/service/getTopicList")
 	@Ok("json:{quoteName:true, ignoreNull:true}")
 	@Fail("http:500")
@@ -268,6 +273,11 @@ public class ParseController {
 		}
 	}
 	
+	
+	public void setTopicTypeDao(TopicTypeDao topicTypeDao) {
+		this.topicTypeDao = topicTypeDao;
+	}
+	
 	public static void main(String[] args) {
 		try {
 			Files.move(new File("D:/1/01.doc"), new File("D:/2/02.doc"));
@@ -275,4 +285,6 @@ public class ParseController {
 			e.printStackTrace();
 		}
 	}
+	
+	
 }

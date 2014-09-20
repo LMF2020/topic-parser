@@ -177,6 +177,24 @@ input[type="button"]{
 						obj[v.name]= v.value;
                     }
 				});
+				
+				//检测文件大小
+				var isIE = /msie/i.test(navigator.userAgent) && !window.opera;  
+			    var fileSize = 0, target = document.getElementById('office');           
+			    if (isIE && !target.files){       
+			        var filePath = target.value;       
+			        var fileSystem = new ActiveXObject("Scripting.FileSystemObject");          
+			        var file = fileSystem.GetFile (filePath);       
+			        fileSize = file.Size;      
+			    } else {      
+			        fileSize = target.files[0].size;       
+			    }
+			    var size = fileSize / 1024; //单位为KB
+			    if(size > 5 * 1024){
+			    	alert("文件上传大小不能超过5MB");
+			    	return false;
+			    }
+				
 				data.append('office',document.getElementById('office').files[0]);
 				data.append('fileProperty', JSON.stringify(obj));
 				//ajax上传
@@ -186,7 +204,7 @@ input[type="button"]{
 				    data: data,
 				    cache: false,
     				contentType:false,
-				    timeout: 10*1000,//超时/ms
+				    timeout: 100*1000,//超时/ms
 				    dataType: 'json',
 				    processData: false,
 				    beforeSend: function () {
