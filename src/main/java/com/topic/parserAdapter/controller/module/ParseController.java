@@ -50,6 +50,10 @@ public class ParseController {
 	@Inject	
 	private IdeaWordParser ideaWordParser;
 	
+	public void setTopicTypeDao(TopicTypeDao topicTypeDao) {
+		this.topicTypeDao = topicTypeDao;
+	}
+
 	/**
 	 * 本地开发的上传服务，文件保存到/doc目录下等待处理
 	 * @param tf
@@ -58,7 +62,7 @@ public class ParseController {
 	@Ok("json:{quoteName:true, ignoreNull:true}")
 	@Fail("http:500")
 	@AdaptBy(type = UploadAdaptor.class, args = { "ioc:myUpload" })
-	public String convert(@Param("fileProperty") Document docInfo, @Param("office")  TempFile tf, 
+	public String convert(@Param("fileProperty") Document docInfo, @Param("office") TempFile tf, 
 			ServletContext sc, AdaptorErrorContext errCtx){
 
 			if(errCtx != null){

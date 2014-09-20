@@ -186,7 +186,7 @@ input[type="button"]{
 				    data: data,
 				    cache: false,
     				contentType:false,
-				    timeout: 10*1000,//超时/ms
+				    timeout: 100*1000,//超时/ms
 				    dataType: 'json',
 				    processData: false,
 				    beforeSend: function () {
