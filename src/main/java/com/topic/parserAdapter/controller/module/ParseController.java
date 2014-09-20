@@ -11,19 +11,16 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 
 import org.nutz.dao.Cnd;
-import org.nutz.dao.Condition;
 import org.nutz.dao.sql.Criteria;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.json.Json;
 import org.nutz.lang.Files;
-import org.nutz.mvc.adaptor.JsonAdaptor;
 import org.nutz.mvc.annotation.AdaptBy;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Fail;
 import org.nutz.mvc.annotation.GET;
 import org.nutz.mvc.annotation.Ok;
-import org.nutz.mvc.annotation.POST;
 import org.nutz.mvc.annotation.Param;
 import org.nutz.mvc.impl.AdaptorErrorContext;
 import org.nutz.mvc.upload.FieldMeta;
@@ -53,6 +50,9 @@ public class ParseController {
 	@Inject	
 	private IdeaWordParser ideaWordParser;
 	
+//	@Inject("java:$uploadFileContext.getMaxFileSize()")
+//	private int maxFileSize;
+	
 	/**
 	 * 本地开发的上传服务，文件保存到/doc目录下等待处理
 	 * @param tf
@@ -63,9 +63,11 @@ public class ParseController {
 	@AdaptBy(type = UploadAdaptor.class, args = { "ioc:myUpload" })
 	public String convert(@Param("fileProperty") Document docInfo, @Param("office")  TempFile tf, 
 			ServletContext sc, AdaptorErrorContext errCtx){
-
+			
 			if(errCtx != null){
-				System.out.println("上传出错："+errCtx.getErrors()[0]);
+				System.out.println("上传出错："+errCtx.getAdaptorErr().getMessage());
+			    //文件大小限制
+			    //System.out.println(maxFileSize);
 			}
 			/*if(docInfo != null){
 				System.out.println(docInfo.getUuid()+"=="+docInfo.getSubject());
@@ -74,6 +76,7 @@ public class ParseController {
 		    FieldMeta meta = tf.getMeta();               // 这个原本的文件信息
 		    String fileName = meta.getFileLocalName();   // 原始文件名称
 		    String projectPath = sc.getRealPath("")+File.separatorChar;
+		    
 		    try {
 		    	//临时文件写入系统配置目录
 		    	String filePath = projectPath+Word2003ToHtmlConverter.relativeFilePath+fileName;

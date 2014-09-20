@@ -20,7 +20,7 @@ var ioc = {
                 // 是否忽略空文件, 默认为 false
                 ignoreNull : true,
                 // 单个文件最大尺寸(大约的值，单位为字节，即 1048576 为 1M)
-                maxFileSize : 1048576,
+                maxFileSize : 5342880,
                 // 正则表达式匹配可以支持的文件名
                 nameFilter : '^(.+[.])(doc|docx)$' //目前只支持office Word
             } 

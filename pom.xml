@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.adapter</groupId>
-	<artifactId>topic-parser</artifactId>
+	<artifactId>tiku</artifactId>
 	<packaging>war</packaging>
 	<version>1.0.0-SNAPSHOT</version>
 
@@ -179,7 +179,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>topic-parser</finalName>
+		<finalName>tiku</finalName>
 		<plugins>
 			<!-- compiler插件, 设定JDK版本 -->
 			<plugin>
@@ -190,6 +190,7 @@
 					<source>${java.version}</source>
 					<target>${java.version}</target>
 					<showWarnings>true</showWarnings>
+					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
 
