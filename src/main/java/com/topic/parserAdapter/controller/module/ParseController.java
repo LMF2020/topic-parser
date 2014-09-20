@@ -88,6 +88,7 @@ public class ParseController {
 		    //保存文档数据
 		    docInfo.setFileName(fileName);
 		    docInfo.setCreateTime(new Date());
+		    docInfo.setFileSize(String.valueOf(tmpFile.length()/1024/1024)+"(MB)");
 		    docInfo = topicTypeDao.save(docInfo);
 		    //处理|转换文档
 		    final List<Topic> topics = ideaWordParser.getTopicList(sc, projectPath, fileName, docInfo);
