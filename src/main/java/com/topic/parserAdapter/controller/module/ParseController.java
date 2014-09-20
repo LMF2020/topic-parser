@@ -31,6 +31,7 @@ import org.nutz.trans.Trans;
 
 import com.topic.parserAdapter.core.office.converter.Word2003ToHtmlConverter;
 import com.topic.parserAdapter.core.office.parser.IdeaWordParser;
+import com.topic.parserAdapter.core.util.MyFileUtils;
 import com.topic.parserAdapter.dao.TopicTypeDao;
 import com.topic.parserAdapter.model.Document;
 import com.topic.parserAdapter.model.Topic;
@@ -73,6 +74,7 @@ public class ParseController {
 			File tmpFile = tf.getFile();                 // 这个是保存的临时文件
 		    FieldMeta meta = tf.getMeta();               // 这个原本的文件信息
 		    String fileName = meta.getFileLocalName();   // 原始文件名称
+		    long bytes = tmpFile.length();				 // 原始文件大小
 		    String projectPath = sc.getRealPath("")+File.separatorChar;
 		    
 		    try {
@@ -88,7 +90,7 @@ public class ParseController {
 		    //保存文档数据
 		    docInfo.setFileName(fileName);
 		    docInfo.setCreateTime(new Date());
-		    docInfo.setFileSize(String.valueOf(tmpFile.length()/1024/1024)+"(MB)");
+		    docInfo.setFileSize(MyFileUtils.getFileSize(bytes));
 		    docInfo = topicTypeDao.save(docInfo);
 		    //处理|转换文档
 		    final List<Topic> topics = ideaWordParser.getTopicList(sc, projectPath, fileName, docInfo);
