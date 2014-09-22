@@ -53,4 +53,20 @@ public class TopicTypeDao extends BasicDao {
 		return list;
 	}
 	
+	
+	/**
+	 * 获取题型list，根据文档id和题型id
+	 * @param docId
+	 * @param catalog
+	 * @return
+	 */
+	public List<TopicType> getTopicTypeList(Long docId, String catalog){
+		String sql = "SELECT catalog as topicType,title,COUNT(catalog) as typeCount, fullScore,doc_id as docId from t_topic $condition GROUP BY catalog ORDER BY id ASC";
+		String condition = "where doc_id=" + docId;
+		if(catalog != null && catalog != "") condition += " and catalog='" + catalog + "'";
+		System.out.println("sql-->"+sql+"\n condition-->"+condition);
+		List<TopicType> tl = queryByNativeSql(TopicType.class, sql, condition);
+		return tl;
+	}
+	
 }

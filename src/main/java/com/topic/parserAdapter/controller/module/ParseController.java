@@ -43,6 +43,7 @@ import com.topic.parserAdapter.model.TopicType;
  */
 @At("/officeCenter")
 @IocBean
+@SuppressWarnings("rawtypes")
 public class ParseController {
 
 	@Inject
@@ -122,10 +123,11 @@ public class ParseController {
 	 * @param errCtx
 	 * @return
 	 */
+	
 	@At("/service/getDocList")
-	@Ok("json")
+	@Ok("json:{quoteName:true, ignoreNull:true}")
 	@Fail("http:500")
-	public String getDocList(@Param("..") Document doc, AdaptorErrorContext errCtx){
+	public Map getDocList(@Param("..") Document doc, AdaptorErrorContext errCtx){
 		if(errCtx != null){
 			System.out.println("查询文档信息出错："+errCtx.getErrors()[0]);
 		}
@@ -166,7 +168,7 @@ public class ParseController {
 		mm.put("msg", msg);
 		String ret = Json.toJson(mm);//转换成json
 		System.out.println("返回报文-->\n"+ret);
-		return ret;
+		return mm;
 	}
 	
 	/**
@@ -179,7 +181,7 @@ public class ParseController {
 	@At("/service/getTopicList")
 	@Ok("json:{quoteName:true, ignoreNull:true}")
 	@Fail("http:500")
-	public String getTopicList(@Param("..") Topic topic, AdaptorErrorContext errCtx){
+	public Map getTopicList(@Param("..") Topic topic, AdaptorErrorContext errCtx){
 		if(errCtx != null){
 			System.out.println("查询文档内容出错："+errCtx.getErrors()[0]);
 		}
@@ -191,7 +193,7 @@ public class ParseController {
 		if(topic != null && topic.getDocId() != null){
 			m.put("docId", topic.getDocId());
 			System.out.println("用户查询ID=【" + topic.getDocId() + "】的文档内容信息");
-			ttList = getTopicTypeList(topic.getDocId(), topic.getCatalog());
+			ttList = topicTypeDao.getTopicTypeList(topic.getDocId(), topic.getCatalog());
 			System.out.println("查询题型结束，共计【" + ttList.size() + "】种题型");
 			System.out.println("开始查询具体的题目列表--->");
 			Criteria cri = Cnd.cri();//复杂组合查询
@@ -234,7 +236,7 @@ public class ParseController {
 		m.put("msg", msg);
 		String ret = Json.toJson(m);
 		System.out.println("返回报文-->\n"+ret);
-		return ret;
+		return m;
 	}
 	
 	/**
@@ -251,43 +253,18 @@ public class ParseController {
 		return null;
 	}
 	
-	/**
-	 * 获取题型list，根据文档id和题型id
-	 * @param docId
-	 * @param catalog
-	 * @return
-	 */
-	public List<TopicType> getTopicTypeList(Long docId, String catalog){
-		String sql = "SELECT catalog as topicType,title,COUNT(catalog) as typeCount, fullScore,doc_id as docId from t_topic $condition GROUP BY catalog ORDER BY id ASC";
-		String condition = "where doc_id=" + docId;
-		if(catalog != null && catalog != "") condition += " and catalog='" + catalog + "'";
-		System.out.println("sql-->"+sql+"\n condition-->"+condition);
-		List<TopicType> tl = topicTypeDao.queryByNativeSql(TopicType.class, sql, condition);
-		return tl;
-	}
-	
-	/**
-	 * 查询关键字是...的所有文档
-	 */
-	//TODO:....
-	private void printDocList(List<Topic> topics){
-		for(Topic t: topics){
-			System.out.println(t.toString());
-		}
-	}
-	
 	
 	public void setTopicTypeDao(TopicTypeDao topicTypeDao) {
 		this.topicTypeDao = topicTypeDao;
 	}
-	
+/*	
 	public static void main(String[] args) {
 		try {
 			Files.move(new File("D:/1/01.doc"), new File("D:/2/02.doc"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	
 }
