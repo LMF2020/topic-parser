@@ -27,6 +27,6 @@ public class IPUtil {
 	}
 	
 	public static String getRealAddr(HttpServletRequest request){
-		return getIp(request)+":"+getPort(request);
+		return "http://" + getIp(request)+":"+getPort(request);
 	}
 }
