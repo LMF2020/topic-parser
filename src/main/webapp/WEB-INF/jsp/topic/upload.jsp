@@ -199,7 +199,7 @@ input[type="button"]{
 				data.append('fileProperty', JSON.stringify(obj));
 				//ajax上传
 				$.ajax({
-				    url: "${ctx}/officeCenter/service/upload",
+				    url: "${ctx}/service/document/upload",
 				    type: 'post',
 				    data: data,
 				    cache: false,
@@ -211,7 +211,7 @@ input[type="button"]{
 				    	$("#loading").addClass("show");
                 	}
                 }).done(function(data){
-                	alert($.parseJSON(data).MSG);
+               		alert(JSON.stringify(data));
                 	return false;
                 }).fail(function (data) {
                     alert("ajax请求失败");
