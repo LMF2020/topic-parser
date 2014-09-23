@@ -4,6 +4,11 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.mvc.adaptor.VoidAdaptor;
+import org.nutz.mvc.annotation.AdaptBy;
+import org.nutz.mvc.annotation.At;
+
 import com.topic.parserAdapter.adapter.util.FormFile;
 import com.topic.parserAdapter.adapter.util.SocketHttpRequest;
 
@@ -20,6 +25,9 @@ import com.topic.parserAdapter.adapter.util.SocketHttpRequest;
  *			"subject":"文档内容所属科目",  ---1:语文、2:数学、3:英语(暂时只有3 种)
  *			"hours":"文档内容所属课时" –1：第一课时、2:第二课时…以此类推
  */
+@At("/test")
+@AdaptBy(type=VoidAdaptor.class)
+@IocBean
 public class UploadAdapterTest {
 	private final static String UPLOAD_URL = "http://localhost:8015/topic-parser/service/document/upload";
 	private final static String USER_ID = "admin";//上传用户
