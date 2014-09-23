@@ -152,7 +152,7 @@ public class CoolHtmlParser {
 	//System.out.println("=====after complied=======\n"+str);
 			    	$content = sb.toString();
 			    	//去首尾空白
-			    	$content = $content.trim();
+			    	$content = $content.trim().replaceAll(" ", "&nbsp;");
 			    	//答案
 			    	$answer = answer($content,$placeholder);
 			    	//编译
