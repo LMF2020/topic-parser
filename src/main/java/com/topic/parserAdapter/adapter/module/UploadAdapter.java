@@ -111,8 +111,6 @@ public class UploadAdapter {
 		    	topicTypeDao.delById(docInfo.getDocId().intValue(), Document.class);
 		    }
 		    //添加返回信息字段，转换成json返回给客户端
-		    m.put("code", code);
-		    m.put("msg", msg);
 		    Map<String, Object> mm = new HashMap<String, Object>();
 		    mm.put("docId", docInfo.getDocId());
 		    mm.put("fileName", docInfo.getFileName());
@@ -124,6 +122,8 @@ public class UploadAdapter {
 		    mm.put("fileSize", docInfo.getFileSize());
 		    mm.put("createTimeStr", docInfo.getCreateTimeStr());
 		    m.put("list", mm);
+		    m.put("msg", msg);
+		    m.put("code", code);
 		    System.out.println("上传成功--->\n"+Json.toJson(m));
 		    return m;
 	}
