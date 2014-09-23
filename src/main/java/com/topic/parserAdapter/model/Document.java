@@ -1,6 +1,7 @@
 package com.topic.parserAdapter.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import org.nutz.dao.entity.annotation.Column;
@@ -59,6 +60,13 @@ public class Document implements Serializable {
 		this.createTimeStr = createTimeStr;
 	}
 
+	public void setCreateTimeStr(Date createTime){
+		Timestamp ts = new Timestamp(createTime.getTime());
+		String str = ts.toString();
+		str = str.substring(0, str.indexOf("."));
+		this.createTimeStr = str;
+	}
+	
 	public Long getDocId() {
 		return docId;
 	}
