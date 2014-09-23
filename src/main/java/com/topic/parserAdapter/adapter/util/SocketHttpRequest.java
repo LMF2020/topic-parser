@@ -49,9 +49,7 @@ public class SocketHttpRequest {
 			textEntity.append("\r\n");
 		}
 		// 计算传输给服务器的实体数据总长度
-		int dataLength = textEntity.toString().getBytes().length
-				+ fileDataLength + endline.getBytes().length;
-
+		int dataLength = textEntity.toString().getBytes().length + fileDataLength + endline.getBytes().length;
 		URL url = new URL(path);
 		int port = url.getPort() == -1 ? 80 : url.getPort();
 		Socket socket = new Socket(InetAddress.getByName(url.getHost()), port);
