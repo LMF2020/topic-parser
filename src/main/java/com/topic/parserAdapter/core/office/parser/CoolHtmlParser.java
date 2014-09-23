@@ -268,7 +268,9 @@ public class CoolHtmlParser {
 		if(str.indexOf("<img") > -1){
 			int startImgPos = str.indexOf("src=");
 			int endImgPos =str.indexOf("doc/");
-			str = str.replace(str.substring(startImgPos+5,endImgPos-1),this.contextPath);
+			str = str.replace(str.substring(startImgPos+5,endImgPos-1),"${server}"+this.contextPath)
+					.replace("\"", "'")  //清除src路径双引号
+					.replace("\b", "");  //清楚\b标签
 		}
 		//如果无占位符无需替换文本
 		if(Strings.isBlank($placeholder)){

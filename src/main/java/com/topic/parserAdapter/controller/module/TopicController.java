@@ -16,6 +16,7 @@ import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
 import org.nutz.mvc.impl.AdaptorErrorContext;
 
+import com.topic.parserAdapter.core.util.IPUtil;
 import com.topic.parserAdapter.dao.TopicTypeDao;
 import com.topic.parserAdapter.model.Document;
 import com.topic.parserAdapter.model.Topic;
@@ -56,7 +57,7 @@ public class TopicController {
 	@Ok("jsp:jsp.topic.docList")
 	@Fail("http:404")
 	public void listTopics(@Param("userId") String userId, HttpServletRequest req){
-		System.out.println(userId);
+		
 		List<User> u = topicTypeDao.search(User.class, Cnd.where("user_id", "=", userId));
 		if(u.size()>0) {
 			HttpSession session = req.getSession();

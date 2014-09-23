@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.nutz.dao.Cnd;
 import org.nutz.dao.sql.Criteria;
@@ -31,6 +32,7 @@ import org.nutz.trans.Trans;
 
 import com.topic.parserAdapter.core.office.converter.Word2003ToHtmlConverter;
 import com.topic.parserAdapter.core.office.parser.IdeaWordParser;
+import com.topic.parserAdapter.core.util.IPUtil;
 import com.topic.parserAdapter.core.util.MyFileUtils;
 import com.topic.parserAdapter.dao.TopicTypeDao;
 import com.topic.parserAdapter.model.Document;
@@ -181,7 +183,8 @@ public class ParseController {
 	@At("/service/getTopicList")
 	@Ok("json:{quoteName:true, ignoreNull:true}")
 	@Fail("http:500")
-	public Map getTopicList(@Param("..") Topic topic, AdaptorErrorContext errCtx){
+	public Map getTopicList(@Param("..") Topic topic, AdaptorErrorContext errCtx, HttpServletRequest req){
+	
 		if(errCtx != null){
 			System.out.println("查询文档内容出错："+errCtx.getErrors()[0]);
 		}
@@ -215,7 +218,7 @@ public class ParseController {
 						Map<String, Object> mt = new HashMap<String, Object>();
 						mt.put("topicId", t.getId());
 						mt.put("lowNum", t.getLowNum());
-						mt.put("content", t.getContent());
+						mt.put("content", t.getContent().replace("${server}",IPUtil.getRealAddr(req)));
 						mt.put("answer", t.getAnswer());
 						mt.put("score", t.getScore());
 						mt.put("imgUrl", t.getImgUrl());
