@@ -5,6 +5,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+/**
+ * 表单文件对象
+ * @author Rayintee
+ *
+ */
 public class FormFile {
 	private byte[] data;//上传文件的数据
 	private InputStream inStream;//输入流对象

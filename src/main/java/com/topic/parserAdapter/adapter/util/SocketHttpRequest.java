@@ -12,12 +12,9 @@ public class SocketHttpRequest {
 	/**
 	 * 直接通过HTTP协议提交数据到服务器
 	 * 
-	 * @param path
-	 *            上传路径
-	 * @param params
-	 *            请求参数 key为参数名,value为参数值
-	 * @param file
-	 *            上传文件
+	 * @param path 上传路径
+	 * @param params 请求参数 key为参数名,value为参数值
+	 * @param file 上传文件
 	 */
 	public static boolean post(String path, Map<String, String> params, FormFile[] files) throws Exception {
 		final String BOUNDARY = "---------------------------7da2137580612"; // 数据分隔线
