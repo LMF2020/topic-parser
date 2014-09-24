@@ -26,10 +26,10 @@ import org.nutz.mvc.upload.UploadAdaptor;
 import org.nutz.trans.Molecule;
 import org.nutz.trans.Trans;
 
+import com.topic.parserAdapter.adapter.common.BasicAdapter;
 import com.topic.parserAdapter.core.office.converter.Word2003ToHtmlConverter;
 import com.topic.parserAdapter.core.office.parser.IdeaWordParser;
 import com.topic.parserAdapter.core.util.MyFileUtils;
-import com.topic.parserAdapter.dao.BasicDao;
 import com.topic.parserAdapter.model.Document;
 import com.topic.parserAdapter.model.Topic;
 
@@ -42,11 +42,8 @@ import com.topic.parserAdapter.model.Topic;
 @At("/service")
 @InjectName
 @IocBean
-public class DocumentAdapter {
+public class DocumentAdapter extends BasicAdapter{
 
-	@Inject
-	private BasicDao basicDao;//注入dao
-	
 	@Inject	
 	private IdeaWordParser ideaWordParser;//注入word文档解析器
 	

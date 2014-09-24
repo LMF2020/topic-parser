@@ -65,21 +65,20 @@ public class ParseController {
 	@Ok("json:{quoteName:true, ignoreNull:true}")
 	@Fail("http:500")
 	@AdaptBy(type = UploadAdaptor.class, args = { "ioc:myUpload" })
-	public String convert(@Param("fileProperty") Document docInfo, @Param("office") TempFile tf, 
+	public Map<String, Object> convert(@Param("fileProperty") Document docInfo, @Param("office") TempFile tf, 
 			ServletContext sc, AdaptorErrorContext errCtx){
+			Map<String, Object> m = new HashMap<String, Object>();
 			
 			if(errCtx != null){
 				System.out.println("上传出错："+errCtx.getAdaptorErr().getMessage());
-			    //文件大小限制
-			    //System.out.println(maxFileSize);
 			}
 			
+			//解析文件流
 			File tmpFile = tf.getFile();                 // 这个是保存的临时文件
 		    FieldMeta meta = tf.getMeta();               // 这个原本的文件信息
 		    String fileName = meta.getFileLocalName();   // 原始文件名称
 		    long bytes = tmpFile.length();				 // 原始文件大小
 		    String projectPath = sc.getRealPath("")+File.separatorChar;
-		    
 		    try {
 		    	//临时文件写入系统配置目录
 		    	String filePath = projectPath+Word2003ToHtmlConverter.relativeFilePath+fileName;
@@ -94,7 +93,9 @@ public class ParseController {
 		    docInfo.setFileName(fileName);
 		    docInfo.setCreateTime(new Date());
 		    docInfo.setFileSize(MyFileUtils.getFileSize(bytes));
+		    docInfo.setCreateTimeStr(docInfo.getCreateTime());//设置字符串时间
 		    docInfo = topicTypeDao.save(docInfo);
+		    
 		    //处理|转换文档
 		    final List<Topic> topics = ideaWordParser.getTopicList(sc, projectPath, fileName, docInfo);
 		    //printDocList(topics); //打印输出
@@ -106,6 +107,7 @@ public class ParseController {
 				}
 		    };
 		    Trans.exec(mol);
+		    
 		    int code = 1; //状态码：1失败、0成功
 		    String msg = "上传题库失败";
 		    if(mol.getObj()){
@@ -115,7 +117,22 @@ public class ParseController {
 		    if(code == 1 && docInfo.getDocId()!=null){
 		    	topicTypeDao.delById(docInfo.getDocId().intValue(), Document.class);
 		    }
-		    return "{\"CODE\":\"" + code + "\",\"MSG\":\"" + msg +"\"}";
+		    //添加返回信息字段，转换成json返回给客户端
+		    Map<String, Object> mm = new HashMap<String, Object>();
+		    mm.put("docId", docInfo.getDocId());
+		    mm.put("fileName", docInfo.getFileName());
+		    mm.put("userId", docInfo.getUserId());
+		    mm.put("school", docInfo.getSchool());
+		    mm.put("className", docInfo.getClassName());
+		    mm.put("subject", docInfo.getSubject());
+		    mm.put("hours", docInfo.getHours());
+		    mm.put("fileSize", docInfo.getFileSize());
+		    mm.put("createTimeStr", docInfo.getCreateTimeStr());
+		    m.put("code", code);
+		    m.put("msg", msg);
+		    m.put("list", mm);
+		    System.out.println("上传成功--->\n"+Json.toJson(m));
+		    return m;
 	}
 	
 	/**
