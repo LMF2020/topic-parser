@@ -62,12 +62,15 @@ public class DocumentAdapter extends BasicAdapter{
 			if(errCtx != null){
 				System.out.println("上传出错："+errCtx.getAdaptorErr().getMessage());
 			}
-			
+			//计算系统日期时分秒+一个随机数作为文件名
+			String fileName = MyFileUtils.getRadomFileName();
 			//解析文件流
-			File tmpFile = tf.getFile();                 // 这个是保存的临时文件
-		    FieldMeta meta = tf.getMeta();               // 这个原本的文件信息
-		    String fileName = meta.getFileLocalName();   // 原始文件名称
-		    long bytes = tmpFile.length();				 // 原始文件大小
+			File tmpFile = tf.getFile();                 	// 这个是保存的临时文件
+		    FieldMeta meta = tf.getMeta();               	// 这个原本的文件信息
+		    String oldFileName = meta.getFileLocalName();   // 原始文件名称
+		    long bytes = tmpFile.length();				 	// 原始文件大小
+		    String fileExtension = meta.getFileExtension();
+		    fileName = fileName + fileExtension;
 		    String projectPath = sc.getRealPath("")+File.separatorChar;
 		    try {
 		    	//临时文件写入系统配置目录
@@ -80,7 +83,7 @@ public class DocumentAdapter extends BasicAdapter{
 			}
 		    
 		    //保存文档数据
-		    docInfo.setFileName(fileName);
+		    docInfo.setFileName(oldFileName);
 		    docInfo.setCreateTime(new Date());
 		    docInfo.setFileSize(MyFileUtils.getFileSize(bytes));
 		    docInfo.setCreateTimeStr(docInfo.getCreateTime());//设置字符串时间

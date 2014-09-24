@@ -2,6 +2,8 @@ package com.topic.parserAdapter.core.util;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import javax.servlet.ServletContext;
 
@@ -65,4 +67,22 @@ public class MyFileUtils {
 				.floatValue();
 		return (returnValue + "  KB ");
 	}
+
+	// 设置一个随机数作为文件名称
+	public static String getRadomFileName() {
+		Calendar nowtime = new GregorianCalendar();
+		StringBuffer sb = new StringBuffer(17);
+		sb.append(String.format("%04d", nowtime.get(Calendar.YEAR)))
+				.append(String.format("%02d", nowtime.get(Calendar.MONTH)))
+				.append(String.format("%02d", nowtime.get(Calendar.DATE)))
+				.append(String.format("%02d", nowtime.get(Calendar.HOUR)))
+				.append(String.format("%02d", nowtime.get(Calendar.MINUTE)))
+				.append(String.format("%02d", nowtime.get(Calendar.SECOND)))
+				.append(String.format("%03d", nowtime.get(Calendar.MILLISECOND)));
+		return sb.toString();
+	}
+	
+/*	public static void main(String[] args) {
+		System.out.println(MyFileUtils.getRadomFileName());
+	}*/
 }
