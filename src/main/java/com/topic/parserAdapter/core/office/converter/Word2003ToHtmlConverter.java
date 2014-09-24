@@ -64,7 +64,7 @@ public class Word2003ToHtmlConverter {
             picHeight = 500 * picHeight / picWidth;  
             picWidth = 500;  
         }  
-        String style = " style='height:" + picHeight + "px;width:" + picWidth + "px'";  
+        String style = " height='" + picHeight + "' width='" + picWidth + "'";  
   
         // 返回POI建议的图片文件名  
         String afileName = pic.suggestFullFileName();  
@@ -92,12 +92,15 @@ public class Word2003ToHtmlConverter {
             int pheight = image.getHeight();  
             int pwidth = image.getWidth();  
             if (pwidth > 500) {  
-                htmlText += "<img style='width:" + pwidth + "px;height:" + myHeight + "px'" + " src=\"" +projectRealPath+ directory  
-                        + afileName + "\"/>";  
+                htmlText += "<img width ='"+pwidth +"' height='"+myHeight+"' src=\"" +projectRealPath+ directory + afileName + "\"/>";  
+                //后期添加对style的处理
+              /*  htmlText += "<img width ='"+pwidth +"' height='"+myHeight+"'  style='width:3px;height:4px'" + " src=\"" +projectRealPath+ directory  
+                        + afileName + "\"/>";  */
             } else {  
                 myHeight = (int) (pheight / (pwidth / (picSize * 1.0)) * 1.5);  
-                htmlText += "<img style='vertical-align:middle;width:" + picSize * 1.5 + "px;height:" + myHeight  
-                        + "px'" + " src=\"" +projectRealPath + directory + afileName + "\"/>";  
+                htmlText += "<img width ='"+picSize * 1.5 +"' height='"+myHeight+"'  src=\"" +projectRealPath + directory + afileName + "\"/>";  
+                //后期添加对style的处理
+                /*htmlText += "<img    width ='"+picSize * 1.5 +"' height='"+myHeight+"'  style='vertical-align:middle;'" + " src=\"" +projectRealPath + directory + afileName + "\"/>"; */ 
             }  
   
         } else {  
@@ -115,7 +118,7 @@ public class Word2003ToHtmlConverter {
                         picHeight = 500 * picHeight / picWidth;  
                         picWidth = 500;  
                     }  
-                    style = " style='height:" + picHeight + "px;width:" + picWidth + "px'";  
+                    style = " height='" + picHeight + "' width='" + picWidth + "'";  
                 } catch (Exception e) {  
                     // e.printStackTrace();  
                 }  
@@ -182,13 +185,10 @@ public class Word2003ToHtmlConverter {
                 tempString = "";  
             //解析字符
             } else {  
-  
                 Range range2 = new Range(i + 1, i + 2, doc);  
                 // 第二个字符  
                 CharacterRun cr2 = range2.getCharacterRun(0);  
                 char c = cr.text().charAt(0);  
-                // System.out.println(c);  
-                // /System.out.println(i+"::"+range.getEndOffset()+"::"+range.getStartOffset()+"::"+c);  
                 // 判断是否为回车符  
                 if (c == ENTER_ASCII) {  
                     tempString += "<br/>";  
