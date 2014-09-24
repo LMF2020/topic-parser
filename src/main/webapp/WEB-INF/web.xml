@@ -16,6 +16,10 @@
             <param-name>ignore</param-name>
             <param-value>^(.+[.])(jsp|png|gif|jpg|js|css|jspx|jpeg|html|doc|docx)$</param-value>
         </init-param>
+        <init-param>
+        	<param-name>exclusions</param-name>
+        	<param-value>/doc/*</param-value>
+        </init-param>
 	</filter>
 
 	<filter-mapping>

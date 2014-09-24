@@ -147,7 +147,7 @@ public class CoolHtmlParser {
 				    }
 			    	count++;
 			    	onread = true;
-			    	str = str.replace("<bd>", "").replace("", "");
+			    	str = str.replace("<bd>", "");/*.replace((char)0x0B, 'v');*/
 			    	sb.append(str);
 	//System.out.println("=====after complied=======\n"+str);
 			    	$content = sb.toString();
