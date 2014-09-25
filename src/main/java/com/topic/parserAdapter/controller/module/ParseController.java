@@ -235,7 +235,7 @@ public class ParseController {
 						Map<String, Object> mt = new HashMap<String, Object>();
 						mt.put("topicId", t.getId());
 						mt.put("lowNum", t.getLowNum());
-						mt.put("content", t.getContent().replace("${server}",IPUtil.getRealAddr(req)));
+						mt.put("content", t.getContent().replace("${server}",IPUtil.getServerAddr(req)));
 						mt.put("answer", t.getAnswer());
 						mt.put("score", t.getScore());
 						mt.put("imgUrl", t.getImgUrl());

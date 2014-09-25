@@ -24,6 +24,7 @@ import com.topic.parserAdapter.dao.TopicTypeDao;
 import com.topic.parserAdapter.model.Document;
 import com.topic.parserAdapter.model.Topic;
 import com.topic.parserAdapter.model.TopicType;
+import com.topic.parserAdapter.utils.MyServletContext;
 
 @At("/service")
 @InjectName
@@ -140,7 +141,7 @@ public class TopicAdapter {
 						mt.put("topicId", t.getId());
 						mt.put("lowNum", t.getLowNum());
 						mt.put("content", t.getContent()  //回显替换IP地址
-								.replace("${server}", IPUtil.getRealAddr(req)));
+								.replace("${server}", IPUtil.getServerAddr(req)));
 						mt.put("answer", t.getAnswer());
 						mt.put("score", t.getScore());
 						mt.put("imgUrl", t.getImgUrl());

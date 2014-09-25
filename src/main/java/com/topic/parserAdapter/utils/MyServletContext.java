@@ -40,7 +40,7 @@ public class MyServletContext {
 		return url.toString();
 	}
 
-	//获取根路径
+	// 获取根路径
 	public static String getBaseURL(HttpServletRequest req) {
 		StringBuffer url = new StringBuffer();// Reconstruct original requesting
 												// URL
@@ -50,5 +50,10 @@ public class MyServletContext {
 		}
 		url.append(contextPath);
 		return url.toString();
+	}
+
+	// 获取服务器ip地址
+	public static String getServerIpAdrr(HttpServletRequest req) {
+		return req.getProtocol() + "://" + req.getRemoteAddr() + ":" + req.getRemotePort();
 	}
 }
