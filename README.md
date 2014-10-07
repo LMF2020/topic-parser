@@ -1,4 +1,2 @@
-topic-parser
-============
-
-解析word、ppt、pdf等题库文档，并拆分题目保存到数据库中
+### 在线Office文档解析
+根据题目题型将文档的题目解析,支持ppt/pdf/word的解析
