@@ -22,7 +22,7 @@ var ioc = {
                 // 单个文件最大尺寸(大约的值，单位为字节，即 1048576 为 1M)
                 maxFileSize : 5342880,
                 // 正则表达式匹配可以支持的文件名
-                nameFilter : '^(.+[.])(doc|docx)$' //目前只支持office Word
+                nameFilter : '^(.+[.])(doc|docx|pdf|pptx|ppt)$' //支持的格式
             } 
         },
         myUpload : {

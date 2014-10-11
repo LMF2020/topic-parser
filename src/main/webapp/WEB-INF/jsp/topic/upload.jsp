@@ -152,10 +152,13 @@ input[type="button"]{
 			});
 			$("#office").on("change", function(e){
 				var path = $(this).val().replace("C:\\fakepath\\", "");
-				if(path.indexOf(".doc") != -1 || path.indexOf(".docx") != -1){
+				if(path.indexOf(".doc") != -1 || path.indexOf(".docx") != -1
+						|| path.indexOf(".ppt") != -1 || path.indexOf(".pptx") != -1
+						|| path.indexOf(".pdf") != -1){
+					
 					$("#path").val(path);//赋值
 				} else {
-					alert("目前只支持word格式文档");
+					alert("格式不匹配,支持的格式包括doc/docx/ppt/pptx/pdf");
 				}
 			});
 			

@@ -241,7 +241,7 @@ public class Word2003ToHtmlConverter {
     private static boolean writeFile(String s, String filePath) {  
         FileOutputStream fos = null;  
         BufferedWriter bw = null;  
-        s = s.replaceAll("EMBED", "").replaceAll("Equation.DSMT4", "");  
+        s = s.replaceAll("EMBED", "").replaceAll("Equation.DSMT4", "").replace((char)0x0B, '\n');;  
         try {  
         	MyFileUtils.makeDir(projectRealPath, htmPath);// 创建文件夹  
             File file = new File(filePath);  

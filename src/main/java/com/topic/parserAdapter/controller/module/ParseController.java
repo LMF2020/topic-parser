@@ -31,7 +31,7 @@ import org.nutz.trans.Molecule;
 import org.nutz.trans.Trans;
 
 import com.topic.parserAdapter.core.office.converter.Word2003ToHtmlConverter;
-import com.topic.parserAdapter.core.office.parser.IdeaWordParser;
+import com.topic.parserAdapter.core.office.parser.IdeaOfficeParser;
 import com.topic.parserAdapter.core.util.IPUtil;
 import com.topic.parserAdapter.core.util.MyFileUtils;
 import com.topic.parserAdapter.dao.TopicTypeDao;
@@ -52,7 +52,7 @@ public class ParseController {
 	private TopicTypeDao topicTypeDao;
 	
 	@Inject	
-	private IdeaWordParser ideaWordParser;
+	private IdeaOfficeParser ideaWordParser;
 	
 //	@Inject("java:$uploadFileContext.getMaxFileSize()")
 //	private int maxFileSize;   //文件大小限制

@@ -11,17 +11,17 @@ import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 
 import com.topic.parserAdapter.core.office.converter.Word2003ToHtmlConverter;
-import com.topic.parserAdapter.core.office.converter.Word2007ToHtmlConverter;
+import com.topic.parserAdapter.core.office.converter.OfficeToHtmlConverter;
 import com.topic.parserAdapter.model.Document;
 import com.topic.parserAdapter.model.Topic;
 /**
- * 支持Word所有格式的智能转换
+ * 支持Office格式的智能转换
  * @author jiangzx0526@gmail.com
  *
  */
 @InjectName
 @IocBean
-public class IdeaWordParser {
+public class IdeaOfficeParser {
 	
 	@Inject
 	private CoolHtmlParser coolHtmlParser;
@@ -32,13 +32,19 @@ public class IdeaWordParser {
 	 * @return
 	 * @throws IOException
 	 */
-	public static String parseWordToHtml(ServletContext sc, String projectPath, String fileName){
+	public static String parseOfficeToHtml(ServletContext sc, String projectPath, String fileName){
 		
-		String htmlPath;
-		if(fileName.indexOf(".docx")>0){ //处理Word2007+档案格式
-			htmlPath = Word2007ToHtmlConverter.parseWord2007ToHtml(sc,projectPath, fileName);
-		}else{ //处理Word2003-档案格式
+		String htmlPath = null;
+		String extension = null;
+		int extensionPos = fileName.lastIndexOf(".");
+		int length = fileName.length();
+		if(extensionPos != -1){
+			extension = fileName.substring(extensionPos, length).toLowerCase();
+		}
+		if(extension.equals(".doc")){ 			//处理Word2003
 			htmlPath = Word2003ToHtmlConverter.parseWord2003ToHtml(projectPath, fileName);
+		}else{ 		//处理其他office格式
+			htmlPath = OfficeToHtmlConverter.parseToHtml(sc,projectPath, fileName,extension);
 		}
 		return htmlPath;
 	}
@@ -53,7 +59,7 @@ public class IdeaWordParser {
 	 */
 	public List<Topic> getTopicList(ServletContext sc, String projectPath, String fileName ,Document docInfo){
 		
-		String htmlPath = parseWordToHtml(sc,projectPath,fileName);
+		String htmlPath = parseOfficeToHtml(sc,projectPath,fileName);
 		String contextPath = sc.getContextPath();
 		if(htmlPath !=null){
 			return	coolHtmlParser.parse(contextPath,projectPath + htmlPath , docInfo);

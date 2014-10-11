@@ -13,10 +13,8 @@ import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
 
 import com.topic.parserAdapter.controller.component.BasicDBJob;
+import com.topic.parserAdapter.core.office.converter.OfficeConverter;
 import com.topic.parserAdapter.core.office.converter.Word2003ToHtmlConverter;
-import com.topic.parserAdapter.core.office.converter.Word2007To2003Converter;
-import com.topic.parserAdapter.core.office.converter.Word2007ToHtmlConverter;
-import com.topic.parserAdapter.core.office.parser.IdeaWordParser;
 import com.topic.parserAdapter.model.Topic;
 /**
  * MVC Test ,暂时用浏览器模拟吧.未来可以用httpClient模拟或者Nutz的Http包模拟测试
@@ -52,15 +50,7 @@ public class TestOfficeController {
 	public void word2007To2003(ServletContext sc){
 		String projectPath = sc.getRealPath("")+File.separatorChar;
 		String docFileName = "白板语文题库.doc"; 
-		Word2007To2003Converter.convert(sc, projectPath, docFileName);
-	}
-	
-	//07-html的带插件转换
-	@At("/office/word2007ToHtml")
-	public void word2007ToHtml(ServletContext sc){
-		String projectPath = sc.getRealPath("")+File.separatorChar;
-		String docFileName = "白板语文题库.docx";
-		Word2007ToHtmlConverter.parseWord2007ToHtml(sc, projectPath, docFileName);
+		OfficeConverter.convert2Doc(sc, projectPath, docFileName);
 	}
 	
 	//自动判断word类型转换成html格式
@@ -72,7 +62,7 @@ public class TestOfficeController {
 		
 		String fullDocPath = projectPath + relativeFilePath + docFileName;
 		File docFile = new File(fullDocPath);
-		//IdeaWordParser.parseWordToHtml(sc, projectPath, docFile);
+		//IdeaOfficeParser.parseWordToHtml(sc, projectPath, docFile);
 	}
 	
 	//测试保存一个POJO对象

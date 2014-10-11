@@ -28,7 +28,7 @@ import org.nutz.trans.Trans;
 
 import com.topic.parserAdapter.adapter.common.BasicAdapter;
 import com.topic.parserAdapter.core.office.converter.Word2003ToHtmlConverter;
-import com.topic.parserAdapter.core.office.parser.IdeaWordParser;
+import com.topic.parserAdapter.core.office.parser.IdeaOfficeParser;
 import com.topic.parserAdapter.core.util.MyFileUtils;
 import com.topic.parserAdapter.model.Document;
 import com.topic.parserAdapter.model.Topic;
@@ -45,7 +45,7 @@ import com.topic.parserAdapter.model.Topic;
 public class DocumentAdapter extends BasicAdapter{
 
 	@Inject	
-	private IdeaWordParser ideaWordParser;//注入word文档解析器
+	private IdeaOfficeParser ideaOfficeParser;//注入word文档解析器
 	
 	/**
 	 * 本地开发的上传服务，文件保存到/doc目录下等待处理
@@ -71,6 +71,25 @@ public class DocumentAdapter extends BasicAdapter{
 		    long bytes = tmpFile.length();				 	// 原始文件大小
 		    String fileExtension = meta.getFileExtension();
 		    fileName = fileName + fileExtension;
+		    //格式检查
+		    if(!fileExtension.equals(".doc") && !fileExtension.equals(".docx") 
+		    		&& !fileExtension.equals(".ppt") && !fileExtension.equals(".pptx")
+		    		&& !fileExtension.equals(".pdf")){
+		    	   Map<String, Object> mm = new HashMap<String, Object>();
+				    mm.put("docId", docInfo.getDocId());
+				    mm.put("fileName", docInfo.getFileName());
+				    mm.put("userId", docInfo.getUserId());
+				    mm.put("school", docInfo.getSchool());
+				    mm.put("className", docInfo.getClassName());
+				    mm.put("subject", docInfo.getSubject());
+				    mm.put("hours", docInfo.getHours());
+				    mm.put("fileSize", docInfo.getFileSize());
+				    mm.put("createTimeStr", docInfo.getCreateTimeStr());
+				    m.put("code", 1);
+				    m.put("msg", "上传失败,格式不匹配,支持的格式包括doc/docx/ppt/pptx/pdf");
+				    m.put("list", mm);
+				    return m;
+		    }
 		    String projectPath = sc.getRealPath("")+File.separatorChar;
 		    try {
 		    	//临时文件写入系统配置目录
@@ -90,7 +109,7 @@ public class DocumentAdapter extends BasicAdapter{
 		    docInfo = basicDao.save(docInfo);
 		    
 		    //处理|转换文档
-		    final List<Topic> topics = ideaWordParser.getTopicList(sc, projectPath, fileName, docInfo);
+		    final List<Topic> topics = ideaOfficeParser.getTopicList(sc, projectPath, fileName, docInfo);
 		    //printDocList(topics); //打印输出
 		    Molecule<Boolean> mol = new Molecule<Boolean>(){
 				@Override
