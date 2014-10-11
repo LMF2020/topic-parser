@@ -15,6 +15,7 @@ public class Document implements Serializable {
 	private static final long serialVersionUID = -3657087473988616304L;
 
 	@Id
+	@Column("doc_id")
 	@Comment("主键")
 	private Long docId;
 

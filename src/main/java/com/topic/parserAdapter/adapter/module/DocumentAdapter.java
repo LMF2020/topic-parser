@@ -30,6 +30,7 @@ import com.topic.parserAdapter.adapter.common.BasicAdapter;
 import com.topic.parserAdapter.core.office.converter.Word2003ToHtmlConverter;
 import com.topic.parserAdapter.core.office.parser.IdeaOfficeParser;
 import com.topic.parserAdapter.core.util.MyFileUtils;
+import com.topic.parserAdapter.dao.DocumentDao;
 import com.topic.parserAdapter.model.Document;
 import com.topic.parserAdapter.model.Topic;
 
@@ -42,8 +43,10 @@ import com.topic.parserAdapter.model.Topic;
 @At("/service")
 @InjectName
 @IocBean
-public class DocumentAdapter extends BasicAdapter{
-
+public class DocumentAdapter {
+	@Inject
+	private DocumentDao documentDao;
+	
 	@Inject	
 	private IdeaOfficeParser ideaOfficeParser;//注入word文档解析器
 	
@@ -106,7 +109,7 @@ public class DocumentAdapter extends BasicAdapter{
 		    docInfo.setCreateTime(new Date());
 		    docInfo.setFileSize(MyFileUtils.getFileSize(bytes));
 		    docInfo.setCreateTimeStr(docInfo.getCreateTime());//设置字符串时间
-		    docInfo = basicDao.save(docInfo);
+		    docInfo = documentDao.save(docInfo);
 		    
 		    //处理|转换文档
 		    final List<Topic> topics = ideaOfficeParser.getTopicList(sc, projectPath, fileName, docInfo);
@@ -114,7 +117,7 @@ public class DocumentAdapter extends BasicAdapter{
 		    Molecule<Boolean> mol = new Molecule<Boolean>(){
 				@Override
 				public void run() {
-					boolean flag = basicDao.saveBatch(topics);
+					boolean flag = documentDao.saveBatch(topics);
 					setObj(flag);
 				}
 		    };
@@ -127,7 +130,7 @@ public class DocumentAdapter extends BasicAdapter{
 		    	msg = "上传题库成功";
 		    }
 		    if(code == 1 && docInfo.getDocId()!=null){
-		    	basicDao.delById(docInfo.getDocId().intValue(), Document.class);
+		    	documentDao.delById(docInfo.getDocId().intValue(), Document.class);
 		    }
 		    //添加返回信息字段，转换成json返回给客户端
 		    Map<String, Object> mm = new HashMap<String, Object>();
@@ -145,5 +148,30 @@ public class DocumentAdapter extends BasicAdapter{
 		    m.put("list", mm);
 		    System.out.println("上传成功--->\n"+Json.toJson(m));
 		    return m;
+	}
+	
+	@At("/document/delete")
+	@Ok("json:{quoteName:true, ignoreNull:true}")
+	@Fail("http:500")
+	public Map<String, Object> delDocument(@Param("..") Document doc, AdaptorErrorContext errCtx){
+		Map<String, Object> m = new HashMap<String, Object>();
+		
+		if(errCtx != null){
+			System.out.println("删除文档出错："+errCtx.getAdaptorErr().getMessage());
+		}
+		int code = 1; //状态码：1失败、0成功
+		String msg = "删除文档信息失败";
+		if(doc != null && doc.getDocId() != null){
+			System.out.println("删除文档id【"+doc.getDocId()+"】文档");
+			boolean flag = documentDao.deleteDocInfo(doc.getDocId());
+			if(flag){
+				code = 0;
+				msg = "删除文档信息成功";
+			}
+		}
+		
+		m.put("msg", msg);
+		m.put("code", code);
+		return m;
 	}
 }

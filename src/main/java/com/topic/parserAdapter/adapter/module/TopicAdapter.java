@@ -24,7 +24,6 @@ import com.topic.parserAdapter.dao.TopicTypeDao;
 import com.topic.parserAdapter.model.Document;
 import com.topic.parserAdapter.model.Topic;
 import com.topic.parserAdapter.model.TopicType;
-import com.topic.parserAdapter.utils.MyServletContext;
 
 @At("/service")
 @InjectName
