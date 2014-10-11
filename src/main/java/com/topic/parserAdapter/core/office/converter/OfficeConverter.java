@@ -25,7 +25,7 @@ import com.topic.parserAdapter.core.util.MyWebContext;
  * 
  * Office文档的转换,支持ppt,pptx,pdf,docx转换为doc格式
  * @author jiangzx0526@gmail.com
- *
+ * 
  */
 public class OfficeConverter {
 	
@@ -61,8 +61,22 @@ public class OfficeConverter {
 				inputFile = new File(outputFilePath);
 				//改变输出文件
 				outputFilePath = inputFilePath.replaceAll(fileExtension, ".doc"); 
-			}else if(fileExtension.equals(".docx") 
-					|| fileExtension.equals(".ppt") || fileExtension.equals(".pptx")){ //格式转换
+			}else if(fileExtension.equals(".ppt") || fileExtension.equals(".pptx")){
+				//转换PPT到PDF
+				String pdfOutPath = inputFilePath.replaceAll(fileExtension, ".pdf");
+				File pdfOutFile = new File(pdfOutPath);
+				long startTime = System.currentTimeMillis();
+				documentConverter.convert(inputFile, pdfOutFile);
+				long conversionTime = System.currentTimeMillis() - startTime;
+				System.err.println("转换[PPT/PPTX]到[PDF]共耗时: "+ conversionTime/1000 + "秒");
+				//转换PDF文件
+				outputFilePath = inputFilePath.replaceAll(fileExtension, ".docx");  
+				covertPdf2Docx(pdfOutPath, outputFilePath);  //inputFilePath ： pdf outputFilePath： docx
+				//改变输入文件
+				inputFile = new File(outputFilePath);
+				//改变输出文件
+				outputFilePath = inputFilePath.replaceAll(fileExtension, ".doc"); 
+			}else if(fileExtension.equals(".docx")){
 				outputFilePath = inputFilePath.replaceAll(fileExtension, ".doc");  
 			}else{
 				throw new FileNotFoundException("不支持当前格式的转换！");
@@ -77,7 +91,7 @@ public class OfficeConverter {
 			long startTime = System.currentTimeMillis();
 			documentConverter.convert(inputFile, outputFile);
 			long conversionTime = System.currentTimeMillis() - startTime;
-			System.err.println("转换Word2007到Word2003共耗时: "+ conversionTime/1000 + "秒");
+			System.err.println("转换[Word2007]到[Word2003]共耗时: "+ conversionTime/1000 + "秒");
 			Thread.sleep(100);
 		} catch (OfficeException e) {
 			e.printStackTrace();
@@ -115,7 +129,7 @@ public class OfficeConverter {
 				out.close();
 				reader.close();
 				long conversionTime = System.currentTimeMillis() - startTime;
-				System.err.println("转换pdf文件到Word2007共耗时: "+ conversionTime/1000 + "秒");
+				System.err.println("转换[PDF]到[Word2007]共耗时: "+ conversionTime/1000 + "秒");
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
