@@ -26,7 +26,6 @@ import org.nutz.mvc.upload.UploadAdaptor;
 import org.nutz.trans.Molecule;
 import org.nutz.trans.Trans;
 
-import com.topic.parserAdapter.adapter.common.BasicAdapter;
 import com.topic.parserAdapter.core.office.converter.Word2003ToHtmlConverter;
 import com.topic.parserAdapter.core.office.parser.IdeaOfficeParser;
 import com.topic.parserAdapter.core.util.MyFileUtils;
@@ -85,6 +84,7 @@ public class DocumentAdapter {
 				    mm.put("school", docInfo.getSchool());
 				    mm.put("className", docInfo.getClassName());
 				    mm.put("subject", docInfo.getSubject());
+				    mm.put("docType", docInfo.getDocType());
 				    mm.put("hours", docInfo.getHours());
 				    mm.put("fileSize", docInfo.getFileSize());
 				    mm.put("createTimeStr", docInfo.getCreateTimeStr());

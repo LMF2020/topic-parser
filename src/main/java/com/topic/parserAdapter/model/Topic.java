@@ -67,6 +67,10 @@ public class Topic implements Serializable {
 	@Column("class")
 	@Comment("年级")
 	private String className;
+	
+	@Column("doc_type")
+	@Comment("情景类型")
+	private String docType;
 
 	@Column("subject")
 	@ColDefine(type = ColType.VARCHAR, width = 3)
@@ -299,14 +303,27 @@ public class Topic implements Serializable {
 	public void setCreateTimeStr(String createTimeStr) {
 		this.createTimeStr = createTimeStr;
 	}
+	
+	public String getDocType() {
+		return docType;
+	}
+
+	public void setDocType(String docType) {
+		this.docType = docType;
+	}
+
+	public void setCatalogName(String catalogName) {
+		this.catalogName = catalogName;
+	}
 
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("==================小题========================\n")
 				.append(" 题号:").append(lowNum).append("\n 题型:").append(catalog)
-				.append("\n 内容:").append(content).append("\n 答案:")
-				.append(answer).append("\n 分数:").append(score).append(", 图片:")
+				.append("\n 内容:").append(content).append("\n 答案:").append(answer)
+				.append("\n 情景类型：").append(docType)
+				.append("\n 分数:").append(score).append(", 图片:")
 				.append(imgUrl).append("\n");
 		return builder.toString();
 	}

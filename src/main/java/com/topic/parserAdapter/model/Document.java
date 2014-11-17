@@ -34,6 +34,10 @@ public class Document implements Serializable {
 	@Column("subject")
 	@Comment("科目")
 	private String subject;
+	
+	@Column("doc_type")
+	@Comment("情景类别")
+	private String docType;
 
 	@Column("hours")
 	@Comment("课时")
@@ -140,4 +144,12 @@ public class Document implements Serializable {
 		this.fileSize = fileSize;
 	}
 
+	public String getDocType() {
+		return docType;
+	}
+
+	public void setDocType(String docType) {
+		this.docType = docType;
+	}
+	
 }

@@ -87,6 +87,7 @@ public class CoolHtmlParser {
 			String DSchool = docInfo.getSchool();		//学校
 			String Dclass = docInfo.getClassName();		//年级
 			String Dsubject = docInfo.getSubject();		//科目
+			String DdocType = docInfo.getDocType();		//情景类型
 			String Dhours = docInfo.getHours();			//课时
 			String DuserId = docInfo.getUserId();			//员工流水号
 			Date   DcreateTime = docInfo.getCreateTime();	//上传时间
@@ -168,6 +169,7 @@ public class CoolHtmlParser {
 					topic.setClassName(Dclass);
 					topic.setSubject(Dsubject);
 					topic.setHours(Dhours);
+					topic.setDocType(DdocType);
 					topic.setCreateTime(DcreateTime);
 					topics.add(topic);
 			    	//重置buffer

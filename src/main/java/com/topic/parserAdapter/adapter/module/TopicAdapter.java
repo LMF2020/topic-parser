@@ -33,7 +33,7 @@ public class TopicAdapter {
 	private TopicTypeDao topicTypeDao;
 
 	/**
-	 * 根据用户id查询文档信息
+	 * 根据用户id查询文档信接口
 	 * 
 	 * @param doc
 	 * @param sc
@@ -59,6 +59,9 @@ public class TopicAdapter {
 			if (doc.getHours() != null) {
 				cri.where().andEquals("hours", doc.getHours());
 			}
+			if (doc.getDocType() != null) {
+				cri.where().andEquals("docType", doc.getDocType());
+			}
 			if (doc.getSubject() != null) {
 				cri.where().andEquals("subject", doc.getSubject());
 			}
@@ -78,6 +81,7 @@ public class TopicAdapter {
 				m.put("userId", d.getUserId());
 				m.put("school", d.getSchool());
 				m.put("className", d.getClassName());
+				m.put("docType", d.getDocType());
 				ml.add(m);// 添加list对象
 			}
 			mm.put("list", ml);
@@ -91,7 +95,7 @@ public class TopicAdapter {
 
 	
 	/**
-	 * 获取文档内容的查询接口
+	 * 查询文档内容接口
 	 * 
 	 * @param topic
 	 * @param errCtx
@@ -113,9 +117,8 @@ public class TopicAdapter {
 		List<Topic> tList = null;
 		if (topic != null && topic.getDocId() != null) {
 			m.put("docId", topic.getDocId());
-			System.out.println("用户查询ID=【" + topic.getDocId() + "】的文档内容信息");
-			ttList = topicTypeDao.getTopicTypeList(topic.getDocId(),
-					topic.getCatalog());
+			System.out.println("用户查询文档ID=【" + topic.getDocId() + "】的题目内容");
+			ttList = topicTypeDao.getTopicTypeList(topic.getDocId(),topic.getCatalog());
 			System.out.println("查询题型结束，共计【" + ttList.size() + "】种题型");
 			System.out.println("开始查询具体的题目列表--->");
 			Criteria cri = Cnd.cri();// 复杂组合查询
