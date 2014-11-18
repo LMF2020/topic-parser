@@ -1,4 +1,4 @@
-package com.topic.parserAdapter.adapter.module;
+package com.topic.parserAdapter.adapter;
 
 import java.io.File;
 import java.io.IOException;
