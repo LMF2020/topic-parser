@@ -1,8 +1,5 @@
 package com.topic.parserAdapter.core.util;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 import javax.servlet.http.HttpServletRequest;
 
 /**

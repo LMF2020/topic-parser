@@ -16,7 +16,6 @@ import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
 import org.nutz.mvc.impl.AdaptorErrorContext;
 
-import com.topic.parserAdapter.core.util.IPUtil;
 import com.topic.parserAdapter.dao.TopicTypeDao;
 import com.topic.parserAdapter.model.Document;
 import com.topic.parserAdapter.model.Topic;
