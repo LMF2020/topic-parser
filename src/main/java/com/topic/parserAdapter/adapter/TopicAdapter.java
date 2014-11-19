@@ -59,8 +59,8 @@ public class TopicAdapter {
 			if (doc.getHours() != null) {
 				cri.where().andEquals("hours", doc.getHours());
 			}
-			if (doc.getDocType() != null) {
-				cri.where().andEquals("docType", doc.getDocType());
+			if(doc.getDocType() != null){
+				cri.where().andEquals("doc_type", doc.getDocType());
 			}
 			if (doc.getSubject() != null) {
 				cri.where().andEquals("subject", doc.getSubject());
