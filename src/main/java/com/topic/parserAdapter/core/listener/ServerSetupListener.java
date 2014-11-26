@@ -10,6 +10,7 @@ import org.nutz.mvc.Setup;
 import com.topic.parserAdapter.core.office.converter.Word2003ToHtmlConverter;
 import com.topic.parserAdapter.core.util.MyWebContext;
 import com.topic.parserAdapter.model.Document;
+import com.topic.parserAdapter.model.Sheet;
 import com.topic.parserAdapter.model.Topic;
 import com.topic.parserAdapter.model.User;
 /**
@@ -25,6 +26,7 @@ public class ServerSetupListener implements Setup {
 		dao.create(Topic.class, false);
 		dao.create(Document.class, false);
 		dao.create(User.class, false);
+		dao.create(Sheet.class, false);
 		PropertiesProxy prop = nc.getIoc().get(null, "config");
 		ServletContext servletContext =  nc.getServletContext();
 		Word2003ToHtmlConverter.relativeFilePath = prop.get("doc_Path");

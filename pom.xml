@@ -10,7 +10,7 @@
 	<properties> 
 		<junit.version>4.11</junit.version>
 		<mysql.version>5.1.22</mysql.version>
-		<nutz.version>1.b.51-SNAPSHOT</nutz.version>
+		<nutz.version>1.b.51</nutz.version>
 		<druid.version>1.0.9</druid.version> 
 		<poi.version>3.11-beta2</poi.version>
 		<java.version>1.6</java.version>
