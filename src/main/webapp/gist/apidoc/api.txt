@@ -1,1 +1,2 @@
-http://apidocjs.com/#param-api-header-example
+1.http://apidocjs.com/#param-api-header-example
+2.$>> apidoc -i source/ -o target/ -t template/
