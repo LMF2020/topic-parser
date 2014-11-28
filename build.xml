@@ -1,0 +1,46 @@
+<?xml version="1.0" ?> 
+<project name="tiku-server" default="war">
+	<description>
+	       只用于转化后的普通工程的打包(见tiku-server为转化后的wtp工程)
+	</description>
+	
+	<property name="JDK_VERSION" value="1.6" />
+	
+	<path id="compile.classpath">
+		<fileset dir="WebContent/WEB-INF/lib">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+	
+	<target name="init">
+		<mkdir dir="build/classes"/>
+		<mkdir dir="dist" />
+	</target>
+	
+	<target name="compile" depends="init" >
+		<javac destdir="build/classes" debug="true" srcdir="src" 
+			   source="${JDK_VERSION}" encoding="UTF-8" listfiles="off"
+			   includeantruntime="false" fork="true">
+			<compilerarg value="-Xlint:all" />
+			<classpath refid="compile.classpath"/>
+		</javac>
+		<copy todir="build/classes">
+			<fileset dir="resource"/>
+		</copy>
+	</target>
+	
+	<target name="war" depends="compile">
+		<echo message="omg!! that's impossible!!" />
+		<war destfile="dist/tiku.war" webxml="WebContent/WEB-INF/web.xml">
+			<fileset dir="WebContent"/>
+			<lib dir="WebContent/WEB-INF/lib"/>
+			<classes dir="build/classes"/>
+		</war>
+	</target>
+	
+	<target name="clean">
+		<delete dir="dist" />
+		<delete dir="build" />
+	</target>
+	
+</project>
