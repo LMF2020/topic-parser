@@ -1,0 +1,9 @@
+{
+  "name": "题库服务端接口规范",
+  "version": "0.1.0",
+  "description": "", 
+  "url" : "http://121.40.152.41:9080/tiku",
+  "template": {
+    "withCompare": false
+  }
+}

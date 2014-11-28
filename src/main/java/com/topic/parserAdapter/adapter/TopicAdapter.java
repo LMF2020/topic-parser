@@ -188,18 +188,18 @@ public class TopicAdapter {
 			AdaptorErrorContext errCtx, HttpServletRequest req) {
 
 		if (errCtx != null) {
-			System.out.println("保存试卷答题结果出错：" + errCtx.getErrors()[0]);
+			System.out.println("保存试卷答题结果失败：" + errCtx.getErrors()[0]);
 		}
 		Map<String, Object> m = new HashMap<String, Object>();
 		int code = 0; // 状态码：0失败、1新增、2更新
 		String msg = "保存试卷答题结果失败";
 		Sheet re = null;
 		if (sh.getState() == null || sh.getState().length() != 1) {
-			System.out.println("请传送合法的【试卷类型】");
-			msg = "【试卷类型】非空且只有一位";
+			System.out.println("请传送合法的【试卷状态】");
+			msg = "【试卷状态】保留一位整数";
 		} else if (sh.getDocId() == null || sh.getStuId() == null) {
 			System.out.println("请传送合法的【学生ID】和【文档ID】");
-			msg = "【学生ID】和【文档ID】非空";
+			msg = "【学生ID】和【文档ID】不能为空";
 		} else {
 			// 检查是否存在该份试卷
 			Sheet old = topicTypeDao.findByCondition(
@@ -225,7 +225,7 @@ public class TopicAdapter {
 		}
 		m.put("code", code);
 		m.put("msg", msg);
-		m.put("objId", re == null ? "nil" : re.getId());
+		m.put("obj", re == null ? "" : re.getId());
 		return m;
 	}
 
@@ -246,26 +246,29 @@ public class TopicAdapter {
 			System.out.println("查询试卷答题结果出错：" + errCtx.getErrors()[0]);
 		}
 		Map<String, Object> m = new HashMap<String, Object>();
-		int code = 0; // 状态码：0失败、1成功、2空
+		int code = 0; // 状态码：0失败、1成功、2空数组
 		String msg = "查询试卷答题结果失败";
-		Object re = Collections.EMPTY_MAP;
+		Object re = Collections.EMPTY_LIST;
 		if (sh.getStuId() == null) {
 			System.out.println("请传送合法的【学生编号】");
-			msg = "【学生编号】非空";
+			msg = "【学生编号】不能为空";
 		} else {
 			Cnd c = Cnd.where("stuId", "=", sh.getStuId());
 			//文档查找
 			if (sh.getDocId() != null) {
 				c = c.and("docId", "=", sh.getDocId());
 			}//日期范围查找
-			if(!Strings.isEmpty(sh.getStartDate()) && !Strings.isEmpty(sh.getEndDate())){
-				c.and("commitTime", ">=", sh.getStartDate()).and("commitTime", "<=", sh.getEndDate());
+			if(!Strings.isEmpty(sh.getStartDate())){
+				c.and("commitTime", ">=", sh.getStartDate());
 			}
-			re = topicTypeDao.findByCondition(Sheet.class, c);
+			if(!Strings.isEmpty(sh.getEndDate())){
+				c.and("commitTime", "<=", sh.getEndDate());
+			}
+			re = topicTypeDao.search(Sheet.class, c);
 
 			if (re == null) {
-				re = Collections.EMPTY_MAP;
-				msg = "查询试卷答题结果为{}";
+				re = Collections.EMPTY_LIST;
+				msg = "查询试卷答题结果为空";
 				code = 2;
 			}else{
 				msg = "查询试卷答题结果成功";

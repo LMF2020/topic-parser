@@ -111,7 +111,7 @@ public class TestAdapterClient {
 		//adt.upload(uploadUrl);
 		//adt.getDocs(docsUrl);
 		//adt.getDocCont(docContentUrl);
-		//adt.putSheetResult(putSheetResultUrl);
-		adt.getSheetResult(getSheetResultUrl);
+		adt.putSheetResult(putSheetResultUrl);
+		//adt.getSheetResult(getSheetResultUrl);
 	}
 }
