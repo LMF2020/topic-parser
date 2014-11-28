@@ -1,2 +1,3 @@
 1.http://apidocjs.com/#param-api-header-example
-2.$>> apidoc -i source/ -o target/ -t template/
+2.$>> npm i apidoc -g  //全局安装apidoc cli
+3.$>> apidoc -i source/ -o target/ -t template/   //编译
